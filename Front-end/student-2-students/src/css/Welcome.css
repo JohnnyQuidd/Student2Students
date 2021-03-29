@@ -1,0 +1,97 @@
+.main-section::before {
+    content: '';
+    position: fixed;
+    top: 6rem;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background-color: var(--color-darkblue);
+    background-image: linear-gradient(
+        115deg,
+        rgba(129, 228, 233, 0.5),
+        rgba(220, 242, 243, 0.2)
+      ), url('../images/student-hero.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: blur(3px);
+    transform: scale(1.7);
+}
+.main-section {
+    color: #eee;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 15rem;
+}
+
+#welcome {
+    font-size: 3.25rem;
+}
+
+#member {
+    font-size: 1.8rem;
+}
+
+.auth-section {
+    background-color: rgba(139, 138, 138, 0.95);
+    border: none;
+    border-radius: 1rem;
+    width: 90%;
+    margin: 3rem auto;
+    padding: 2rem 1rem;
+}
+
+#login, #sign-up {
+    font-family: 'Poppins', sans-serif;
+    margin: 1rem 1rem 2rem 1rem;
+    padding: 1rem 1rem;
+    border: none;
+    border-radius: 0.3rem;
+    color: #eee;
+    font-size: 1.2rem;
+    transition: all .2s;
+    font-weight: 600;
+}
+
+#login {
+    background-color: rgba(129, 228, 233, 0.5);
+}
+
+#login:hover {
+    background-color: rgba(129, 228, 233, 0.8);
+    transform: scale(1.03);
+}
+
+#sign-up {
+    background-color: rgba(27, 30, 31, 0.5);
+}
+
+#sign-up:hover {
+    background-color: rgba(27, 30, 31, 0.8);
+    transform: scale(1.03);
+}
+
+@media (min-width: 700px) {
+    .main-section::before {
+        transform: scale(1.1);
+    }
+
+    #welcome {
+        font-size: 4rem;
+        font-weight: 600;
+        text-shadow: rgba(60, 64, 65, 0.5) 3px 3px;
+    }
+
+    .auth-section {
+        width: 40%;
+    }
+
+    #member {
+        font-size: 2.5rem;
+    }
+
+    #login, #sign-up {
+        font-size: 1.5rem;
+    }
+}
