@@ -4,7 +4,7 @@ import '../../css/Footer.css'
 function Footer() {
     return (
         <div className="footer">
-            <h2> Student2Students </h2>
+            <h2 id='company'> <span id="rights">®</span> Student2Students </h2>
         </div>
     )
 }

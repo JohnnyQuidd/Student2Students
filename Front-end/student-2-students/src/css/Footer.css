@@ -8,3 +8,12 @@
     text-align: center;
     height: 5rem;
 }
+
+#company {
+    margin: 1rem auto;
+    font-size: 1.2rem;
+}
+
+#rights {
+    font-size: 2rem;
+}
