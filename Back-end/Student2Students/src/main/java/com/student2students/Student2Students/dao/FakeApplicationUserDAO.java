@@ -29,24 +29,24 @@ public class FakeApplicationUserDAO implements ApplicationUserDAO{
     private List<ApplicationUser> getApplicationUsers() {
         List<ApplicationUser> applicationUsers = Lists.newArrayList(
                 new ApplicationUser(
-                        "student1",
-                        passwordEncoder.encode("student123"),
+                        "student",
+                        passwordEncoder.encode("student"),
                         ApplicationUserRole.STUDENT.getGrantedAuthorities(),
                         true,
                         true,
                         true,
                         true),
                 new ApplicationUser(
-                        "admin1",
-                        passwordEncoder.encode("admin123"),
+                        "admin",
+                        passwordEncoder.encode("admin"),
                         ApplicationUserRole.ADMIN.getGrantedAuthorities(),
                         true,
                         true,
                         true,
                         true),
                 new ApplicationUser(
-                        "admintrainee1",
-                        passwordEncoder.encode("admintrainee123"),
+                        "admintrainee",
+                        passwordEncoder.encode("admintrainee"),
                         ApplicationUserRole.ADMIN_TRAINEE.getGrantedAuthorities(),
                         true,
                         true,

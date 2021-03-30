@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import Modal from 'react-modal'
 import '../../css/LoginModal.css'
+import { API_ENDPOINT as API }  from '../Constants/Endpoints'
 
 function LoginModal({isModalOpen, setIsModalOpen}) {
+    const [username, setUsername] = useState('')
+    const [paassword, setPaassword] = useState('')
+
     
     const style = {
         overlay: {
@@ -18,10 +23,28 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
         }
     }
 
+
     const cancelForm = (e) => {
         e.preventDefault();
         setIsModalOpen(false);
     }
+
+    const submitData = (e) => {
+        e.preventDefault();
+        let payload = {
+            username: username,
+            password: paassword
+        }
+        axios.post(API + '/login', payload, { withCredentials: true })
+            .then(response => {
+                const token = response.headers.authorization.substring(7);           
+                console.log(token);
+            })
+            .catch(err => {
+                console.log(`Error logging in: ${err}`);
+            })
+    }
+
 
     return (
         <>
@@ -32,14 +55,21 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
             closeTimeoutMS={1000}
              >
                 <h2 id="login-heaading"> Login </h2>
-                <form>
+                <form onSubmit={submitData} >
                     <label htmlFor="username"> Username </label>
-                    <input type="text" id="usename" />
+                    <input type="text" id="usename"
+                        value={username}
+                        onChange={e => setUsername(e.target.value) } />
+
                     <label htmlFor="password"> Password </label>
-                    <input type="password" id="password" />
+                    <input type="password" id="password"
+                    value={paassword}
+                    onChange={e => setPaassword(e.target.value) } />
+
                     <div className="buttons">
-                        <button onClick={() => setIsModalOpen(false)} type="submit" id="confirm-login"> Login </button>
-                        <button onClick={cancelForm} id="confirm-cancel" > Cancel </button>
+                        <button onClick={() => setIsModalOpen(false)}
+                         type="submit" id="confirm-login" > Login </button>
+                        <button onClick={cancelForm} id="confirm-cancel"> Cancel </button>
                     </div>
                 </form>
             </Modal>

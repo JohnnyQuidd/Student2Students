@@ -51,7 +51,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/student/**").hasRole(ApplicationUserRole.STUDENT.name())
                 .anyRequest().authenticated()
-                .and();
+                .and().cors();
     }
 
     @Bean
@@ -67,4 +67,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
+
+
 }
