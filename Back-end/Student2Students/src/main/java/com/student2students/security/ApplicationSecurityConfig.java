@@ -1,9 +1,9 @@
-package com.student2students.Student2Students.security;
+package com.student2students.security;
 
-import com.student2students.Student2Students.auth.ApplicationUserService;
-import com.student2students.Student2Students.jwt.JwtConfig;
-import com.student2students.Student2Students.jwt.JwtTokenVerifier;
-import com.student2students.Student2Students.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.student2students.jwt.JwtConfig;
+import com.student2students.jwt.JwtTokenVerifier;
+import com.student2students.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.student2students.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,17 +24,17 @@ import javax.crypto.SecretKey;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
-    private final ApplicationUserService applicationUserService;
+    private final StudentService studentService;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
-                                     ApplicationUserService applicationUserService,
+                                     StudentService applicationUserService,
                                      SecretKey secretKey,
                                      JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
-        this.applicationUserService = applicationUserService;
+        this.studentService = applicationUserService;
         this.secretKey = secretKey;
         this.jwtConfig = jwtConfig;
     }
@@ -59,7 +59,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(applicationUserService);
+        provider.setUserDetailsService(studentService);
 
         return provider;
     }

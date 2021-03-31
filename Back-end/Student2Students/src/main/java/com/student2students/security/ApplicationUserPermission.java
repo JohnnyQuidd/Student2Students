@@ -1,4 +1,4 @@
-package com.student2students.Student2Students.security;
+package com.student2students.security;
 
 public enum ApplicationUserPermission {
     STUDENT_READ("student:read"),

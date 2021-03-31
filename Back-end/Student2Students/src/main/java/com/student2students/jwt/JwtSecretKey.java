@@ -1,4 +1,4 @@
-package com.student2students.Student2Students.jwt;
+package com.student2students.jwt;
 
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;

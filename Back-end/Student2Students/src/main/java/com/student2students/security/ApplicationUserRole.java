@@ -1,4 +1,4 @@
-package com.student2students.Student2Students.security;
+package com.student2students.security;
 
 import com.google.common.collect.Sets;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -6,12 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.student2students.Student2Students.security.ApplicationUserPermission.*;
-
 public enum ApplicationUserRole {
-    STUDENT(Sets.newHashSet(POST_READ, POST_WRITE)),
-    ADMIN(Sets.newHashSet(POST_READ, POST_WRITE, STUDENT_READ, STUDENT_WRITE)),
-    ADMIN_TRAINEE(Sets.newHashSet(POST_READ, STUDENT_READ));
+    STUDENT(Sets.newHashSet(ApplicationUserPermission.POST_READ, ApplicationUserPermission.POST_WRITE)),
+    ADMIN(Sets.newHashSet(ApplicationUserPermission.POST_READ, ApplicationUserPermission.POST_WRITE, ApplicationUserPermission.STUDENT_READ, ApplicationUserPermission.STUDENT_WRITE));
 
     private final Set<ApplicationUserPermission> permissionSet;
 

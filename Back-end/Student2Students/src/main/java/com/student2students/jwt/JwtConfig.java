@@ -1,4 +1,4 @@
-package com.student2students.Student2Students.jwt;
+package com.student2students.jwt;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
