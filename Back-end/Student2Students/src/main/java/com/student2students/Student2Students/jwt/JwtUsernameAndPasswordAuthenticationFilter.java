@@ -40,7 +40,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
             Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                     authenticationRequest.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authentication);
-
             return authenticate;
         }
         catch (IOException exception) {
@@ -64,6 +63,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
         response.addCookie(cookie);
+
     }
 }
 

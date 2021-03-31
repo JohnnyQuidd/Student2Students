@@ -1,6 +1,5 @@
 package com.student2students.Student2Students.jwt;
 
-import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -15,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,16 +35,15 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
+        String token = "";
+        Cookie[] cookies = request.getCookies();
 
-        if(Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())){
-            // Rejecting request
-            filterChain.doFilter(request, response);
-            return;
+        for(Cookie cookie : cookies) {
+            if(cookie.getName().equals("jwt")) {
+                token = cookie.getValue();
+            }
         }
 
-        // or authorizationHeader.replace("Bearer ", "");
-        String token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
         try {
 
             Jws<Claims> claimsJws = Jwts.parser()
