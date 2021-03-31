@@ -1,0 +1,75 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+#sign-up-heading {
+    margin: 0rem auto 2rem 30%;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    border: 1px solid rgb(112, 110, 110);
+    padding-left: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+}
+
+label {
+    font-size: 0.8rem;
+}
+
+.buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#confirm-sign-up {
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    background-color: rgb(99, 245, 143);
+}
+
+#confirm-sign-up:hover {
+    cursor: pointer;
+}
+
+
+#confirm-cancel {
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    background-color: rgb(172, 170, 170);
+}
+
+#confirm-cancel {
+    cursor: pointer;
+}
+
+@media (min-width: 700px) {
+    .ReactModal__Content {
+        width: 30%;
+        margin-top: 5%;
+    }
+
+    .ReactModal__Content  h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    .ReactModal__Content  input {
+        padding: 0.5rem 1rem;
+    }
+    h2 {
+        margin: 1rem auto 2rem 40%;
+    }
+
+}

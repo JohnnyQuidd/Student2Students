@@ -37,7 +37,6 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
         }
         axios.post(API + '/login', payload, { withCredentials: true })
             .then(response => {
-                const token = response.headers.authorization.substring(7);           
                 console.log('Successful login');
             })
             .catch(err => {
@@ -54,7 +53,7 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
             style={style}
             closeTimeoutMS={1000}
              >
-                <h2 id="login-heaading"> Login </h2>
+                <h2 id="login-heading"> Login </h2>
                 <form onSubmit={submitData} >
                     <label htmlFor="username"> Username </label>
                     <input type="text" id="usename"

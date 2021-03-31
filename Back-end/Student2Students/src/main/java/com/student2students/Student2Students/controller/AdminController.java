@@ -10,11 +10,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    private static List<Student> STUDENTS = Arrays.asList(
-            new Student(1, "Petar Kovacevic"),
-            new Student(2, "Lazar Simic"),
-            new Student(3, "Marija Misic"),
-            new Student(4, "Uros Blagojevic")
+    private static final List<Student> STUDENTS = Arrays.asList(
+            new Student(1, "skinnypete", "Petar", "Kovacevic", "Serbia", "Novi Sad"),
+            new Student(2, "admin", "Lazar", "Simic", "Serbia", "Kraljevo"),
+            new Student(3, "maja98", "Marija", "Misic", "Serbia", "Beograd"),
+            new Student(4, "milica99", "Milica", "Kovacevic", "Serbia", "Kraljevo")
     );
 
     @GetMapping
@@ -27,7 +27,7 @@ public class AdminController {
     @PostMapping
     @PreAuthorize("hasAuthority('student:write')")
     public void registerNewStudent(@RequestBody Student student) {
-        System.out.println("Adding a new student " + student.getStudentId() + " " + student.getStudentName() );
+        System.out.println("Adding a new student " + student.getId() + " " + student.getFirstName() );
         STUDENTS.add(student);
     }
 

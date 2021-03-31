@@ -1,32 +1,40 @@
 package com.student2students.Student2Students.controller;
 
 import com.student2students.Student2Students.model.Student;
+import com.student2students.Student2Students.service.StudentRepositoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private static final List<Student> STUDENTS = Arrays.asList(
-            new Student(1, "Petar Kovacevic"),
-            new Student(2, "Lazar Simic"),
-            new Student(3, "Marija Misic"),
-            new Student(4, "Uros Blagojevic")
-    );
+    private StudentRepositoryService studentService;
+
+    @Autowired
+    public StudentController(StudentRepositoryService studentService) {
+        this.studentService = studentService;
+    }
 
     @GetMapping
     public List<Student> getAllStudents() {
-        return StudentController.STUDENTS;
+        return studentService.getAllStudents();
+    }
+
+    @PostMapping
+    public ResponseEntity createNewStudent(@RequestBody Student student) {
+        if(studentService.createNewStudent(student))
+            return ResponseEntity.status(201).build();
+        return ResponseEntity.status(500).build();
     }
 
     @GetMapping(path = "{studentId}")
     public Student getStudent(@PathVariable("studentId") Integer studentId) {
-        return STUDENTS.stream().filter(student -> studentId.equals(student.getStudentId()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Student " + studentId + " does not exist"));
+        return studentService.findStudentById(studentId);
 
     }
 }

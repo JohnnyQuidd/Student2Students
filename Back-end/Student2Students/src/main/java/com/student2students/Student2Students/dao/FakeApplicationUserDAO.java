@@ -28,7 +28,7 @@ public class FakeApplicationUserDAO implements ApplicationUserDAO{
 
     private List<ApplicationUser> getApplicationUsers() {
         List<ApplicationUser> applicationUsers = Lists.newArrayList(
-                new ApplicationUser(
+                new ApplicationUser(1,
                         "student",
                         passwordEncoder.encode("student"),
                         ApplicationUserRole.STUDENT.getGrantedAuthorities(),
@@ -36,7 +36,7 @@ public class FakeApplicationUserDAO implements ApplicationUserDAO{
                         true,
                         true,
                         true),
-                new ApplicationUser(
+                new ApplicationUser(2,
                         "admin",
                         passwordEncoder.encode("admin"),
                         ApplicationUserRole.ADMIN.getGrantedAuthorities(),
@@ -44,7 +44,7 @@ public class FakeApplicationUserDAO implements ApplicationUserDAO{
                         true,
                         true,
                         true),
-                new ApplicationUser(
+                new ApplicationUser(3,
                         "admintrainee",
                         passwordEncoder.encode("admintrainee"),
                         ApplicationUserRole.ADMIN_TRAINEE.getGrantedAuthorities(),

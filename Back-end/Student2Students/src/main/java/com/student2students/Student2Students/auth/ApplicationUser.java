@@ -1,13 +1,21 @@
 package com.student2students.Student2Students.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
 
+//@Entity
+@Getter
+@Setter
+@AllArgsConstructor
 public class ApplicationUser implements UserDetails {
-
+    //@Id
+    private Integer id;
     private final String username;
     private final String password;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
@@ -17,51 +25,38 @@ public class ApplicationUser implements UserDetails {
     private final boolean isEnabled;
 
 
-    public ApplicationUser(String username, String password,
-                           Set<? extends GrantedAuthority> grantedAuthorities, boolean isAccountNonExpired,
-                           boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
-
-        this.username = username;
-        this.password = password;
-        this.grantedAuthorities = grantedAuthorities;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return false;
     }
 }
