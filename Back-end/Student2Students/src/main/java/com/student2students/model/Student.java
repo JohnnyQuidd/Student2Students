@@ -13,6 +13,7 @@ import java.util.Collections;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder

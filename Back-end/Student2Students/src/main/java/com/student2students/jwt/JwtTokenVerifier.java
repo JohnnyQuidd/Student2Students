@@ -38,38 +38,45 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         String token = "";
         Cookie[] cookies = request.getCookies();
 
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("jwt")) {
-                token = cookie.getValue();
+        if(!request.getRequestURI().contains("/registration")) {
+            try {
+                for(Cookie cookie : cookies) {
+                    if(cookie.getName().equals("jwt")) {
+                        token = cookie.getValue();
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("No cookies");
+                e.printStackTrace();
             }
-        }
 
-        try {
+            try {
 
-            Jws<Claims> claimsJws = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token);
+                Jws<Claims> claimsJws = Jwts.parser()
+                        .setSigningKey(secretKey)
+                        .parseClaimsJws(token);
 
-            Claims body = claimsJws.getBody();
-            String username = body.getSubject();
+                Claims body = claimsJws.getBody();
+                String username = body.getSubject();
 
-            // Extracting authorities which is a list of key value pairs
-            List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
+                // Extracting authorities which is a list of key value pairs
+                List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
 
-            // Authentication expects set of authorities, so we're going to manipulate data a bit
-            Set<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
-                    .map(item -> new SimpleGrantedAuthority(item.get("authority")))
-                    .collect(Collectors.toSet());
+                // Authentication expects set of authorities, so we're going to manipulate data a bit
+                Set<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
+                        .map(item -> new SimpleGrantedAuthority(item.get("authority")))
+                        .collect(Collectors.toSet());
 
-            // From this point on user can be authenticated
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    username,
-                    null,
-                    grantedAuthorities
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (JwtException exception) {
-            throw new IllegalStateException(String.format("Token: %s cannot be trusted", token));
+                // From this point on user can be authenticated
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                        username,
+                        null,
+                        grantedAuthorities
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (JwtException exception) {
+                throw new IllegalStateException(String.format("Token: %s cannot be trusted", token));
+            }
         }
         filterChain.doFilter(request, response);
     }

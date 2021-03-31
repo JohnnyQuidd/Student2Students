@@ -11,6 +11,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
     const [lastName, setLastName] = useState('')
     const [country, setCountry] = useState('')
     const [city, setCity] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
 
@@ -50,9 +51,10 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
             lastName: lastName,
             country: country,
             city: city,
+            email: email,
             password: password
         }
-        
+
         axios.post(API + '/student', payload, { withCredentials: true })
             .then(response => {           
                 console.log('Successful signing');
@@ -97,6 +99,11 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
                     <input type="text" id="city"
                         value={city}
                         onChange={e => setCity(e.target.value) } />
+
+                    <label htmlFor="email"> Email </label>
+                    <input type="email" id="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value) } />
 
                     <label htmlFor="password"> Password </label>
                     <input type="password" id="password"
