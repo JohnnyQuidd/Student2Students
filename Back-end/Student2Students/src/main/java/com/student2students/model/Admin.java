@@ -19,10 +19,10 @@ import java.util.Collections;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class Student implements UserDetails {
+public class Admin implements UserDetails {
     @Id
-    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence",allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @SequenceGenerator(name = "admin_sequence", sequenceName = "admin_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_sequence")
     private Long id;
     @NotNull
     private String firstName;
@@ -40,11 +40,9 @@ public class Student implements UserDetails {
     private String password;
     @NotNull
     private LocalDate createdAt;
-
     @NotNull
     @Enumerated(EnumType.STRING)
     private Language language;
-
     @NotNull
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole userRole;
@@ -57,12 +55,12 @@ public class Student implements UserDetails {
     @NotNull
     private boolean isEnabled;
 
-    public Student(String firstName, String lastName, String country,
-                   String city, String email, String username,
-                   String password, LocalDate createdAt, Language language,
-                   ApplicationUserRole userRole, boolean isAccountNonExpired,
-                   boolean isAccountNonLocked, boolean isCredentialsNonExpired,
-                   boolean isEnabled) {
+    public Admin(String firstName, String lastName, String country,
+                 String city, String email, String username,
+                 String password, LocalDate createdAt, Language language,
+                 ApplicationUserRole userRole, boolean isAccountNonExpired,
+                 boolean isAccountNonLocked, boolean isCredentialsNonExpired,
+                 boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;

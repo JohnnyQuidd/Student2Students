@@ -3,6 +3,7 @@ package com.student2students.security;
 import com.student2students.jwt.JwtConfig;
 import com.student2students.jwt.JwtTokenVerifier;
 import com.student2students.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.student2students.service.AdminService;
 import com.student2students.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,16 +26,19 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final StudentService studentService;
+    private final AdminService adminService;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
                                      StudentService applicationUserService,
+                                     AdminService adminService,
                                      SecretKey secretKey,
                                      JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
         this.studentService = applicationUserService;
+        this.adminService = adminService;
         this.secretKey = secretKey;
         this.jwtConfig = jwtConfig;
     }
@@ -48,7 +52,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/registration").permitAll()
+                .antMatchers("/registration/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/student/**").hasRole(ApplicationUserRole.STUDENT.name())
                 .anyRequest().authenticated()
                 .and().cors()
@@ -60,6 +65,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(studentService);
+        provider.setUserDetailsService(adminService);
 
         return provider;
     }

@@ -37,8 +37,12 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = "";
         Cookie[] cookies = request.getCookies();
+        String url = request.getRequestURI();
+        boolean isRegistering = url.contains("/registration");
+        boolean isConsole = url.contains("/h2-console");
+        boolean isFavicon = url.contains("/favicon.ico");
 
-        if(!request.getRequestURI().contains("/registration")) {
+        if(!isRegistering && !isConsole && !isFavicon) {
             try {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("jwt")) {
@@ -47,6 +51,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                 }
             } catch (Exception e) {
                 logger.error("No cookies");
+                logger.error(url);
                 e.printStackTrace();
             }
 

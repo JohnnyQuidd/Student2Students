@@ -1,9 +1,11 @@
 package com.student2students.service;
 
 import com.student2students.dao.StudentRegisterDAO;
+import com.student2students.model.Language;
 import com.student2students.model.Student;
 import com.student2students.repository.StudentRepository;
 import com.student2students.security.ApplicationUserRole;
+import com.student2students.util.UniquenessCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +16,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UniquenessCheck uniquenessCheck;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
+    public StudentService(StudentRepository studentRepository, PasswordEncoder passwordEncoder,
+                          UniquenessCheck uniquenessCheck) {
         this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
+        this.uniquenessCheck = uniquenessCheck;
     }
 
     @Override
@@ -33,10 +40,10 @@ public class StudentService implements UserDetailsService {
     }
 
     public ResponseEntity registerStudent(StudentRegisterDAO studentDAO) {
-        if(studentRepository.existsByUsername(studentDAO.getUsername())) {
+        if(!uniquenessCheck.isUsernameUnique(studentDAO.getUsername())) {
             return ResponseEntity.status(403).body("Username already exists");
         }
-        if(studentRepository.existsByEmail(studentDAO.getEmail())) {
+        if(!uniquenessCheck.isEmailUnique(studentDAO.getEmail())) {
             return ResponseEntity.status(403).body("Email already exists");
         }
 
@@ -61,11 +68,14 @@ public class StudentService implements UserDetailsService {
                 .country(studentDAO.getCountry())
                 .email(studentDAO.getEmail())
                 .password(passwordEncoder.encode(studentDAO.getPassword()))
+                .language(Language.valueOf(studentDAO.getLanguage()))
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)
                 .isEnabled(true)
                 .userRole(ApplicationUserRole.STUDENT)
+                .createdAt(LocalDate.now())
+                .language(Language.SERBIAN)
                 .build();
     }
 }

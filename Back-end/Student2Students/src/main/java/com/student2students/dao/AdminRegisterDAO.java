@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentRegisterDAO {
+public class AdminRegisterDAO {
     private String firstName;
     private String lastName;
     private String country;
