@@ -3,15 +3,17 @@
 :root {
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
-.nav-bar {
+.container {
+    width: 100%;
     background-color: #00adb5;
     height: 6rem;
-    color: black;
+    color: #eee;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
 }
 
 #heading {
@@ -20,19 +22,23 @@
     flex-direction: column;
     margin: -.5rem auto auto 1rem;
     text-align: center;
-    color: #eee;
+}
+
+#profile {
+    margin-right: 1rem;
 }
 
 .brand{
     font-size: 1.2rem;
     margin: 0;
-    font-family: 'Poppins', sans-serif;
     margin: -0.2em;
 }
 
 #student {
     margin-top: 1rem;
 }
+
+
 
 @media (min-width: 700px) {
     .nav-bar {
