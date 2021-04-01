@@ -6,7 +6,6 @@ function Hamburger() {
     const navBarRef = useRef(null)
 
     useEffect(() => {
-        console.log('Clicking menuIcon');
         menuIconRef.current.addEventListener('click', () => {
             navBarRef.current.classList.toggle('change');
         })

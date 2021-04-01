@@ -24,6 +24,11 @@
     text-align: center;
 }
 
+#heading-href {
+    text-decoration: none;
+    color: #eee;
+}
+
 #profile {
     margin-right: 1rem;
 }
