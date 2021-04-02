@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
 import '../../css/Navbar.css'
+import { FRONT_END } from '../Constants/Endpoints';
 import Hamburger from './Hamburger'
-import { API_ENDPOINT } from '../Constants/Endpoints'
 
 function Navbar() {
-    const [loggedIn, setLoggedIn] = useState(true)
-
-    // useEffect(() => {
-    //     // TODO: Hit relevant API to see if user is logged in
-    //     axios.get(API_ENDPOINT + '/students')
-    //         .then(() => {
-    //             setLoggedIn(true)
-    //         })
-    //         .catch(() => {
-    //             // TODO: Set this to false to authenticate
-    //             setLoggedIn(true)
-    //         })
-    // })
+    
+    const currentUrl = window.location.href
+    console.log();
 
     return (
         <div className="container">
@@ -29,7 +18,7 @@ function Navbar() {
                 </a>
             </div>
             {
-                loggedIn && 
+               currentUrl !== FRONT_END &&
                 <>
                     <Hamburger/>
                 </>
