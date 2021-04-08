@@ -53,6 +53,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
+                .claim("roles", "ROLE_" + authResult.getName().toUpperCase())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)
@@ -60,8 +61,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         Cookie cookie = new Cookie("jwt", token);
         cookie.setHttpOnly(true);
+        cookie.setSecure(true);
 
-        response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
         response.addCookie(cookie);
 
     }

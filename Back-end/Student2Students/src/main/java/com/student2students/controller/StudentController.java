@@ -4,9 +4,10 @@ import com.student2students.dao.StudentRegisterDAO;
 import com.student2students.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin()
 @RestController
 @RequestMapping("/student")
 public class StudentController {
@@ -15,6 +16,22 @@ public class StudentController {
     @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    @GetMapping("/no-role")
+    public String testingWithoutRole() {
+        return "Free of permissions";
+    }
+
+    @GetMapping("/student-role")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public String testingForRoleStundet() {
+        return "STUDENT";
+    }
+    @GetMapping("/admin-role")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String testingForRoleAdmin() {
+        return "Admin";
     }
 
     @PostMapping

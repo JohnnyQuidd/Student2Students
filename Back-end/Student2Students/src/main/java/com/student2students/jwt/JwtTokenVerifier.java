@@ -72,6 +72,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                         .map(item -> new SimpleGrantedAuthority(item.get("authority")))
                         .collect(Collectors.toSet());
 
+
                 // From this point on user can be authenticated
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         username,

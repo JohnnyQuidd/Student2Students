@@ -54,7 +54,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/student/**").hasRole(ApplicationUserRole.STUDENT.name())
+                .antMatchers("/student/**").hasAuthority("STUDENT")
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().headers().frameOptions().disable();
@@ -65,7 +65,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(studentService);
-        provider.setUserDetailsService(adminService);
+        //provider.setUserDetailsService(adminService);
 
         return provider;
     }
