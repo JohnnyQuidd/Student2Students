@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar/Navbar'
 import '../../css/Dashboard.css'
 
-function UserDashboard() {
+function StudentDashboard() {
     const history = useHistory();
 
     useEffect(() => {
@@ -19,6 +19,16 @@ function UserDashboard() {
             })
     }, [])
 
+    const fetchData = () => {
+        axios.get(API_ENDPOINT + '/student/data', { withCredentials: true })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
     const logout = () => {
         axios.get(API_ENDPOINT + '/authorization/logout', { withCredentials: true });
         history.push("/");
@@ -27,10 +37,11 @@ function UserDashboard() {
     return (
         <div>
             <Navbar />
-            <h1> User Dashboard </h1>
+            <h1> Student Dashboard </h1>
+            <button onClick={fetchData} > Fetch data </button>
             <button onClick={logout} > Logout </button>
         </div>
     )
 }
 
-export default UserDashboard
+export default StudentDashboard
