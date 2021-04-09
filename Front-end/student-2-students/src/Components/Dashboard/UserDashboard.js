@@ -7,7 +7,7 @@ import '../../css/Dashboard.css'
 import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
 
-function Dashboard() {
+function UserDashboard() {
     // const history = useHistory();
 
     // useEffect(() =>{
@@ -54,9 +54,9 @@ function Dashboard() {
     return (
         <div>
             <Navbar />
-            <h1> Dashboard </h1>
+            <h1> User Dashboard </h1>
         </div>
     )
 }
 
-export default Dashboard
+export default UserDashboard

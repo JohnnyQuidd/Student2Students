@@ -3,8 +3,7 @@ package com.student2students.security;
 import com.student2students.jwt.JwtConfig;
 import com.student2students.jwt.JwtTokenVerifier;
 import com.student2students.jwt.JwtUsernameAndPasswordAuthenticationFilter;
-import com.student2students.service.AdminService;
-import com.student2students.service.StudentService;
+import com.student2students.service.ApplicationDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,22 +24,19 @@ import javax.crypto.SecretKey;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
-    private final StudentService studentService;
-    private final AdminService adminService;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
+    private final ApplicationDetailsService applicationDetailsService;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
-                                     StudentService applicationUserService,
-                                     AdminService adminService,
+                                     ApplicationDetailsService applicationDetailsService,
                                      SecretKey secretKey,
                                      JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
-        this.studentService = applicationUserService;
-        this.adminService = adminService;
         this.secretKey = secretKey;
         this.jwtConfig = jwtConfig;
+        this.applicationDetailsService = applicationDetailsService;
     }
 
     @Override
@@ -55,6 +51,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/student/**").hasAuthority("STUDENT")
+                .antMatchers("/authorization/**").hasAnyAuthority("STUDENT", "ADMIN")
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().headers().frameOptions().disable();
@@ -64,8 +61,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(studentService);
-        //provider.setUserDetailsService(adminService);
+        provider.setUserDetailsService(applicationDetailsService);
 
         return provider;
     }

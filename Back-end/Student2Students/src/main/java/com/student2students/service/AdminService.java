@@ -36,8 +36,7 @@ public class AdminService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return adminRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(NOT_FOUND_STRING, username)));
+        return adminRepository.findByUsername(username);
     }
 
     public ResponseEntity registerNewAdmin(AdminRegisterDAO adminRegisterDAO) {

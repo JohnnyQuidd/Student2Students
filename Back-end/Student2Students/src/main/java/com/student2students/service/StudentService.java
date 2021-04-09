@@ -35,8 +35,7 @@ public class StudentService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return studentRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found!"));
+        return studentRepository.findByUsername(username);
     }
 
     public ResponseEntity registerStudent(StudentRegisterDAO studentDAO) {

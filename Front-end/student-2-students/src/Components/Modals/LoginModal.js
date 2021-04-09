@@ -37,7 +37,8 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
         }
         axios.post(API + '/login', payload, { withCredentials: true })
             .then(response => {
-                console.log('Successful login');
+                // console.log(`Successful ${response.Authority} login`);
+                console.log(response.headers.authorization);
             })
             .catch(err => {
                 console.log(`Error logging in: ${err}`);

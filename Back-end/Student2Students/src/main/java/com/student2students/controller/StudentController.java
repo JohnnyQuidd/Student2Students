@@ -2,15 +2,21 @@ package com.student2students.controller;
 
 import com.student2students.dao.StudentRegisterDAO;
 import com.student2students.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin()
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+@CrossOrigin
 @RestController
 @RequestMapping("/student")
 public class StudentController {
+    private Logger logger = LoggerFactory.getLogger(StudentController.class);
     private StudentService studentService;
 
     @Autowired
@@ -19,7 +25,14 @@ public class StudentController {
     }
 
     @GetMapping("/no-role")
-    public String testingWithoutRole() {
+    public String testingWithoutRole(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for(Cookie currentCookie : cookies) {
+            if(currentCookie.getName().equals("jwt"))
+                cookie = currentCookie;
+        }
+        logger.info("JWT: " + cookie.getValue());
         return "Free of permissions";
     }
 

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Optional<Student> findByUsername(String username);
+    Student findByUsername(String username);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
 }

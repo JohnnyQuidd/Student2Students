@@ -3,6 +3,7 @@ package com.student2students.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,7 +54,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
-                .claim("roles", "ROLE_" + authResult.getName().toUpperCase())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)
@@ -63,7 +63,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
 
+        String authority = authResult.getAuthorities().toString().substring(1, authResult.getAuthorities().toString().length()-1);
+
         response.addCookie(cookie);
+        response.setHeader(HttpHeaders.AUTHORIZATION, authority);
 
     }
 }
