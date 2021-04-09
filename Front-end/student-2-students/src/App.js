@@ -3,6 +3,7 @@ import Welcome from './Components/Welcome/Welcome'
 import UserDashboard from './Components/Dashboard/UserDashboard'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import NotFound from './Components/Error/NotFound';
+import AdminDashboard from './Components/Dashboard/AdminDashboard';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Welcome} />
           <Route path="/home" component={UserDashboard} />
+          <Route path="/admin" component={AdminDashboard} />
           <Route component={NotFound} />
         </Switch>
       </Router>

@@ -23,4 +23,9 @@ public class AuthorizationCheck {
     public ResponseEntity checkForStudent() {
         return ResponseEntity.status(200).build();
     }
+
+    @GetMapping("/logout")
+    public ResponseEntity logout() {
+        return ResponseEntity.ok().build();
+    }
 }

@@ -3,11 +3,13 @@ import axios from 'axios'
 import Modal from 'react-modal'
 import '../../css/LoginModal.css'
 import { API_ENDPOINT as API }  from '../Constants/Endpoints'
+import { useHistory } from "react-router-dom";
+
 
 function LoginModal({isModalOpen, setIsModalOpen}) {
-    const [username, setUsername] = useState('')
-    const [paassword, setPaassword] = useState('')
-
+    const [username, setUsername] = useState('');
+    const [paassword, setPaassword] = useState('');
+    const history = useHistory();
     
     const style = {
         overlay: {
@@ -37,8 +39,14 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
         }
         axios.post(API + '/login', payload, { withCredentials: true })
             .then(response => {
-                // console.log(`Successful ${response.Authority} login`);
-                console.log(response.headers.authorization);
+                const ROLE = response.headers.authorization;
+                switch(ROLE) {
+                    case 'STUDENT' : history.push('/home');
+                        break;
+                    case 'ADMIN' : history.push('/admin');
+                        break;
+                    default: console.log('Couldn\'t extract Role');
+                }
             })
             .catch(err => {
                 console.log(`Error logging in: ${err}`);

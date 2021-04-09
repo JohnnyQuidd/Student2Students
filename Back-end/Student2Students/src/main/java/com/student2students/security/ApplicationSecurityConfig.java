@@ -54,7 +54,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authorization/**").hasAnyAuthority("STUDENT", "ADMIN")
                 .anyRequest().authenticated()
                 .and().cors()
-                .and().headers().frameOptions().disable();
+                .and().headers().frameOptions().disable()
+                .and().logout().logoutUrl("/authorization/logout").deleteCookies("jwt");
     }
 
     @Bean
@@ -70,6 +71,5 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
-
 
 }

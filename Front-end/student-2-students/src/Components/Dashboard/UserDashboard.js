@@ -1,60 +1,34 @@
 import React, { useEffect } from 'react'
-// import axios from 'axios';
-// import { API_ENDPOINT } from '../Constants/Endpoints';
-// import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import { API_ENDPOINT } from '../Constants/Endpoints';
+import { useHistory } from "react-router-dom";
 import Navbar from '../Navbar/Navbar'
 import '../../css/Dashboard.css'
-import axios from 'axios'
-import { API_ENDPOINT } from '../Constants/Endpoints'
 
 function UserDashboard() {
-    // const history = useHistory();
+    const history = useHistory();
 
-    // useEffect(() =>{
-    //     console.log('Use effect');
-    //     axios.get(API_ENDPOINT + '/students')
-    //             .then(response => {
-    //                 console.log(response);
-    //             })
-    //             .catch(err => { 
-    //                 console.log('Redirecting');
-    //                 history.push('/');                   
-    //             })
-    // }, [history]);
-
-    // Not protected Endpoint
     useEffect(() => {
-        axios.get(API_ENDPOINT + '/student/no-role', { withCredentials: true })
-            .then(response => {
-                console.log('no-role WORKS');
-            })
-            .catch(err => {
-                console.log('no-role error');
-            })
-    }, [])
-    useEffect(() => {
-        axios.get(API_ENDPOINT + '/student/student-role', { withCredentials: true })
+        axios.get(API_ENDPOINT + '/authorization/student', { withCredentials: true })
             .then(response => {
                 console.log('student-role');
             })
             .catch(err => {
-                console.log('student-role error');
+                console.log(err);
+                history.push('/');
             })
     }, [])
-    useEffect(() => {
-        axios.get(API_ENDPOINT + '/student/admin-role', { withCredentials: true })
-            .then(response => {
-                console.log('admin-role');
-            })
-            .catch(err => {
-                console.log('admin-role error');
-            })
-    }, [])
+
+    const logout = () => {
+        axios.get(API_ENDPOINT + '/authorization/logout', { withCredentials: true });
+        history.push("/");
+    }
 
     return (
         <div>
             <Navbar />
             <h1> User Dashboard </h1>
+            <button onClick={logout} > Logout </button>
         </div>
     )
 }
