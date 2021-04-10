@@ -1,5 +1,6 @@
 package com.student2students.model;
 
+import com.student2students.constants.SequenceConstants;
 import com.student2students.security.ApplicationUserRole;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -11,6 +12,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,23 +24,35 @@ import java.util.Collections;
 @Builder
 public class Student implements UserDetails {
     @Id
-    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence",allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @SequenceGenerator(name = SequenceConstants.STUDENT_SEQUENCE, sequenceName = SequenceConstants.STUDENT_SEQUENCE,allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.STUDENT_SEQUENCE)
     private Long id;
+
     @NotNull
     private String firstName;
+
     @NotNull
     private String lastName;
+
     @NotNull
-    private String country;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
+
     @NotNull
-    private String city;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @NotNull
     private String email;
+
     @NotNull
     private String username;
+
     @NotNull
     private String password;
+
     @NotNull
     private LocalDate createdAt;
 
@@ -48,36 +63,30 @@ public class Student implements UserDetails {
     @NotNull
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole userRole;
+
     @NotNull
     private boolean isAccountNonExpired;
+
     @NotNull
     private boolean isAccountNonLocked;
+
     @NotNull
     private boolean isCredentialsNonExpired;
+
     @NotNull
     private boolean isEnabled;
 
-    public Student(String firstName, String lastName, String country,
-                   String city, String email, String username,
-                   String password, LocalDate createdAt, Language language,
-                   ApplicationUserRole userRole, boolean isAccountNonExpired,
-                   boolean isAccountNonLocked, boolean isCredentialsNonExpired,
-                   boolean isEnabled) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.city = city;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.createdAt = createdAt;
-        this.language = language;
-        this.userRole = userRole;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
-    }
+    @ElementCollection
+    private Set<String> blockedUsernames = new HashSet<>();
+
+    private String biography;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Set<Mark> marks = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Set<Post> posts = new HashSet<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

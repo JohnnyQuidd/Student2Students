@@ -1,5 +1,6 @@
 package com.student2students.model;
 
+import com.student2students.constants.SequenceConstants;
 import com.student2students.security.ApplicationUserRole;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -21,17 +22,21 @@ import java.util.Collections;
 @Builder
 public class Admin implements UserDetails {
     @Id
-    @SequenceGenerator(name = "admin_sequence", sequenceName = "admin_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_sequence")
+    @SequenceGenerator(name = SequenceConstants.ADMIN_SEQUENCE, sequenceName = SequenceConstants.ADMIN_SEQUENCE, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.ADMIN_SEQUENCE)
     private Long id;
     @NotNull
     private String firstName;
     @NotNull
     private String lastName;
     @NotNull
-    private String country;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
     @NotNull
-    private String city;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
     @NotNull
     private String email;
     @NotNull
@@ -55,27 +60,9 @@ public class Admin implements UserDetails {
     @NotNull
     private boolean isEnabled;
 
-    public Admin(String firstName, String lastName, String country,
-                 String city, String email, String username,
-                 String password, LocalDate createdAt, Language language,
-                 ApplicationUserRole userRole, boolean isAccountNonExpired,
-                 boolean isAccountNonLocked, boolean isCredentialsNonExpired,
-                 boolean isEnabled) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.city = city;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.createdAt = createdAt;
-        this.language = language;
-        this.userRole = userRole;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
-    }
+    private String biography;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
