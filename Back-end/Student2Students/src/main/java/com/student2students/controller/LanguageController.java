@@ -1,5 +1,6 @@
 package com.student2students.controller;
 
+import com.student2students.constants.RestParameters;
 import com.student2students.dto.LanguageDTO;
 import com.student2students.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,12 @@ public class LanguageController {
     @Autowired
     public LanguageController(LanguageService languageService) {
         this.languageService = languageService;
+    }
+
+    @GetMapping(params = {RestParameters.PAGE, RestParameters.LIMIT})
+    public ResponseEntity getLanguages(@RequestParam(value = RestParameters.PAGE, required = false, defaultValue = "0") int page,
+                                       @RequestParam(value = RestParameters.LIMIT, required = false, defaultValue = "10") int limit) {
+        return languageService.fetchLanguages(page, limit);
     }
 
     @PostMapping

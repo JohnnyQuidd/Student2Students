@@ -6,10 +6,15 @@ import com.student2students.repository.LanguageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class LanguageService {
@@ -55,5 +60,13 @@ public class LanguageService {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error deleting language" + languageCode);
         }
+    }
+
+    public ResponseEntity fetchLanguages(int page, int limit) {
+        Pageable firstPageWithTwoElements = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "languageName"));
+        Page<Language> languagePage = languageRepository.findAll(firstPageWithTwoElements);
+        List<Language> languages = languagePage.getContent();
+
+        return ResponseEntity.status(200).body(languages);
     }
 }
