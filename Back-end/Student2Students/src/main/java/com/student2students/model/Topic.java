@@ -25,8 +25,8 @@ public class Topic {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "field_id")
-    private Field field;
+    @JoinColumn(name = "major_id")
+    private Major major;
 
     @ManyToMany(mappedBy = "topics")
     private Set<Post> posts = new HashSet<>();

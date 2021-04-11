@@ -1,12 +1,10 @@
 package com.student2students.service;
 
 import com.student2students.dto.StudentRegisterDTO;
-import com.student2students.model.Address;
-import com.student2students.model.Country;
-import com.student2students.model.Language;
-import com.student2students.model.Student;
+import com.student2students.model.*;
 import com.student2students.repository.CountryRepository;
 import com.student2students.repository.LanguageRepository;
+import com.student2students.repository.MajorRepository;
 import com.student2students.repository.StudentRepository;
 import com.student2students.security.ApplicationUserRole;
 import com.student2students.util.UniquenessCheck;
@@ -27,6 +25,7 @@ public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final CountryRepository countryRepository;
     private final LanguageRepository languageRepository;
+    private final MajorRepository majorRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
@@ -35,11 +34,13 @@ public class StudentService implements UserDetailsService {
     public StudentService(StudentRepository studentRepository,
                           CountryRepository countryRepository,
                           LanguageRepository languageRepository,
+                          MajorRepository majorRepository,
                           PasswordEncoder passwordEncoder,
                           UniquenessCheck uniquenessCheck) {
         this.studentRepository = studentRepository;
         this.countryRepository = countryRepository;
         this.languageRepository = languageRepository;
+        this.majorRepository = majorRepository;
         this.passwordEncoder = passwordEncoder;
         this.uniquenessCheck = uniquenessCheck;
     }
@@ -72,7 +73,7 @@ public class StudentService implements UserDetailsService {
     private Student createStudentFromDAO(StudentRegisterDTO studentDTO) {
         Country country = countryRepository.findByCountry(studentDTO.getCountry())
                                 .orElseThrow(() -> new IllegalStateException("Country not found!"));
-        Language language = languageRepository.findByLanguage(studentDTO.getLanguage())
+        Language language = languageRepository.findByLanguageName(studentDTO.getLanguage())
                                 .orElseThrow(() -> new IllegalStateException("Language not found!"));
 
         Address address = Address.builder()
@@ -81,6 +82,8 @@ public class StudentService implements UserDetailsService {
                             .streetName(studentDTO.getStreetName())
                             .streetNumber(studentDTO.getStreetNumber())
                             .build();
+        Major major = majorRepository.findByMajorName(studentDTO.getMajorName())
+                .orElseThrow(() -> new IllegalStateException("Major cannot be found"));
 
 
         Student student = Student.builder()
@@ -99,6 +102,7 @@ public class StudentService implements UserDetailsService {
                 .isEnabled(true)
                 .createdAt(LocalDate.now())
                 .biography(studentDTO.getBiography())
+                .major(major)
                 .build();
 
         return student;

@@ -10,5 +10,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Repository
 public interface LanguageRepository extends JpaRepository<Language, Long> {
-    Optional<Language> findByLanguage(String language);
+    Optional<Language> findByLanguageName(String languageName);
+    boolean existsByLanguageName(String languageName);
+    boolean existsByLanguageCode(String languageCode);
+    long deleteByLanguageCode(String languageCode);
 }

@@ -33,8 +33,8 @@ public class Post {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "field_id")
-    private Field field;
+    @JoinColumn(name = "major_id")
+    private Major major;
 
     @NotNull
     @ManyToMany

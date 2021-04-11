@@ -87,6 +87,10 @@ public class Student implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Set<Post> posts = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "field_id")
+    private Major major;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

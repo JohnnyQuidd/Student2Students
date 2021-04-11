@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TopicDTO {
-    private String topicName;
-    private String majorName;
+public class MajorDTO {
+    private String fieldName;
 }

@@ -7,6 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FieldDTO {
-    private String fieldName;
+@ToString
+public class LanguageDTO {
+    private String languageName;
+    private String languageCode;
 }

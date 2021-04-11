@@ -19,18 +19,13 @@ public class University {
     private Long id;
 
     @NotNull
-    private String name;
+    private String universityName;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-    private Country country;
-
-    @NotNull
-    private String email;
+    private String universityEmail;
 
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
-    private Address address;
+    private Address universityAddress;
 }

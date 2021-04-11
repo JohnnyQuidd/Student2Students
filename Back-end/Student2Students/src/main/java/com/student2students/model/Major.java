@@ -14,18 +14,18 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Field {
+public class Major {
     @Id
     @SequenceGenerator(name = SequenceConstants.FIELD_SEQUENCE, sequenceName = SequenceConstants.FIELD_SEQUENCE, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.FIELD_SEQUENCE)
     private Long id;
 
     @NotNull
-    private String fieldName;
+    private String majorName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "field")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "major")
     private Set<Topic> topics = new HashSet<>();
 
-    @OneToMany(mappedBy = "field")
+    @OneToMany(mappedBy = "major")
     private Set<Post> posts = new HashSet<>();
 }

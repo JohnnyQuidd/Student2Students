@@ -19,4 +19,5 @@ public class StudentRegisterDTO {
     private String password;
     private String language;
     private String biography;
+    private String majorName;
 }

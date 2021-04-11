@@ -21,4 +21,9 @@ public class TopicController {
     public ResponseEntity addNewTopic(@RequestBody TopicDTO topicDTO) {
         return topicService.addNewTopic(topicDTO);
     }
+
+    @DeleteMapping("/{topicName}")
+    public ResponseEntity deleteTopic(@PathVariable("topicName") String topicName) {
+        return topicService.deleteTopic(topicName);
+    }
 }

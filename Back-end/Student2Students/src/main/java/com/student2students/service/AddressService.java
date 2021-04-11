@@ -16,11 +16,14 @@ import javax.transaction.Transactional;
 @Service
 public class AddressService {
     private final CountryRepository countryRepository;
+    private final AddressRepository addressRepository;
     private Logger logger = LoggerFactory.getLogger(AddressService.class);
 
     @Autowired
-    public AddressService(CountryRepository countryRepository) {
+    public AddressService(CountryRepository countryRepository,
+                          AddressRepository addressRepository) {
         this.countryRepository = countryRepository;
+        this.addressRepository = addressRepository;
     }
 
 
@@ -47,5 +50,20 @@ public class AddressService {
             return ResponseEntity.status(500).build();
         }
 
+    }
+
+    @Transactional
+    public ResponseEntity deleteAddressById(Long addressId) {
+        if(!addressRepository.existsById(addressId)) {
+            return ResponseEntity.status(403).body("Address with id: " + addressId + " doesn't exist!");
+        }
+        try {
+            addressRepository.deleteById(addressId);
+            return ResponseEntity.status(204).build();
+        } catch (Exception e) {
+            logger.error("An error occurred while deleting address!");
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Address cannot be deleted!");
+        }
     }
 }

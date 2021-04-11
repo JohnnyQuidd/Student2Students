@@ -21,4 +21,9 @@ public class AddressController {
     public ResponseEntity createNewAddress(@RequestBody AddressDTO addressDTO) {
         return addressService.createNewAddress(addressDTO);
     }
+
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity deleteAddress(@PathVariable("addressId") Long addressId) {
+        return addressService.deleteAddressById(addressId);
+    }
 }

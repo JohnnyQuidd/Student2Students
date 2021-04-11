@@ -1,9 +1,9 @@
 package com.student2students.service;
 
 import com.student2students.dto.TopicDTO;
-import com.student2students.model.Field;
+import com.student2students.model.Major;
 import com.student2students.model.Topic;
-import com.student2students.repository.FieldRepository;
+import com.student2students.repository.MajorRepository;
 import com.student2students.repository.TopicRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +16,14 @@ import javax.transaction.Transactional;
 @Service
 public class TopicService {
     private final TopicRepository topicRepository;
-    private final FieldRepository fieldRepository;
+    private final MajorRepository majorRepository;
     private Logger logger = LoggerFactory.getLogger(TopicService.class);
 
     @Autowired
     public TopicService(TopicRepository topicRepository,
-                        FieldRepository fieldRepository) {
+                        MajorRepository majorRepository) {
         this.topicRepository = topicRepository;
-        this.fieldRepository = fieldRepository;
+        this.majorRepository = majorRepository;
     }
 
 
@@ -32,22 +32,38 @@ public class TopicService {
         if(topicRepository.existsByTopicName(topicDTO.getTopicName())) {
             return ResponseEntity.status(403).body("Topic " + topicDTO.getTopicName() + " already exists!");
         }
-        Field field = fieldRepository.findByFieldName(topicDTO.getFieldName())
+        Major major = majorRepository.findByMajorName(topicDTO.getMajorName())
                 .orElseThrow(() -> new IllegalStateException("Couldn't find specified field"));
 
         Topic topic = Topic.builder()
                 .topicName(topicDTO.getTopicName())
-                .field(field)
+                .major(major)
                 .build();
         try {
-            field.getTopics().add(topic);
-            fieldRepository.save(field);
+            major.getTopics().add(topic);
+            majorRepository.save(major);
             return ResponseEntity.status(201).build();
         } catch (Exception e) {
-            logger.error("An error while persisting a field " + field.getFieldName() + " with a topic " + topic.getTopicName());
+            logger.error("An error while persisting a major " + major.getMajorName() + " with a topic " + topic.getTopicName());
             e.printStackTrace();
             return ResponseEntity.status(500).body("Couldn't persist field with provided topic!");
         }
 
+    }
+
+    @Transactional
+    public ResponseEntity deleteTopic(String topicName) {
+        if(!topicRepository.existsByTopicName(topicName)) {
+            return ResponseEntity.status(403).body("Topic " + topicName + " not found!");
+        }
+
+        try {
+            topicRepository.deleteByTopicName(topicName);
+            return ResponseEntity.status(204).build();
+        } catch (Exception e) {
+            logger.error("Couldn't delete topic " + topicName);
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 }
