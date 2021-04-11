@@ -13,13 +13,15 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
 public class Topic {
     @Id
     @SequenceGenerator(name = SequenceConstants.TOPIC_SEQUENCE, sequenceName = SequenceConstants.TOPIC_SEQUENCE, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.TOPIC_SEQUENCE)
     private Long id;
+
+    @NotNull
+    private String topicName;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

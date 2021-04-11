@@ -1,6 +1,7 @@
 package com.student2students.model;
 
 import com.student2students.constants.SequenceConstants;
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,13 +13,15 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
 public class Field {
     @Id
     @SequenceGenerator(name = SequenceConstants.FIELD_SEQUENCE, sequenceName = SequenceConstants.FIELD_SEQUENCE, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.FIELD_SEQUENCE)
     private Long id;
+
+    @NotNull
+    private String fieldName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "field")
     private Set<Topic> topics = new HashSet<>();

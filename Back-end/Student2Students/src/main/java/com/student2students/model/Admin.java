@@ -18,7 +18,6 @@ import java.util.Collections;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
 public class Admin implements UserDetails {
     @Id

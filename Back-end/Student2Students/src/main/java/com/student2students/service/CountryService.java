@@ -47,7 +47,13 @@ public class CountryService {
             return ResponseEntity.status(403).body("Country " + country + " doesn't exist!");
         }
 
-        countryRepository.deleteByCountry(country);
-        return ResponseEntity.status(204).build();
+        try {
+            countryRepository.deleteByCountry(country);
+            return ResponseEntity.status(204).build();
+        } catch (Exception e) {
+            logger.error("Couldn't delete country");
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 }

@@ -12,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
 public class University {
     @Id
     @SequenceGenerator(name = SequenceConstants.UNIVERSITY_SEQUENCE, sequenceName = SequenceConstants.UNIVERSITY_SEQUENCE, allocationSize = 1)
