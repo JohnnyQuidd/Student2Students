@@ -41,8 +41,11 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         boolean isRegistering = url.contains("/registration");
         boolean isConsole = url.contains("/h2-console");
         boolean isFavicon = url.contains("/favicon.ico");
+        boolean isCountry = url.contains("/country");
+        boolean isAddress = url.contains("/address");
 
-        if(!isRegistering && !isConsole && !isFavicon) {
+
+        if(!isRegistering && !isConsole && !isFavicon && !isCountry && !isAddress) {
             try {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("jwt")) {

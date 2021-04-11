@@ -1,6 +1,6 @@
 package com.student2students.controller;
 
-import com.student2students.dao.StudentRegisterDAO;
+import com.student2students.dto.StudentRegisterDTO;
 import com.student2students.model.Student;
 import com.student2students.service.StudentRequestService;
 import com.student2students.service.StudentService;
@@ -25,7 +25,7 @@ public class StudentController {
 
 
     @PostMapping
-    public ResponseEntity createNewStudent(@RequestBody StudentRegisterDAO studentDAO) {
+    public ResponseEntity createNewStudent(@RequestBody StudentRegisterDTO studentDAO) {
         return studentService.registerStudent(studentDAO);
     }
 

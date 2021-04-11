@@ -1,4 +1,4 @@
-package com.student2students.dao;
+package com.student2students.dto;
 
 import lombok.*;
 
@@ -7,16 +7,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentRegisterDAO {
+public class AdminRegisterDTO {
     private String firstName;
     private String lastName;
     private String country;
     private String city;
     private String streetName;
     private String streetNumber;
+    private String biography;
     private String email;
     private String username;
     private String password;
     private String language;
-    private String biography;
 }

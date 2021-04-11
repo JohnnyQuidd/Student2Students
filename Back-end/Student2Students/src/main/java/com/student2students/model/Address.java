@@ -1,5 +1,6 @@
 package com.student2students.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student2students.constants.SequenceConstants;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -11,7 +12,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
 public class Address {
     @Id
@@ -22,6 +22,7 @@ public class Address {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
+    @JsonIgnoreProperties("addresses")
     private Country country;
 
     @NotNull

@@ -1,7 +1,7 @@
 package com.student2students.registration;
 
-import com.student2students.dao.AdminRegisterDAO;
-import com.student2students.dao.StudentRegisterDAO;
+import com.student2students.dto.AdminRegisterDTO;
+import com.student2students.dto.StudentRegisterDTO;
 import com.student2students.service.AdminService;
 import com.student2students.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,12 @@ public class RegistrationController {
     }
 
     @PostMapping("/student")
-    public ResponseEntity registerUser(@RequestBody StudentRegisterDAO studentDAO) {
+    public ResponseEntity registerUser(@RequestBody StudentRegisterDTO studentDAO) {
         return studentService.registerStudent(studentDAO);
     }
 
     @PostMapping("/admin")
-    public ResponseEntity registerAdmin(@RequestBody AdminRegisterDAO adminRegisterDAO) {
-        return adminService.registerNewAdmin(adminRegisterDAO);
+    public ResponseEntity registerAdmin(@RequestBody AdminRegisterDTO adminRegisterDTO) {
+        return adminService.registerNewAdmin(adminRegisterDTO);
     }
 }

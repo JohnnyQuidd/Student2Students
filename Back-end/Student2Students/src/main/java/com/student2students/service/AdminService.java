@@ -1,6 +1,6 @@
 package com.student2students.service;
 
-import com.student2students.dao.AdminRegisterDAO;
+import com.student2students.dto.AdminRegisterDTO;
 import com.student2students.model.Address;
 import com.student2students.model.Admin;
 import com.student2students.model.Country;
@@ -49,15 +49,15 @@ public class AdminService implements UserDetailsService {
         return adminRepository.findByUsername(username);
     }
 
-    public ResponseEntity registerNewAdmin(AdminRegisterDAO adminRegisterDAO) {
-        if(!uniquenessCheck.isUsernameUnique(adminRegisterDAO.getUsername())) {
+    public ResponseEntity registerNewAdmin(AdminRegisterDTO adminRegisterDTO) {
+        if(!uniquenessCheck.isUsernameUnique(adminRegisterDTO.getUsername())) {
             return ResponseEntity.status(403).body("Username already exists");
         }
-        if(!uniquenessCheck.isEmailUnique(adminRegisterDAO.getEmail())) {
+        if(!uniquenessCheck.isEmailUnique(adminRegisterDTO.getEmail())) {
             return ResponseEntity.status(403).body("Email already exists");
         }
 
-        Admin admin = createAdminFromDAO(adminRegisterDAO);
+        Admin admin = createAdminFromDAO(adminRegisterDTO);
 
         try {
             adminRepository.save(admin);
@@ -70,27 +70,27 @@ public class AdminService implements UserDetailsService {
         }
     }
 
-    private Admin createAdminFromDAO(AdminRegisterDAO adminRegisterDAO) {
-        Language language = languageRepository.findByLanguage(adminRegisterDAO.getLanguage())
+    private Admin createAdminFromDAO(AdminRegisterDTO adminRegisterDTO) {
+        Language language = languageRepository.findByLanguage(adminRegisterDTO.getLanguage())
                                                 .orElseThrow(() -> new IllegalStateException("Language not found"));
-        Country country = countryRepository.findByCountry(adminRegisterDAO.getCountry())
+        Country country = countryRepository.findByCountry(adminRegisterDTO.getCountry())
                                                 .orElseThrow(() -> new IllegalStateException("Country not found"));
 
         Address address = Address.builder()
                                 .country(country)
-                                .city(adminRegisterDAO.getCity())
-                                .streetName(adminRegisterDAO.getStreetName())
-                                .streetNumber(adminRegisterDAO.getStreetNumber())
+                                .city(adminRegisterDTO.getCity())
+                                .streetName(adminRegisterDTO.getStreetName())
+                                .streetNumber(adminRegisterDTO.getStreetNumber())
                                 .build();
 
         Admin admin = Admin.builder()
-                .firstName(adminRegisterDAO.getFirstName())
-                .lastName(adminRegisterDAO.getLastName())
+                .firstName(adminRegisterDTO.getFirstName())
+                .lastName(adminRegisterDTO.getLastName())
                 .country(country)
                 .address(address)
-                .email(adminRegisterDAO.getEmail())
-                .username(adminRegisterDAO.getUsername())
-                .password(passwordEncoder.encode(adminRegisterDAO.getPassword()))
+                .email(adminRegisterDTO.getEmail())
+                .username(adminRegisterDTO.getUsername())
+                .password(passwordEncoder.encode(adminRegisterDTO.getPassword()))
                 .createdAt(LocalDate.now())
                 .language(language)
                 .userRole(ApplicationUserRole.ADMIN)
@@ -98,7 +98,7 @@ public class AdminService implements UserDetailsService {
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)
                 .isEnabled(true)
-                .biography(adminRegisterDAO.getBiography())
+                .biography(adminRegisterDTO.getBiography())
                 .build();
 
         return admin;

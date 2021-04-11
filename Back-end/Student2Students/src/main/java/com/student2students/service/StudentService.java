@@ -1,6 +1,6 @@
 package com.student2students.service;
 
-import com.student2students.dao.StudentRegisterDAO;
+import com.student2students.dto.StudentRegisterDTO;
 import com.student2students.model.Address;
 import com.student2students.model.Country;
 import com.student2students.model.Language;
@@ -49,7 +49,7 @@ public class StudentService implements UserDetailsService {
         return studentRepository.findByUsername(username);
     }
 
-    public ResponseEntity registerStudent(StudentRegisterDAO studentDAO) {
+    public ResponseEntity registerStudent(StudentRegisterDTO studentDAO) {
         if(!uniquenessCheck.isUsernameUnique(studentDAO.getUsername())) {
             return ResponseEntity.status(403).body("Username already exists");
         }
@@ -69,28 +69,28 @@ public class StudentService implements UserDetailsService {
         return ResponseEntity.status(201).body("Student registered");
     }
 
-    private Student createStudentFromDAO(StudentRegisterDAO studentDAO) {
-        Country country = countryRepository.findByCountry(studentDAO.getCountry())
+    private Student createStudentFromDAO(StudentRegisterDTO studentDTO) {
+        Country country = countryRepository.findByCountry(studentDTO.getCountry())
                                 .orElseThrow(() -> new IllegalStateException("Country not found!"));
-        Language language = languageRepository.findByLanguage(studentDAO.getLanguage())
+        Language language = languageRepository.findByLanguage(studentDTO.getLanguage())
                                 .orElseThrow(() -> new IllegalStateException("Language not found!"));
 
         Address address = Address.builder()
                             .country(country)
-                            .city(studentDAO.getCity())
-                            .streetName(studentDAO.getStreetName())
-                            .streetNumber(studentDAO.getStreetNumber())
+                            .city(studentDTO.getCity())
+                            .streetName(studentDTO.getStreetName())
+                            .streetNumber(studentDTO.getStreetNumber())
                             .build();
 
 
         Student student = Student.builder()
-                .firstName(studentDAO.getFirstName())
-                .lastName(studentDAO.getLastName())
+                .firstName(studentDTO.getFirstName())
+                .lastName(studentDTO.getLastName())
                 .country(country)
                 .address(address)
-                .email(studentDAO.getEmail())
-                .username(studentDAO.getUsername())
-                .password(passwordEncoder.encode(studentDAO.getPassword()))
+                .email(studentDTO.getEmail())
+                .username(studentDTO.getUsername())
+                .password(passwordEncoder.encode(studentDTO.getPassword()))
                 .language(language)
                 .userRole(ApplicationUserRole.STUDENT)
                 .isAccountNonExpired(true)
@@ -98,7 +98,7 @@ public class StudentService implements UserDetailsService {
                 .isCredentialsNonExpired(true)
                 .isEnabled(true)
                 .createdAt(LocalDate.now())
-                .biography(studentDAO.getBiography())
+                .biography(studentDTO.getBiography())
                 .build();
 
         return student;

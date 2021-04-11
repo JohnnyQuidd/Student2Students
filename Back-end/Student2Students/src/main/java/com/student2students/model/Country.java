@@ -13,7 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 @Builder
 public class Country {
     @Id
@@ -24,6 +23,6 @@ public class Country {
     @NotNull
     private String country;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<>();
 }
