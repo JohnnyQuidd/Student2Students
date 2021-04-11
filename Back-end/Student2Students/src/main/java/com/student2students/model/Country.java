@@ -5,6 +5,8 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -18,6 +20,10 @@ public class Country {
     @SequenceGenerator(name = SequenceConstants.COUNTRY_SEQUENCE, sequenceName = SequenceConstants.COUNTRY_SEQUENCE, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.COUNTRY_SEQUENCE)
     private Long id;
+
     @NotNull
-    private String name;
+    private String country;
+
+    @OneToMany(mappedBy = "country")
+    private Set<Address> addresses = new HashSet<>();
 }

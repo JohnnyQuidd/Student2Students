@@ -25,44 +25,57 @@ public class Admin implements UserDetails {
     @SequenceGenerator(name = SequenceConstants.ADMIN_SEQUENCE, sequenceName = SequenceConstants.ADMIN_SEQUENCE, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.ADMIN_SEQUENCE)
     private Long id;
+
     @NotNull
     private String firstName;
+
     @NotNull
     private String lastName;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
+
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
     @NotNull
     private String email;
+
     @NotNull
     private String username;
+
     @NotNull
     private String password;
+
     @NotNull
     private LocalDate createdAt;
+
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lang_id")
     private Language language;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole userRole;
+
     @NotNull
     private boolean isAccountNonExpired;
+
     @NotNull
     private boolean isAccountNonLocked;
+
     @NotNull
     private boolean isCredentialsNonExpired;
+
     @NotNull
     private boolean isEnabled;
 
     private String biography;
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

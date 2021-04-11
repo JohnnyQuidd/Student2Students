@@ -18,6 +18,12 @@ public class Address {
     @SequenceGenerator(name = SequenceConstants.ADDRESS_SEQUENCE, sequenceName = SequenceConstants.ADDRESS_SEQUENCE,allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.ADDRESS_SEQUENCE)
     private Long id;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
+
     @NotNull
     private String city;
     @NotNull

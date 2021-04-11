@@ -12,6 +12,9 @@ public class AdminRegisterDAO {
     private String lastName;
     private String country;
     private String city;
+    private String streetName;
+    private String streetNumber;
+    private String biography;
     private String email;
     private String username;
     private String password;

@@ -10,4 +10,5 @@ public final class SequenceConstants {
     public static final String TOPIC_SEQUENCE = "topic_sequence";
     public static final String MARK_SEQUENCE = "mark_sequence";
     public static final String POST_SEQUENCE = "post_sequence";
+    public static final String LANGUAGE_SEQUENCE = "language_sequence";
 }

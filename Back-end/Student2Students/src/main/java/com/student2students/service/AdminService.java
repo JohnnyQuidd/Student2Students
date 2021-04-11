@@ -1,9 +1,13 @@
 package com.student2students.service;
 
 import com.student2students.dao.AdminRegisterDAO;
+import com.student2students.model.Address;
 import com.student2students.model.Admin;
+import com.student2students.model.Country;
 import com.student2students.model.Language;
 import com.student2students.repository.AdminRepository;
+import com.student2students.repository.CountryRepository;
+import com.student2students.repository.LanguageRepository;
 import com.student2students.security.ApplicationUserRole;
 import com.student2students.util.UniquenessCheck;
 import org.slf4j.Logger;
@@ -20,16 +24,22 @@ import java.time.LocalDate;
 
 @Service
 public class AdminService implements UserDetailsService {
-    private final String NOT_FOUND_STRING = "Admin with username %s not found";
     private final AdminRepository adminRepository;
+    private final LanguageRepository languageRepository;
+    private final CountryRepository countryRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
     private final Logger logger = LoggerFactory.getLogger(AdminService.class);
 
     @Autowired
-    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder,
+    public AdminService(AdminRepository adminRepository,
+                        LanguageRepository languageRepository,
+                        CountryRepository countryRepository,
+                        PasswordEncoder passwordEncoder,
                         UniquenessCheck uniquenessCheck) {
         this.adminRepository = adminRepository;
+        this.languageRepository = languageRepository;
+        this.countryRepository = countryRepository;
         this.passwordEncoder = passwordEncoder;
         this.uniquenessCheck = uniquenessCheck;
     }
@@ -61,23 +71,37 @@ public class AdminService implements UserDetailsService {
     }
 
     private Admin createAdminFromDAO(AdminRegisterDAO adminRegisterDAO) {
-        return Admin.builder()
-                .username(adminRegisterDAO.getUsername())
+        Language language = languageRepository.findByLanguage(adminRegisterDAO.getLanguage())
+                                                .orElseThrow(() -> new IllegalStateException("Language not found"));
+        Country country = countryRepository.findByCountry(adminRegisterDAO.getCountry())
+                                                .orElseThrow(() -> new IllegalStateException("Country not found"));
+
+        Address address = Address.builder()
+                                .country(country)
+                                .city(adminRegisterDAO.getCity())
+                                .streetName(adminRegisterDAO.getStreetName())
+                                .streetNumber(adminRegisterDAO.getStreetNumber())
+                                .build();
+
+        Admin admin = Admin.builder()
                 .firstName(adminRegisterDAO.getFirstName())
                 .lastName(adminRegisterDAO.getLastName())
-                .city(adminRegisterDAO.getCity())
-                .country(adminRegisterDAO.getCountry())
+                .country(country)
+                .address(address)
                 .email(adminRegisterDAO.getEmail())
+                .username(adminRegisterDAO.getUsername())
                 .password(passwordEncoder.encode(adminRegisterDAO.getPassword()))
-                .language(Language.valueOf(adminRegisterDAO.getLanguage()))
+                .createdAt(LocalDate.now())
+                .language(language)
+                .userRole(ApplicationUserRole.ADMIN)
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)
                 .isEnabled(true)
-                .userRole(ApplicationUserRole.ADMIN)
-                .createdAt(LocalDate.now())
-                .language(Language.ENGLISH)
+                .biography(adminRegisterDAO.getBiography())
                 .build();
+
+        return admin;
     }
 
 

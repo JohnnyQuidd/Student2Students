@@ -1,5 +1,6 @@
 package com.student2students.model;
 
+import com.student2students.constants.DatabaseConstants;
 import com.student2students.constants.SequenceConstants;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -38,7 +39,7 @@ public class Post {
 
     @NotNull
     @ManyToMany
-    @JoinTable(name = "post_topic",
+    @JoinTable(name = DatabaseConstants.POST_TOPIC,
     joinColumns = @JoinColumn(name = "post_id"),
     inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private Set<Topic> topics = new HashSet<>();

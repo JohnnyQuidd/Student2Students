@@ -1,8 +1,12 @@
 package com.student2students.service;
 
 import com.student2students.dao.StudentRegisterDAO;
+import com.student2students.model.Address;
+import com.student2students.model.Country;
 import com.student2students.model.Language;
 import com.student2students.model.Student;
+import com.student2students.repository.CountryRepository;
+import com.student2students.repository.LanguageRepository;
 import com.student2students.repository.StudentRepository;
 import com.student2students.security.ApplicationUserRole;
 import com.student2students.util.UniquenessCheck;
@@ -21,14 +25,21 @@ import java.time.LocalDate;
 @Service
 public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
+    private final CountryRepository countryRepository;
+    private final LanguageRepository languageRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, PasswordEncoder passwordEncoder,
+    public StudentService(StudentRepository studentRepository,
+                          CountryRepository countryRepository,
+                          LanguageRepository languageRepository,
+                          PasswordEncoder passwordEncoder,
                           UniquenessCheck uniquenessCheck) {
         this.studentRepository = studentRepository;
+        this.countryRepository = countryRepository;
+        this.languageRepository = languageRepository;
         this.passwordEncoder = passwordEncoder;
         this.uniquenessCheck = uniquenessCheck;
     }
@@ -59,22 +70,37 @@ public class StudentService implements UserDetailsService {
     }
 
     private Student createStudentFromDAO(StudentRegisterDAO studentDAO) {
-        return Student.builder()
-                .username(studentDAO.getUsername())
+        Country country = countryRepository.findByCountry(studentDAO.getCountry())
+                                .orElseThrow(() -> new IllegalStateException("Country not found!"));
+        Language language = languageRepository.findByLanguage(studentDAO.getLanguage())
+                                .orElseThrow(() -> new IllegalStateException("Language not found!"));
+
+        Address address = Address.builder()
+                            .country(country)
+                            .city(studentDAO.getCity())
+                            .streetName(studentDAO.getStreetName())
+                            .streetNumber(studentDAO.getStreetNumber())
+                            .build();
+
+
+        Student student = Student.builder()
                 .firstName(studentDAO.getFirstName())
                 .lastName(studentDAO.getLastName())
-                .city(studentDAO.getCity())
-                .country(studentDAO.getCountry())
+                .country(country)
+                .address(address)
                 .email(studentDAO.getEmail())
+                .username(studentDAO.getUsername())
                 .password(passwordEncoder.encode(studentDAO.getPassword()))
-                .language(Language.valueOf(studentDAO.getLanguage()))
+                .language(language)
+                .userRole(ApplicationUserRole.STUDENT)
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)
                 .isEnabled(true)
-                .userRole(ApplicationUserRole.STUDENT)
                 .createdAt(LocalDate.now())
-                .language(Language.SERBIAN)
+                .biography(studentDAO.getBiography())
                 .build();
+
+        return student;
     }
 }

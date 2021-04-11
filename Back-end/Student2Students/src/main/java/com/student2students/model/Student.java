@@ -40,7 +40,7 @@ public class Student implements UserDetails {
     private Country country;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -57,7 +57,8 @@ public class Student implements UserDetails {
     private LocalDate createdAt;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lang_id")
     private Language language;
 
     @NotNull
