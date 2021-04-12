@@ -24,7 +24,7 @@ public class MajorService {
     @Transactional
     public ResponseEntity addNewMajor(MajorDTO majorDTO) {
         Major major = Major.builder()
-                .majorName(majorDTO.getFieldName())
+                .majorName(majorDTO.getMajorName())
                 .build();
         if(!majorRepository.existsByMajorName(major.getMajorName())){
             try {

@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MajorDTO {
-    private String fieldName;
+    private String majorName;
 }

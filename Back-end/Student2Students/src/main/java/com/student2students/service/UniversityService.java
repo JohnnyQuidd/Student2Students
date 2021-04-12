@@ -9,10 +9,17 @@ import com.student2students.repository.UniversityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UniversityService {
@@ -78,5 +85,29 @@ public class UniversityService {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
+    }
+
+    public ResponseEntity fetchAllUniversities() {
+        List<University> universities = universityRepository.findAll();
+
+        return ResponseEntity.ok(universities);
+    }
+
+    public ResponseEntity fetchParametrized(int page, int limit) {
+        Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "universityName"));
+        Page<University> pageResult = universityRepository.findAll(pageableElement);
+
+        return ResponseEntity.ok(pageResult.getContent());
+    }
+
+    public ResponseEntity fetchByCountryName(String countryName) {
+        if(!countryRepository.existsByCountry(countryName))
+            return ResponseEntity.status(404).body("Country name not found!");
+
+        List<University> universities = universityRepository.findByUniversityAddress_Country_Country(countryName);
+        universities = universities.stream()
+                .sorted(Comparator.comparing(University::getUniversityName))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(universities);
     }
 }

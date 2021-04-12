@@ -1,5 +1,6 @@
 package com.student2students.service;
 
+import com.student2students.dto.StudentDTO;
 import com.student2students.dto.StudentRegisterDTO;
 import com.student2students.model.*;
 import com.student2students.repository.CountryRepository;
@@ -11,6 +12,9 @@ import com.student2students.util.UniquenessCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService implements UserDetailsService {
@@ -50,7 +56,7 @@ public class StudentService implements UserDetailsService {
         return studentRepository.findByUsername(username);
     }
 
-    public ResponseEntity registerStudent(StudentRegisterDTO studentDAO) {
+    public ResponseEntity<?> registerStudent(StudentRegisterDTO studentDAO) {
         if(!uniquenessCheck.isUsernameUnique(studentDAO.getUsername())) {
             return ResponseEntity.status(403).body("Username already exists");
         }
@@ -58,7 +64,7 @@ public class StudentService implements UserDetailsService {
             return ResponseEntity.status(403).body("Email already exists");
         }
 
-        Student student = createStudentFromDAO(studentDAO);
+        Student student = createStudentFromDTO(studentDAO);
 
         try {
             studentRepository.save(student);
@@ -70,7 +76,7 @@ public class StudentService implements UserDetailsService {
         return ResponseEntity.status(201).body("Student registered");
     }
 
-    private Student createStudentFromDAO(StudentRegisterDTO studentDTO) {
+    private Student createStudentFromDTO(StudentRegisterDTO studentDTO) {
         Country country = countryRepository.findByCountry(studentDTO.getCountry())
                                 .orElseThrow(() -> new IllegalStateException("Country not found!"));
         Language language = languageRepository.findByLanguageName(studentDTO.getLanguage())
@@ -86,10 +92,9 @@ public class StudentService implements UserDetailsService {
                 .orElseThrow(() -> new IllegalStateException("Major cannot be found"));
 
 
-        Student student = Student.builder()
+        return Student.builder()
                 .firstName(studentDTO.getFirstName())
                 .lastName(studentDTO.getLastName())
-                .country(country)
                 .address(address)
                 .email(studentDTO.getEmail())
                 .username(studentDTO.getUsername())
@@ -104,7 +109,46 @@ public class StudentService implements UserDetailsService {
                 .biography(studentDTO.getBiography())
                 .major(major)
                 .build();
+    }
 
-        return student;
+    public ResponseEntity<List<StudentDTO>> getStudentsFromCountry(String countryName, int page, int limit) {
+        Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "username"));
+        List<Student> students = studentRepository.findByAddress_Country_Country(countryName, pageableElement).getContent();
+        List<StudentDTO> studentDTOs = makeStudentDTOFromStudentList(students);
+
+        return ResponseEntity.ok(studentDTOs);
+    }
+
+    public ResponseEntity<List<StudentDTO>> getStudentsByMajorName(String majorName, int page, int limit) {
+        Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "username"));
+        List<Student> students = studentRepository.findByMajor_MajorName(majorName, pageableElement).getContent();
+        List<StudentDTO> studentDTOS = makeStudentDTOFromStudentList(students);
+
+        return ResponseEntity.ok(studentDTOS);
+    }
+
+    public ResponseEntity<List<StudentDTO>> getStudentsByLanguage(String language, int page, int limit) {
+        Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "username"));
+        List<Student> students = studentRepository.findByLanguage_LanguageName(language, pageableElement).getContent();
+        List<StudentDTO> studentDTOS = makeStudentDTOFromStudentList(students);
+
+        return ResponseEntity.ok(studentDTOS);
+    }
+
+    private List<StudentDTO> makeStudentDTOFromStudentList(List<Student> students) {
+        return students.stream()
+                .map(student -> StudentDTO.builder()
+                        .firstName(student.getFirstName())
+                        .lastName(student.getLastName())
+                        .country(student.getAddress().getCountry().getCountry())
+                        .streetName(student.getAddress().getStreetName())
+                        .streetNumber(student.getAddress().getStreetNumber())
+                        .email(student.getEmail())
+                        .username(student.getUsername())
+                        .language(student.getLanguage().getLanguageName())
+                        .biography(student.getBiography())
+                        .majorName(student.getMajor().getMajorName())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

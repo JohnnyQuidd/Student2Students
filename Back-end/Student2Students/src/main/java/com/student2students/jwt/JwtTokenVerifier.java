@@ -48,10 +48,12 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         boolean isLanguage = url.contains("/language");
         boolean isAdmin = url.contains("/admin");
         boolean isUniversity = url.contains("/university");
+        boolean isStudent = url.contains("/student");
 
 
         if(!isRegistering && !isConsole && !isFavicon && !isCountry
-                && !isAddress && !isMajor && !isTopic && !isLanguage && !isAdmin && !isUniversity) {
+                && !isAddress && !isMajor && !isTopic && !isLanguage && !isAdmin && !isUniversity
+                && !isStudent) {
             try {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("jwt")) {
