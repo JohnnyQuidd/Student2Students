@@ -1,6 +1,6 @@
-package com.student2students.model;
+package com.student2students.postservice.model;
 
-import com.student2students.constants.SequenceConstants;
+import com.student2students.postservice.constants.SequenceConstants;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -27,4 +27,7 @@ public class Topic {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_id")
     private Major major;
+
+    @ManyToMany(mappedBy = "topics")
+    private Set<Post> posts = new HashSet<>();
 }

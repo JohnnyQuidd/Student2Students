@@ -6,7 +6,7 @@ public final class SequenceConstants {
     public static final String STUDENT_SEQUENCE = "student_sequence";
     public static final String UNIVERSITY_SEQUENCE = "university_sequence";
     public static final String ADDRESS_SEQUENCE = "address_sequence";
-    public static final String FIELD_SEQUENCE = "field_sequence";
+    public static final String MAJOR_SEQUENCE = "major_sequence";
     public static final String TOPIC_SEQUENCE = "topic_sequence";
     public static final String MARK_SEQUENCE = "mark_sequence";
     public static final String POST_SEQUENCE = "post_sequence";

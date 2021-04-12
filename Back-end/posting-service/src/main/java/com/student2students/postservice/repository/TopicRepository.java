@@ -1,6 +1,6 @@
-package com.student2students.repository;
+package com.student2students.postservice.repository;
 
-import com.student2students.model.Topic;
+import com.student2students.postservice.model.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

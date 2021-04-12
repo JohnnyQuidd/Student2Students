@@ -1,6 +1,6 @@
-package com.student2students.model;
+package com.student2students.postservice.model;
 
-import com.student2students.constants.SequenceConstants;
+import com.student2students.postservice.constants.SequenceConstants;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -20,6 +20,9 @@ public class Mark {
     private Long id;
 
     @NotNull
+    private String studentUsername;
+
+    @NotNull
     private int mark;
 
     @NotNull
@@ -30,8 +33,4 @@ public class Mark {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
-    private Student student;
 }

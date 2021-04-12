@@ -76,14 +76,8 @@ public class Student implements UserDetails {
 
     private String biography;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
-    private Set<Mark> marks = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
-    private Set<Post> posts = new HashSet<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "field_id")
+    @JoinColumn(name = "major_id")
     private Major major;
 
 

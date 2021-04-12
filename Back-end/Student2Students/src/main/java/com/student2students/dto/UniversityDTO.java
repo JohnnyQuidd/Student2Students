@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UniversityDTO {
+    private Long id;
     private String universityName;
     private String universityEmail;
     // Address related fields

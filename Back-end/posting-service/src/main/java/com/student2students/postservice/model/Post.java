@@ -1,7 +1,7 @@
-package com.student2students.model;
+package com.student2students.postservice.model;
 
-import com.student2students.constants.DatabaseConstants;
-import com.student2students.constants.SequenceConstants;
+import com.student2students.postservice.constants.DatabaseConstants;
+import com.student2students.postservice.constants.SequenceConstants;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -23,6 +23,9 @@ public class Post {
     private Long id;
 
     @NotNull
+    private String studentUsername;
+
+    @NotNull
     private String headline;
 
     @NotNull
@@ -39,14 +42,9 @@ public class Post {
     @NotNull
     @ManyToMany
     @JoinTable(name = DatabaseConstants.POST_TOPIC,
-    joinColumns = @JoinColumn(name = "post_id"),
-    inverseJoinColumns = @JoinColumn(name = "topic_id"))
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "topic_id"))
     private Set<Topic> topics = new HashSet<>();
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
-    private Student student;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
     private Set<Mark> marks = new HashSet<>();

@@ -110,4 +110,46 @@ public class UniversityService {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(universities);
     }
+
+    @Transactional
+    public ResponseEntity<?> updateUniversityData(UniversityDTO universityDTO) {
+        if(!isUpdateDataValid(universityDTO)) {
+            return ResponseEntity.status(403).body("Invalid Update data");
+        }
+
+        Country country = countryRepository.findByCountry(universityDTO.getCountry())
+                    .orElseThrow(() -> new IllegalStateException("Country is not supported yet!"));
+
+        University university = universityRepository.findById(universityDTO.getId())
+                    .orElseThrow(() -> new IllegalStateException("University not found!"));
+
+        Address address = Address.builder()
+                .city(universityDTO.getCity())
+                .country(country)
+                .streetNumber(universityDTO.getStreetNumber())
+                .streetName(universityDTO.getStreetName())
+                .build();
+
+        university.setUniversityName(universityDTO.getUniversityName());
+        university.setUniversityEmail(universityDTO.getUniversityEmail());
+        university.setUniversityAddress(address);
+
+        try {
+            universityRepository.save(university);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("An error occurred while updating university data");
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    private boolean isUpdateDataValid(UniversityDTO dto) {
+        return !dto.getUniversityName().equals("")
+                && !dto.getUniversityEmail().equals("")
+                && !dto.getCountry().equals("")
+                && !dto.getCity().equals("")
+                && !dto.getStreetName().equals("")
+                && !dto.getStreetNumber().equals("");
+    }
 }
