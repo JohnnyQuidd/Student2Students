@@ -37,11 +37,13 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         String url = request.getRequestURI();
         boolean isPost = url.contains("/post");
+        boolean isMajor = url.contains("/major");
+        boolean isTopic = url.contains("/topic");
         boolean isConsole = url.contains("/h2-console");
         boolean isFavicon = url.contains("/favicon.ico");
 
 
-        if(!isPost && !isConsole && !isFavicon) {
+        if(!isPost && !isConsole && !isFavicon && !isMajor && !isTopic) {
             try {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("jwt")) {

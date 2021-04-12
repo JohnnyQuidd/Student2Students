@@ -1,10 +1,10 @@
-package com.student2students.service;
+package com.student2students.postservice.service;
 
-import com.student2students.dto.TopicDTO;
-import com.student2students.model.Major;
-import com.student2students.model.Topic;
-import com.student2students.repository.MajorRepository;
-import com.student2students.repository.TopicRepository;
+import com.student2students.postservice.dto.TopicDTO;
+import com.student2students.postservice.model.Major;
+import com.student2students.postservice.model.Topic;
+import com.student2students.postservice.repository.MajorRepository;
+import com.student2students.postservice.repository.TopicRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TopicService {
             return ResponseEntity.status(403).body("Topic " + topicDTO.getTopicName() + " already exists!");
         }
         Major major = majorRepository.findByMajorName(topicDTO.getMajorName())
-                .orElseThrow(() -> new IllegalStateException("Couldn't find specified major"));
+                .orElseThrow(() -> new IllegalStateException("Couldn't find specified major: " + topicDTO.getMajorName()));
 
         Topic topic = Topic.builder()
                 .topicName(topicDTO.getTopicName())

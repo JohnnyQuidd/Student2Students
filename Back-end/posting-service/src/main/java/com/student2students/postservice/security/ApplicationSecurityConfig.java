@@ -22,6 +22,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/post/**").permitAll()
+                .antMatchers("/major/**").permitAll()
+                .antMatchers("/topic/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().headers().frameOptions().disable();
