@@ -8,6 +8,7 @@ import com.student2students.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @CrossOrigin
@@ -34,9 +35,13 @@ public class MajorController {
     @PostMapping
     public ResponseEntity addNewMajor(@RequestBody MajorDTO majorDTO) {
         String uri = RestParameters.POSTING_SERVICE_URL + "/major";
-        MajorDTO responseDTO = restTemplate.postForObject(uri, majorDTO, MajorDTO.class);
-        System.out.println(responseDTO);
-        return majorService.addNewMajor(majorDTO);
+        try {
+            MajorDTO responseDTO = restTemplate.postForObject(uri, majorDTO, MajorDTO.class);
+            return majorService.addNewMajor(majorDTO);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(403).body("Major " + majorDTO.getMajorName() + " already exists in posting-service");
+        }
+
     }
 
     @DeleteMapping("/{majorName}")
