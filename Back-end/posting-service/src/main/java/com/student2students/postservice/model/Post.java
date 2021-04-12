@@ -1,5 +1,6 @@
 package com.student2students.postservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student2students.postservice.constants.DatabaseConstants;
 import com.student2students.postservice.constants.SequenceConstants;
 import com.sun.istack.NotNull;

@@ -1,15 +1,21 @@
 package com.student2students.postservice.service;
 
 import com.student2students.postservice.dto.MajorDTO;
+import com.student2students.postservice.dto.MajorListDTO;
 import com.student2students.postservice.model.Major;
 import com.student2students.postservice.repository.MajorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class MajorService {
@@ -53,5 +59,14 @@ public class MajorService {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
+    }
+
+    public ResponseEntity<?> fetchMajors(int page, int limit) {
+        Pageable pageElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "majorName"));
+        List<Major> majors = majorRepository.findAll(pageElement).getContent();
+
+        MajorListDTO majorListDTO = MajorListDTO.builder().majors(majors).build();
+
+        return ResponseEntity.ok().body(majorListDTO);
     }
 }

@@ -1,5 +1,6 @@
 package com.student2students.postservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student2students.postservice.constants.SequenceConstants;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(value = {"posts"})
 public class Topic {
     @Id
     @SequenceGenerator(name = SequenceConstants.TOPIC_SEQUENCE, sequenceName = SequenceConstants.TOPIC_SEQUENCE, allocationSize = 1)
