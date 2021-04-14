@@ -9,6 +9,8 @@ services:
         - MYSQL_PASSWORD=StudentAdmin123!
         - MYSQL_DATABASE=student2students
       restart: always
+      volumes: 
+        - student2students-vol:/var/lib/mysql
 
     mysql-service-posting-service:
       image: mysql:latest
@@ -18,6 +20,8 @@ services:
         - MYSQL_PASSWORD=StudentAdmin123!
         - MYSQL_DATABASE=posting_service
       restart: always
+      volumes:
+        - posting-vol:/var/lib/mysql
     
     student-service:
       depends_on:                           
@@ -40,7 +44,7 @@ services:
       depends_on:                           
         - mysql-service-posting-service
       image: posting-service-img
-      container_name: postring-service-spring
+      container_name: posting-service-spring
       build:
         context: ./posting-service
         dockerfile: Dockerfile
@@ -52,3 +56,7 @@ services:
         SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service-posting-service:3306/posting_service?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
         SPRING_DATASOURCE_USERNAME: student_admin
         SPRING_DATASOURCE_PASSWORD: StudentAdmin123!
+
+volumes:
+  student2students-vol:
+  posting-vol:
