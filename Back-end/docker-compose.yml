@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+    mysql-service-student2students:
+      image: mysql:latest
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_USER=student_admin
+        - MYSQL_PASSWORD=StudentAdmin123!
+        - MYSQL_DATABASE=student2students
+      restart: always
+
+    mysql-service-posting-service:
+      image: mysql:latest
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_USER=student_admin
+        - MYSQL_PASSWORD=StudentAdmin123!
+        - MYSQL_DATABASE=posting_service
+      restart: always
+    
+    student-service:
+      depends_on:                           
+        - mysql-service-student2students
+      image: student2students
+      container_name: student2students-spring
+      build:
+        context: ./Student2Students
+        dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
+      restart: always
+        
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service-student2students:3306/student2students?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+        SPRING_DATASOURCE_USERNAME: student_admin
+        SPRING_DATASOURCE_PASSWORD: StudentAdmin123!
+
+    posting-service:
+      depends_on:                           
+        - mysql-service-posting-service
+      image: posting-service-img
+      container_name: postring-service-spring
+      build:
+        context: ./posting-service
+        dockerfile: Dockerfile
+      ports:
+        - "8081:8081"
+      restart: always
+        
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service-posting-service:3306/posting_service?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+        SPRING_DATASOURCE_USERNAME: student_admin
+        SPRING_DATASOURCE_PASSWORD: StudentAdmin123!

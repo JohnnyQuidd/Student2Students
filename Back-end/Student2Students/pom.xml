@@ -18,7 +18,6 @@
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
 	<dependencies>
-
 		<!-- JWT dependencies -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
