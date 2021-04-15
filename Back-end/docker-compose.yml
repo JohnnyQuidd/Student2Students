@@ -22,6 +22,17 @@ services:
       restart: always
       volumes:
         - posting-vol:/var/lib/mysql
+
+    mysql-service-email-service:
+      image: mysql:latest
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_USER=student_admin
+        - MYSQL_PASSWORD=StudentAdmin123!
+        - MYSQL_DATABASE=email_service
+      restart: always
+      volumes:
+        - email-vol:/var/lib/mysql
     
     student-service:
       depends_on:                           
@@ -57,6 +68,25 @@ services:
         SPRING_DATASOURCE_USERNAME: student_admin
         SPRING_DATASOURCE_PASSWORD: StudentAdmin123!
 
+    email_service:
+      depends_on:
+        - mysql-service-email-service
+      image: email-service-img
+      container_name: email-service-spring
+      build:
+        context: ./email-service
+        dockerfile: Dockerfile
+      ports:
+        - "8083:8083"
+      restart: always
+
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service-email-service:3306/email_service?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+        SPRING_DATASOURCE_USERNAME: student_admin
+        SPRING_DATASOURCE_PASSWORD: StudentAdmin123!
+        
+
 volumes:
   student2students-vol:
   posting-vol:
+  email-vol:
