@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap');
+
+.content {
+    margin-top: 2rem;
+}
+
+#title {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.chart {
+    margin: 1rem auto;
+    width: 50%;
+}
+
+#logout {
+    margin-top: 10rem;
+    margin-left: 2rem;
+    border: none;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.7rem;
+    font-size: 1rem;
+    background-image: linear-gradient(to right, #fc6464 0%, #f83232 51%, #f71111 100%);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+
+}
