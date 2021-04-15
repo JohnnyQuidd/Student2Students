@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap');
 
+#spinner-div {
+    position: absolute;
+    margin-top: 70%;
+    margin-left: 50%;
+}
+
+.loading {
+    opacity: 0.3;
+}
+
 .main-section::before {
     content: '';
     position: fixed;
@@ -87,6 +97,11 @@
 }
 
 @media (min-width: 700px) {
+    #spinner-div {
+        margin-top: 20%;
+        margin-left: 50%;
+    }
+
     .main-section::before {
         transform: scale(1.5);
     }
