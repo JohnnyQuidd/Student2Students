@@ -1,0 +1,17 @@
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      preferIpAddress: true
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: posting-service
+
+server:
+  port: 8082

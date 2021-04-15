@@ -17,16 +17,17 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping("/profile-image/{advertUUID}")
+    @PostMapping("/profile-image/{username}")
     public ResponseEntity<?> postAProfilePhoto(Model model,
-                                               @RequestParam("images") MultipartFile[] images) {
+                                               @RequestParam("images") MultipartFile[] images,
+                                               @PathVariable("username") String username) {
 
-        return imageService.postAProfilePhoto(model, images);
+        return imageService.postAProfilePhoto(model, images, username);
     }
 
-    @GetMapping("/profile-image/{advertUUID}")
-    public ResponseEntity<?> getAProfilePhoto(@PathVariable("advertUUID") String uuid) {
-        return imageService.getAProfilePhoto(uuid);
+    @GetMapping("/profile-image/{username}")
+    public ResponseEntity<?> getAProfilePhoto(@PathVariable("username") String username) {
+        return imageService.getAProfilePhoto(username);
     }
 
     @GetMapping("/profile-image/user")
