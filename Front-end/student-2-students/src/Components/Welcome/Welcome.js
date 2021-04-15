@@ -6,6 +6,7 @@ import LoginModal from '../Modals/LoginModal'
 // import axios from 'axios'
 // import { API_ENDPOINT } from '../Constants/Endpoints'
 import SignUpModal from '../Modals/SignUpModal'
+import CountUp from 'react-countup'
 
 function Welcome() {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -34,7 +35,23 @@ function Welcome() {
                     <LoginModal isModalOpen={isLoginModalOpen} setIsModalOpen={setIsLoginModalOpen} />
                     <SignUpModal isModalOpen={isSignUpModalOpen} setIsModalOpen={setIsSignUpModalOpen} />
                 </div>
+
+               <div className="stats">
+                    <div className="counter-div">
+                        <h3> <CountUp end={500} duration={7}  /> + </h3>
+                        <h3> Students </h3>
+                    </div>
+                    <div className="counter-div" id="middle-div" >
+                        <h3> <CountUp end={50} duration={7} /> + </h3>
+                        <h3> Universities </h3>
+                    </div>
+                    <div className="counter-div">
+                        <h3> <CountUp end={20} duration={7}  /> + </h3>
+                        <h3> Countries </h3>
+                    </div>
+               </div>
             </div>
+
             <Footer />
         </div>
     )

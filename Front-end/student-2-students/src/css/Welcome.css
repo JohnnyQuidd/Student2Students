@@ -77,9 +77,18 @@
     cursor: pointer;
 }
 
+.stats {
+    width: 95%;
+    margin: 5rem auto 1rem auto;
+    font-size: 1.5rem;
+    padding: 2rem 0.1rem;
+    border-radius: 1rem;
+    background-color: rgba(34, 40, 49, 0.9);
+}
+
 @media (min-width: 700px) {
     .main-section::before {
-        transform: scale(1.1);
+        transform: scale(1.5);
     }
 
     #welcome {
@@ -98,5 +107,22 @@
 
     #login, #sign-up {
         font-size: 1.5rem;
+    }
+
+    .stats {
+        border-radius: 0;
+        width: 20%;
+        margin-top: 15rem;
+        padding: 5rem 0rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        font-size: 1.7rem;
+    }
+
+    #middle-div {
+        width: 33%;
+        border-left: 3px solid #eee;
+        border-right: 3px solid #eee;
     }
 }

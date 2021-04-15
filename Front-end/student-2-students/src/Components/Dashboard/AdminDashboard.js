@@ -13,7 +13,7 @@ function AdminDashboard() {
                 console.log(err);
                 history.push('/');
             })
-    }, [])
+    }, [history])
 
     const logout = () => {
         axios.get(API_ENDPOINT + '/authorization/logout', { withCredentials: true });
