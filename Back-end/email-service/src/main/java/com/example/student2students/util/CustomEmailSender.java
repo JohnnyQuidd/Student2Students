@@ -1,7 +1,5 @@
 package com.example.student2students.util;
 
-import com.example.student2students.model.Email;
-import com.example.student2students.repository.EmailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +11,15 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.time.LocalDateTime;
 
 @Service
 public class CustomEmailSender {
-    private EmailRepository emailRepository;
     private JavaMailSender javaMailSender;
     private Logger logger = LoggerFactory.getLogger(CustomEmailSender.class);
 
     @Autowired
-    public CustomEmailSender(JavaMailSender jmSender, EmailRepository emailRepository){
+    public CustomEmailSender(JavaMailSender jmSender){
         javaMailSender = jmSender;
-        this.emailRepository = emailRepository;
     }
 
     public ResponseEntity<?> sendMail(String[] receivers, String subject, String message){
