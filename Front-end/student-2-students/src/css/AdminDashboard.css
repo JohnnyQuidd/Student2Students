@@ -5,13 +5,23 @@
 }
 
 #title {
+    margin-top: 2rem;
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    font-weight: 500;
 }
 
 .chart {
-    margin: 1rem auto;
-    width: 50%;
+    margin: 3rem auto;
+    width: 100%;
+}
+
+.major {
+    font-size: 1.8rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    margin: 7rem auto;
+    text-align: center;
 }
 
 #logout {
@@ -25,5 +35,21 @@
     color: white;
     font-weight: bold;
     cursor: pointer;
+}
 
+@media(min-width: 700px) {
+    #title {
+        margin-top: 5rem;
+        font-size: 3.2rem;
+    }
+
+    .chart {
+        width: 60%;
+        margin: 5rem auto;
+    }
+
+    .major {
+        margin: 10rem auto;
+        font-size: 2.5rem;
+    }
 }

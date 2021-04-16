@@ -5,6 +5,7 @@ import { API_ENDPOINT } from '../Constants/Endpoints'
 import { useHistory } from 'react-router-dom'
 import '../../css/AdminDashboard.css'
 import LineChart from '../Charts/LineChart'
+import MajorTable from './MajorTable'
 
 function AdminDashboard() {
     const history = useHistory();
@@ -26,9 +27,14 @@ function AdminDashboard() {
         <div>
             <Navbar />
             <div className="content">
-                <h1 id="title"> Admin Dashboard </h1>
+                <h1 id="title"> Dashboard </h1>
                 <div className="chart">
                     <LineChart />
+                </div>
+                <div className="major">
+                    <p> Majors </p>
+                    <MajorTable />
+                    
                 </div>
                 <button id="logout" onClick={logout} > Logout </button>
             </div>

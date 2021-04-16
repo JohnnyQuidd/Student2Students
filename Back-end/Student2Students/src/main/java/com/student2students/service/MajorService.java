@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MajorService {
@@ -63,6 +64,15 @@ public class MajorService {
         Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "majorName"));
         List<Major> majors = majorRepository.findAll(pageableElement).getContent();
 
-        return ResponseEntity.ok(majors);
+        return ResponseEntity.ok(makeDTOsFromMajor(majors));
+    }
+
+    private List<MajorDTO> makeDTOsFromMajor(List<Major> majors) {
+        return majors.stream()
+                .map(major -> MajorDTO.builder()
+                        .id(major.getId())
+                        .majorName(major.getMajorName())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

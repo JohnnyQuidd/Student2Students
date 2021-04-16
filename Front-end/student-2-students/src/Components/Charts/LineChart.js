@@ -32,7 +32,9 @@ function LineChart() {
     }
 
     return (
-        <Line data={studentData} options={options} />
+        <div style={{width: '100%'}}>
+            <Line data={studentData} options={options} />
+        </div>
     )
 }
 
