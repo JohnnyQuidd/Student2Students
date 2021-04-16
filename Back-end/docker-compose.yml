@@ -1,6 +1,16 @@
 version: '3.7'
 
 services:
+    eureka-service:
+      image: eureka-img
+      container_name: eureka-spring
+      build:
+        context: ./eureka
+        dockerfile: Dockerfile
+      ports:
+          - "8761:8761"
+      restart: always
+
     mysql-service-student2students:
       image: mysql:latest
       environment:
@@ -37,13 +47,14 @@ services:
     student-service:
       depends_on:                           
         - mysql-service-student2students
+        - eureka-service
       image: student2students
       container_name: student2students-spring
       build:
         context: ./Student2Students
         dockerfile: Dockerfile
       ports:
-        - "8080:8080"
+        - "8081:8081"
       restart: always
         
       environment:
@@ -54,13 +65,14 @@ services:
     posting-service:
       depends_on:                           
         - mysql-service-posting-service
+        - eureka-service
       image: posting-service-img
       container_name: posting-service-spring
       build:
         context: ./posting-service
         dockerfile: Dockerfile
       ports:
-        - "8081:8081"
+        - "8082:8082"
       restart: always
         
       environment:
@@ -71,6 +83,7 @@ services:
     email_service:
       depends_on:
         - mysql-service-email-service
+        - eureka-service
       image: email-service-img
       container_name: email-service-spring
       build:
@@ -84,7 +97,19 @@ services:
         SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service-email-service:3306/email_service?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
         SPRING_DATASOURCE_USERNAME: student_admin
         SPRING_DATASOURCE_PASSWORD: StudentAdmin123!
-        
+
+    image_service:
+      depends_on:
+        - eureka-service
+      image: image-service-img
+      container_name: image-service-spring
+      build:
+        context: ./image-service
+        dockerfile: Dockerfile
+      ports:
+        - "8084:8084"
+      restart: always
+
 
 volumes:
   student2students-vol:

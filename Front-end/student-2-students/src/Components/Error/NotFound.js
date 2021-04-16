@@ -14,6 +14,7 @@ function NotFound() {
             
             // NOTE: This is a simple hack because counter variable is not updating inside interval
             // This should be improved in further commits
+            // eslint-disable-next-line
             i = i-1;
             if(i<= 0) {
                 console.log(`Clearing interval: i ${i}`);

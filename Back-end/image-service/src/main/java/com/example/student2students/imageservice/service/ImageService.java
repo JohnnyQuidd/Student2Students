@@ -22,11 +22,11 @@ public class ImageService {
     public static final String uploadDirectory = System.getProperty("user.dir") + "/user-images";
     private Logger logger = LoggerFactory.getLogger(ImageService.class);
 
-    public ResponseEntity<?> postAProfilePhoto(Model model, MultipartFile[] images) {
-        String uuid = UUID.randomUUID().toString();
+    public ResponseEntity<?> postAProfilePhoto(Model model, MultipartFile[] images, String username) {
+
         StringBuilder imageNames = new StringBuilder();
         for(MultipartFile image : images) {
-            Path path = Paths.get(uploadDirectory, uuid + ".png");
+            Path path = Paths.get(uploadDirectory, username + ".png");
             imageNames.append(image.getOriginalFilename());
             try {
                 logger.info("Saving image at location: " + uploadDirectory);
@@ -41,11 +41,11 @@ public class ImageService {
         return new ResponseEntity<>("Image successfully saved", HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> getAProfilePhoto(String uuid) {
+    public ResponseEntity<?> getAProfilePhoto(String username) {
         File rootFile = new File(uploadDirectory);
         if(rootFile != null) {
             for (File file : rootFile.listFiles()) {
-                if(file.getName().equals(uuid + ".png")) {
+                if(file.getName().equals(username + ".png")) {
                     try {
                         String extension = "png";
                         FileInputStream iStream = new FileInputStream(file);

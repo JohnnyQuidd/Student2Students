@@ -6,7 +6,8 @@ import { API_ENDPOINT as API }  from '../Constants/Endpoints'
 import { useHistory } from "react-router-dom";
 
 
-function LoginModal({isModalOpen, setIsModalOpen}) {
+
+function LoginModal({isModalOpen, setIsModalOpen, setLoading}) {
     const [username, setUsername] = useState('');
     const [paassword, setPaassword] = useState('');
     const history = useHistory();
@@ -32,55 +33,62 @@ function LoginModal({isModalOpen, setIsModalOpen}) {
     }
 
     const submitData = (e) => {
-        e.preventDefault();
-        let payload = {
-            username: username,
-            password: paassword
-        }
-        axios.post(API + '/login', payload, { withCredentials: true })
-            .then(response => {
-                const ROLE = response.headers.authorization;
-                switch(ROLE) {
-                    case 'STUDENT' : history.push('/home');
-                        break;
-                    case 'ADMIN' : history.push('/admin');
-                        break;
-                    default: console.log('Couldn\'t extract Role');
-                }
-            })
-            .catch(err => {
-                console.log(`Error logging in: ${err}`);
-            })
+        setLoading(true);
+        setTimeout(() => {
+            e.preventDefault();
+            let payload = {
+                username: username,
+                password: paassword
+            }
+            axios.post(API + '/login', payload, { withCredentials: true })
+                .then(response => {
+                    setLoading(false);
+                    const ROLE = response.headers.authorization;
+                    switch(ROLE) {
+                        case 'STUDENT' : history.push('/home');
+                            break;
+                        case 'ADMIN' : history.push('/admin');
+                            break;
+                        default: console.log('Couldn\'t extract Role');
+                    }
+                })
+                .catch(err => {
+                    setLoading(false);
+                    console.log(`Error logging in: ${err}`);
+                })
+        }, 2500)
     }
 
 
     return (
         <>
+        
             <Modal isOpen={isModalOpen}
-            ariaHideApp={false}
-            onRequestClose={() => setIsModalOpen(false)}
-            style={style}
-            closeTimeoutMS={1000}
-             >
-                <h2 id="login-heading"> Login </h2>
-                <form onSubmit={submitData} >
-                    <label htmlFor="username"> Username </label>
-                    <input type="text" id="usename"
-                        value={username}
-                        onChange={e => setUsername(e.target.value) } />
+                ariaHideApp={false}
+                onRequestClose={() => setIsModalOpen(false)}
+                style={style}
+                closeTimeoutMS={1000}
+                >
+                    <h2 id="login-heading"> Login </h2>
+                    <form onSubmit={submitData} >
+                        <label htmlFor="username"> Username </label>
+                        <input type="text" id="usename"
+                            value={username}
+                            onChange={e => setUsername(e.target.value) } />
 
-                    <label htmlFor="password"> Password </label>
-                    <input type="password" id="password"
-                    value={paassword}
-                    onChange={e => setPaassword(e.target.value) } />
+                        <label htmlFor="password"> Password </label>
+                        <input type="password" id="password"
+                        value={paassword}
+                        onChange={e => setPaassword(e.target.value) } />
 
-                    <div className="buttons">
-                        <button onClick={() => setIsModalOpen(false)}
-                         type="submit" id="confirm-login" > Login </button>
-                        <button onClick={cancelForm} id="confirm-cancel"> Cancel </button>
-                    </div>
-                </form>
-            </Modal>
+                        <div className="buttons">
+                            <button onClick={() => setIsModalOpen(false)}
+                            type="submit" id="confirm-login" > Login </button>
+                            <button onClick={cancelForm} id="confirm-cancel"> Cancel </button>
+                        </div>
+                    </form>
+                </Modal>
+            
         </>
     )
 }

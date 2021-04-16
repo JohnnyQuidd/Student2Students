@@ -1,5 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap');
 
+#spinner-div {
+    position: absolute;
+    margin-top: 70%;
+    margin-left: 50%;
+}
+
+.track {
+    width: inherit;
+    height: inherit;
+    display: inherit;
+    margin: 0;
+    padding: 0;
+    justify-content: inherit;
+}
+
+.loading {
+    opacity: 0.3;
+}
+
 .main-section::before {
     content: '';
     position: fixed;
@@ -77,9 +96,23 @@
     cursor: pointer;
 }
 
+.stats {
+    width: 95%;
+    margin: 5rem auto 1rem auto;
+    font-size: 1.5rem;
+    padding: 2rem 0.1rem;
+    border-radius: 1rem;
+    background-color: rgba(34, 40, 49, 0.9);
+}
+
 @media (min-width: 700px) {
+    #spinner-div {
+        margin-top: 20%;
+        margin-left: 50%;
+    }
+
     .main-section::before {
-        transform: scale(1.1);
+        transform: scale(1.5);
     }
 
     #welcome {
@@ -98,5 +131,22 @@
 
     #login, #sign-up {
         font-size: 1.5rem;
+    }
+
+    .stats {
+        border-radius: 0;
+        width: 20%;
+        margin-top: 15rem;
+        padding: 5rem 0rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        font-size: 1.7rem;
+    }
+
+    #middle-div {
+        width: 33%;
+        border-left: 3px solid #eee;
+        border-right: 3px solid #eee;
     }
 }

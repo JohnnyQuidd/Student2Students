@@ -28,4 +28,7 @@ public class Email {
     private String content;
     @NotNull
     private LocalDateTime dateTime;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EmailStatus emailStatus;
 }
