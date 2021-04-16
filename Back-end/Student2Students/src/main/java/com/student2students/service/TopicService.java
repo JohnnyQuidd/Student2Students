@@ -8,10 +8,14 @@ import com.student2students.repository.TopicRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class TopicService {
@@ -65,5 +69,12 @@ public class TopicService {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
+    }
+
+    public ResponseEntity<?> fetchTopics(int page, int limit) {
+        Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "topicName"));
+        List<Topic> topics = topicRepository.findAll(pageableElement).getContent();
+
+        return ResponseEntity.ok(topics);
     }
 }

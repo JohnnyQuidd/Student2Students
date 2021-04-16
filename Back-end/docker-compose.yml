@@ -9,8 +9,16 @@ services:
         dockerfile: Dockerfile
       ports:
           - "8761:8761"
-      expose:
-        - "8761"
+      restart: always
+
+    zuul-proxy:
+      image: zuul-img
+      container_name: zuul-proxy-spring
+      build:
+        context: ./zuul
+        dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
       restart: always
 
     mysql-service-student2students:
@@ -57,8 +65,6 @@ services:
         dockerfile: Dockerfile
       ports:
         - "8081:8081"
-      expose:
-        - "8081"
       restart: always
         
       environment:
@@ -77,8 +83,6 @@ services:
         dockerfile: Dockerfile
       ports:
         - "8082:8082"
-      expose:
-        - "8082"
       restart: always
         
       environment:
@@ -97,8 +101,6 @@ services:
         dockerfile: Dockerfile
       ports:
         - "8083:8083"
-      expose:
-        - "8083"
       restart: always
 
       environment:
@@ -116,8 +118,6 @@ services:
         dockerfile: Dockerfile
       ports:
         - "8084:8084"
-      expose:
-        - "8084"
       restart: always
 
 

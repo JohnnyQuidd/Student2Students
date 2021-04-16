@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: zuul
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ReadTimeout: 10000
+
+zuul:
+  routes:
+    student-service:
+      path: /manage/**
+      # Docker: url: http://student2students-spring:8081/
+      url: http://localhost:8081/
+    posting-service:
+      path: /posting/**
+      url: http://posting-service-spring:8082/
+    email-service:
+      path: /email/**
+      url: http://email-service-spring:8083/
+    image-service:
+      path: /image/**
+      url: http://image-service-spring:8084/

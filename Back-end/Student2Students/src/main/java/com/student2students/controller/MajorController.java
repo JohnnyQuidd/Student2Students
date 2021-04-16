@@ -25,18 +25,18 @@ public class MajorController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getMajors() {
-        String uri = RestParameters.POSTING_SERVICE_URL + "/major";
-        MajorListDTO majorListDTO = restTemplate.getForObject(uri, MajorListDTO.class);
-
-        return ResponseEntity.ok().body(majorListDTO);
+    public ResponseEntity<?> getMajors(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
+                                       @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "10") int limit) {
+        //String uri = RestParameters.POSTING_SERVICE_URL + "/major";
+        //MajorListDTO majorListDTO = restTemplate.getForObject(uri, MajorListDTO.class);
+        return majorService.fetchMajors(page, limit);
     }
 
     @PostMapping
     public ResponseEntity addNewMajor(@RequestBody MajorDTO majorDTO) {
-        String uri = RestParameters.POSTING_SERVICE_URL + "/major";
+        //String uri = RestParameters.POSTING_SERVICE_URL + "/major";
         try {
-            MajorDTO responseDTO = restTemplate.postForObject(uri, majorDTO, MajorDTO.class);
+            //MajorDTO responseDTO = restTemplate.postForObject(uri, majorDTO, MajorDTO.class);
             return majorService.addNewMajor(majorDTO);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(403).body("Major " + majorDTO.getMajorName() + " already exists in posting-service");
@@ -45,7 +45,7 @@ public class MajorController {
     }
 
     @DeleteMapping("/{majorName}")
-    public ResponseEntity deleteField(@PathVariable("fieldName") String majorName) {
+    public ResponseEntity deleteField(@PathVariable("majorName") String majorName) {
         return majorService.deleteMajor(majorName);
     }
 }

@@ -23,6 +23,6 @@ public class Major {
     @NotNull
     private String majorName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "major")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "major", orphanRemoval = true)
     private Set<Topic> topics = new HashSet<>();
 }
