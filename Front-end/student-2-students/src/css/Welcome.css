@@ -6,6 +6,15 @@
     margin-left: 50%;
 }
 
+.track {
+    width: inherit;
+    height: inherit;
+    display: inherit;
+    margin: 0;
+    padding: 0;
+    justify-content: inherit;
+}
+
 .loading {
     opacity: 0.3;
 }
