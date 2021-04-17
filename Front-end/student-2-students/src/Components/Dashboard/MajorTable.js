@@ -1,20 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTable } from 'react-table'
-import axios from 'axios'
-import { API_ENDPOINT } from '../Constants/Endpoints'
+import '../../css/MajorTable.css'
 
-function MajorTable() {
-    const [majorData, setMajorData] = useState({})
 
-    useEffect(() => {
-        axios.get(API_ENDPOINT + '/manage/major')
-            .then(response => {
-                setMajorData(response.data);
-            })
-            .catch(err => {
-                console.log('Error fetching majors');
-            })
-    }, [])
+require("es6-promise").polyfill();
+require("isomorphic-fetch");
+function MajorTable({majorData}) {
 
     const COLUMNS = [
         {
@@ -36,27 +27,27 @@ function MajorTable() {
         {id: '7', majorName: 'SsssssD'},
     ]
 
+    // I'm just going to use Memo on columns, since it doesn't work when data is memoized
+    // It can cause performance issues!
     const cols = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => dummyData, [])
 
     const table = useTable({
         columns: cols,
-        data: data
+        data: majorData
     })
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = table
 
-    const showData = () => {
-        console.log(majorData);
-    }
+
 
     if(!majorData.length) {
+        // Show spinner
+
         return(<h2> Loading </h2>)
+    
     } else {
-        //return(<h3> OK </h3>)
-        
         return (
-            <>
+            <div className="table-div">
                 <table {...getTableProps()}>
                     <thead>
                         {
@@ -90,8 +81,7 @@ function MajorTable() {
                        }
                     </tbody>
                 </table>
-                <button onClick={showData}>Data</button>
-            </>
+            </div>
         )
     }
 

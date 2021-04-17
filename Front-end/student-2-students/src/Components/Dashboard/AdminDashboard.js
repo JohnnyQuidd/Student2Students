@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar/Navbar'
 import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
@@ -7,9 +7,13 @@ import '../../css/AdminDashboard.css'
 import LineChart from '../Charts/LineChart'
 import MajorTable from './MajorTable'
 
+
 function AdminDashboard() {
+    const [majorData, setMajorData] = useState([])
+
     const history = useHistory();
 
+    // Restrict access if user doesn't have admin privileges
     // useEffect(() => {
     //     axios.get(API_ENDPOINT + '/authorization/admin', { withCredentials: true })
     //         .catch(err => {
@@ -17,6 +21,17 @@ function AdminDashboard() {
     //             history.push('/');
     //         })
     // }, [history])
+    
+    useEffect(() => {     
+        axios.get(API_ENDPOINT + '/manage/major')
+        .then(response => {
+            setMajorData(response.data);
+        })
+        .catch(err => {
+            console.log('Error fetching majors');
+            console.log(err);
+        })
+    }, [])
 
     const logout = () => {
         axios.get(API_ENDPOINT + '/authorization/logout', { withCredentials: true });
@@ -33,7 +48,7 @@ function AdminDashboard() {
                 </div>
                 <div className="major">
                     <p> Majors </p>
-                    <MajorTable />
+                    <MajorTable majorData={majorData} />
                     
                 </div>
                 <button id="logout" onClick={logout} > Logout </button>
