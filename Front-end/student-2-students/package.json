@@ -19,6 +19,7 @@
     "react-on-screen": "^2.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-select": "^4.3.0",
     "react-spinners": "^0.10.6",
     "react-table": "^7.6.3",
     "react-toastify": "^7.0.3",

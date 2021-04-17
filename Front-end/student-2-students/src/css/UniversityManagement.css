@@ -1,0 +1,85 @@
+#university-section {
+    width: 95%;
+    margin: 1rem auto 45rem 1rem;
+    text-align: center;
+}
+
+#title {
+    font-size: 2rem;
+}
+
+.form-group {
+    width: 90%;
+    text-align: left;
+    margin: 1rem 0.2rem;
+}
+
+.uni-label {
+    display: block;
+}
+
+.uni-input {
+    margin-top: 0.3rem;
+    width: 100%;
+}
+
+.basic-single {
+    margin-top: 0.3rem;
+}
+
+#btn-div {
+    align-items: flex-end;
+}
+
+#add-university {
+    margin: 1rem auto;
+    font-size: 1.2rem;
+    padding: 0.5rem 0.7rem;
+    border: none;
+    color: white;
+    font-weight: 700;
+    background-color: rgb(70, 250, 124);
+    cursor: pointer;
+    border-radius: 3rem;
+    text-shadow: 1px 1px rgb(253, 133, 133);
+}
+
+
+@media (min-width: 700px) {
+    #university-section {
+        width: 100%;
+        margin: 1rem auto 45rem auto;
+        text-align: center;
+    }
+
+    #university-form {
+        margin: 3rem auto;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .left-section {
+        width: 40%;
+    }
+
+    .right-section {
+        width: 40%;
+    }
+
+    .uni-label {
+        font-size: 1rem;
+    }
+
+    .uni-input {
+        font-size: 1.2rem;
+    }
+
+    #btn-div {
+        padding-left: 60%;
+    }
+
+    #add-university {
+        margin: 1rem auto;
+    }
+
+}
