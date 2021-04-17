@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
 import '../../css/Welcome.css'
@@ -16,17 +16,6 @@ function Welcome() {
     const [loading, setLoading] = useState(false)
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
     const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false)
-
-
-    // const fetchStudents = () => {
-    //     axios.get(API_ENDPOINT + '/student', { withCredentials: true })
-    //         .then(response => {
-    //             console.log(response);
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         })
-    // }
 
 
     if(loading) {

@@ -43,7 +43,7 @@
     color: #eee;
     text-align: center;
     font-family: 'Poppins', sans-serif;
-    margin-bottom: 15rem;
+    margin-bottom: 35rem;
 }
 
 #welcome {
@@ -113,6 +113,10 @@
 
     .main-section::before {
         transform: scale(1.5);
+    }
+
+    .main-section {
+        margin-bottom: 50rem;
     }
 
     #welcome {

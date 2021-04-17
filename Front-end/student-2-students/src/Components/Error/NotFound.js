@@ -17,12 +17,9 @@ function NotFound() {
             // eslint-disable-next-line
             i = i-1;
             if(i<= 0) {
-                console.log(`Clearing interval: i ${i}`);
                 clearInterval(interval);
                 history.push('/');
             }
-
-            console.log('Counting');
             
         }, 1000);       
         

@@ -2,6 +2,7 @@
 
 .content {
     margin-top: 2rem;
+    margin-bottom: 40rem;
 }
 
 #title {
@@ -22,6 +23,10 @@
     font-family: 'Poppins', sans-serif;
     margin: 7rem auto;
     text-align: center;
+}
+
+.major-loader {
+    margin-top: 5rem;
 }
 
 #logout {
@@ -51,5 +56,9 @@
     .major {
         margin: 10rem auto;
         font-size: 2.5rem;
+    }
+
+    .major-loader {
+        margin-top: 7rem;
     }
 }

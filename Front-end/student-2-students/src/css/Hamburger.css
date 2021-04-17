@@ -16,6 +16,7 @@
     align-items: center;
     border-radius: 20% 0 0 20%;
     transition: all 0.8s ease-in-out;
+    z-index: 2;
 }
 
 
@@ -108,4 +109,10 @@
 .nav-link:hover::before,
 .nav-link:hover::after {
     transform: scaleX(1);
+}
+
+#logout-btn {
+    background-color: #262626;
+    border: none;
+    cursor: pointer;
 }

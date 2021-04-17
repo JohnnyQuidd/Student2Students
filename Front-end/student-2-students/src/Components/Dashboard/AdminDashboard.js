@@ -6,10 +6,15 @@ import { useHistory } from 'react-router-dom'
 import '../../css/AdminDashboard.css'
 import LineChart from '../Charts/LineChart'
 import MajorTable from './MajorTable'
+import { HashLoader } from 'react-spinners'
+import Footer from '../Footer/Footer'
+
 
 
 function AdminDashboard() {
     const [majorData, setMajorData] = useState([])
+    const [majorLoading, setMajorLoading] = useState(true)
+
 
     const history = useHistory();
 
@@ -26,10 +31,10 @@ function AdminDashboard() {
         axios.get(API_ENDPOINT + '/manage/major')
         .then(response => {
             setMajorData(response.data);
+            setMajorLoading(false);
         })
         .catch(err => {
-            console.log('Error fetching majors');
-            console.log(err);
+            setMajorData(false);
         })
     }, [])
 
@@ -48,11 +53,13 @@ function AdminDashboard() {
                 </div>
                 <div className="major">
                     <p> Majors </p>
-                    <MajorTable majorData={majorData} />
+                    { majorLoading && <div className='major-loader'> <HashLoader size={100} color="blue" /> </div> }
+                    { !majorLoading && <MajorTable majorData={majorData} /> }
                     
                 </div>
-                <button id="logout" onClick={logout} > Logout </button>
             </div>
+
+            <Footer />
         </div>
     )
 }
