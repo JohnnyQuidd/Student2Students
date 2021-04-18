@@ -3,10 +3,8 @@ import axios from 'axios'
 import Modal from 'react-modal'
 import '../../css/SignUpModal.css'
 import { API_ENDPOINT as API }  from '../Constants/Endpoints'
-import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-toast.configure()
 function SignUpModal({isModalOpen, setIsModalOpen}) {
 
     const [username, setUsername] = useState('')
@@ -38,7 +36,6 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
     const cancelForm = (e) => {
         e.preventDefault();
         setIsModalOpen(false);
-        toast.success('Successfull registration', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000})
     }
 
     const submitData = (e) => {

@@ -1,6 +1,6 @@
 #university-section {
-    width: 95%;
-    margin: 1rem auto 45rem 1rem;
+    width: 100%;
+    margin: 1rem auto 45rem 0rem;
     text-align: center;
 }
 
@@ -11,7 +11,7 @@
 .form-group {
     width: 90%;
     text-align: left;
-    margin: 1rem 0.2rem;
+    margin: 1rem 0.5rem;
 }
 
 .uni-label {
@@ -74,6 +74,7 @@
     #university-form {
         margin: 3rem auto;
         display: flex;
+        flex-direction: row;
         justify-content: space-around;
     }
 
@@ -93,12 +94,13 @@
         font-size: 1.2rem;
     }
 
-    #btn-div {
+    /* #btn-div {
         padding-left: 60%;
-    }
+    } */
 
     #add-university {
-        margin: 1rem auto;
+        margin: 5rem auto 3rem auto;
+        font-size: 1.5rem;
     }
 
 }

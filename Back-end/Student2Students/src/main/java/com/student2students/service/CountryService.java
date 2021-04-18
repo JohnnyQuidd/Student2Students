@@ -6,10 +6,15 @@ import com.student2students.repository.CountryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class CountryService {
@@ -55,5 +60,12 @@ public class CountryService {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
+    }
+
+    public ResponseEntity fetchCountries(int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "country"));
+        List<Country> countries = countryRepository.findAll(pageable).getContent();
+
+        return ResponseEntity.ok(countries);
     }
 }
