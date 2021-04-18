@@ -39,6 +39,7 @@ public class ImageService {
     }
 
     public ResponseEntity<?> postAPhoto(String directoryPath, MultipartFile image, String name) {
+        logger.info(image.toString());
         StringBuilder imageName = new StringBuilder();
         String imageExtension = image.getOriginalFilename().split("\\.")[1];
         logger.info(imageExtension);

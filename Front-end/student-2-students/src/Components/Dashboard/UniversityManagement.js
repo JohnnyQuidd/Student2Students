@@ -27,19 +27,24 @@ function UniversityManagement() {
     }
 
     const fileSelectedHandler = event => {
-        
         setImage(event.target.files[0]);
     }
 
     const submitData = (event) => {
         event.preventDefault();
-        axios.post(API_ENDPOINT + '/image/image-service/university/' + universityName, {image: image}, {withCredentials: true, headers: { 'content-type': 'multipart/form-data' }})
-            .then(response => {
-                console.log(response);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        let body = new FormData();
+        body.append('image', image);
+
+        axios({
+            url: API_ENDPOINT + '/image/image-service/university/' + universityName,
+            method: "post",
+            data: body
+        }).then(response => {
+            console.log(`Image posted successfully!`);
+        }).catch(err => {
+            console.log('Error');
+        });
+        
     }
 
     return (
@@ -47,7 +52,7 @@ function UniversityManagement() {
             <Navbar />
             <div id="university-section">
                 <h1 id="title"> University management </h1>
-                <form id="university-form" encType="multipart/form-data" onSubmit={submitData} >
+                <form id="university-form" onSubmit={submitData} >
                     <div className="left-section">
                         <div className="form-group">
                             <label className="uni-label">University name</label>
