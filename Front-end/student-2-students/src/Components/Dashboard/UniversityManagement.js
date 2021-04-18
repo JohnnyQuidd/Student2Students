@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
 import '../../css/UniversityManagement.css'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
+import axios from 'axios'
+import { API_ENDPOINT } from '../Constants/Endpoints'
 
 
 function UniversityManagement() {
+
+    const [image, setImage] = useState({})
+    const [universityName, setUniversityName] = useState("")
 
     const animatedComponents = makeAnimated();
 
@@ -17,16 +22,38 @@ function UniversityManagement() {
         { value: "Germany", label: "Germany"}
     ]
 
+    const universityNameHandler = event => {
+        setUniversityName(event.target.value);
+    }
+
+    const fileSelectedHandler = event => {
+        
+        setImage(event.target.files[0]);
+    }
+
+    const submitData = (event) => {
+        event.preventDefault();
+        axios.post(API_ENDPOINT + '/image/image-service/university/' + universityName, {image: image}, {withCredentials: true, headers: { 'content-type': 'multipart/form-data' }})
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     return (
         <>
             <Navbar />
             <div id="university-section">
                 <h1 id="title"> University management </h1>
-                <div id="university-form">
+                <form id="university-form" encType="multipart/form-data" onSubmit={submitData} >
                     <div className="left-section">
                         <div className="form-group">
                             <label className="uni-label">University name</label>
-                            <input className="uni-input" type="text" id="universityName" placeholder="I.e. University of engineering" />
+                            <input className="uni-input" type="text"
+                            id="universityName" placeholder="I.e. University of engineering"
+                            onChange={universityNameHandler} />
                         </div>
                         <div className="form-group">
                             <label className="uni-label">University email</label>
@@ -64,12 +91,18 @@ function UniversityManagement() {
                             <label className="uni-label">Street number</label>
                             <input className="uni-input" type="text" id="streetNumber" placeholder="i.e. 2A" />
                         </div>
+
+                        <div className="form-group">
+                            <label className="uni-label">Choose an image</label>
+                            <input id="image-select" type="file" onChange={fileSelectedHandler} />
+                        </div>
+
                         <div id="btn-div">
-                            <button id="add-university"> Add university </button>
+                            <button id="add-university" type="submit"> Add university </button>
                         </div>
                     </div>
 
-                </div>
+                </form>
             </div>
             <Footer/>            
         </>

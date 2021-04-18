@@ -29,4 +29,5 @@ zuul:
       url: http://email-service-spring:8083/
     image-service:
       path: /image/**
-      url: http://image-service-spring:8084/
+      # url: http://image-service-spring:8084/
+      url: http://localhost:8084/

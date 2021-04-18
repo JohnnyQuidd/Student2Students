@@ -44,6 +44,13 @@
     text-shadow: 1px 1px rgb(253, 133, 133);
 }
 
+#image-select {
+    border: none;
+    padding-left: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 0rem;
+}
+
 
 @media (min-width: 700px) {
     #university-section {
