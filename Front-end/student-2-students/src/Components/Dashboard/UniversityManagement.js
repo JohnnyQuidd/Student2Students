@@ -6,11 +6,12 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
-
+import UniversityLogo from '../../images/university-logo.png'
 
 function UniversityManagement() {
 
     const [image, setImage] = useState({})
+    const [imgSrc, setImgSrc] = useState(UniversityLogo)
     const [universityName, setUniversityName] = useState("")
 
     const animatedComponents = makeAnimated();
@@ -28,6 +29,15 @@ function UniversityManagement() {
 
     const fileSelectedHandler = event => {
         setImage(event.target.files[0]);
+        
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = () => {
+            if(reader.readyState === 2) {
+                setImgSrc(reader.result);
+            }
+        }
     }
 
     const submitData = (event) => {
@@ -100,6 +110,10 @@ function UniversityManagement() {
                         <div className="form-group">
                             <label className="uni-label">Choose an image</label>
                             <input id="image-select" type="file" onChange={fileSelectedHandler} />
+                        </div>
+
+                        <div id="img-preview-div">
+                            <img id="img-preview" src={imgSrc} />
                         </div>
 
                         <div id="btn-div">

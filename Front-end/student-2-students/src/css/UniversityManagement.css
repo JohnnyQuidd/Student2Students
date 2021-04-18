@@ -51,6 +51,18 @@
     border-radius: 0rem;
 }
 
+#img-preview-div {
+    padding: 1rem;
+}
+
+#img-preview {
+    border: 5px solid green;
+    border-radius: 50%;
+    height: 15rem;
+    width: 15rem;
+    object-fit: cover;
+}
+
 
 @media (min-width: 700px) {
     #university-section {
