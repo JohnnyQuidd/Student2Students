@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
@@ -13,4 +14,5 @@ public interface MajorRepository extends JpaRepository<Major, Long> {
     Optional<Major> findByMajorName(String majorName);
     boolean existsByMajorName(String majorName);
     long deleteByMajorName(String majorName);
+    List<Major> findAllByOrderByMajorNameAsc();
 }

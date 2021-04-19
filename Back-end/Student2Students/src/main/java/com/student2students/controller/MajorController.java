@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/major")
 public class MajorController {
@@ -26,7 +25,7 @@ public class MajorController {
 
     @GetMapping
     public ResponseEntity<?> getMajors(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
-                                       @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "10") int limit) {
+                                       @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {
         //String uri = RestParameters.POSTING_SERVICE_URL + "/major";
         //MajorListDTO majorListDTO = restTemplate.getForObject(uri, MajorListDTO.class);
         return majorService.fetchMajors(page, limit);

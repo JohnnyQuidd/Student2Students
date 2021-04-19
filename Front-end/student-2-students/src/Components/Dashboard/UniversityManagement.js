@@ -7,6 +7,7 @@ import makeAnimated from 'react-select/animated';
 import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
 import UniversityLogo from '../../images/university-logo.png'
+import UniversitySVG from '../../images/university.svg'
 import { toast } from 'react-toastify'
 
 toast.configure()
@@ -59,39 +60,62 @@ function UniversityManagement() {
 
     const submitData = (event) => {
         event.preventDefault();
-        let body = new FormData();
-        body.append('image', image);
+        if(isDataValid()) {
+            let body = new FormData();
+            body.append('image', image);
 
-        axios({
-            url: API_ENDPOINT + '/image/image-service/university/' + universityName,
-            method: "post",
-            data: body
-        }).then(response => {
-            console.log(`Image posted successfully!`);
-            setImageStatus(true);
-        }).catch(err => {
-            setImageStatus(false);
-        });
+            axios({
+                url: API_ENDPOINT + '/image/image-service/university/' + universityName,
+                method: "post",
+                data: body
+            }).then(response => {
+                console.log(`Image posted successfully!`);
+                setImageStatus(true);
+            }).catch(err => {
+                setImageStatus(false);
+            });
 
-        const payload = {
-            universityName, universityEmail, country: selectedCountry, city, streetName: street, streetNumber
-        }
-        
-        axios({
-            url: API_ENDPOINT + '/manage/university',
-            method: 'post',
-            data: payload
-        }).then(response => {
-            setUniversityStatus(true);
-        }).catch(err => {
-            setUniversityStatus(false);
-        })
+            const payload = {
+                universityName, universityEmail, country: selectedCountry, city, streetName: street, streetNumber
+            }
+            
+            axios({
+                url: API_ENDPOINT + '/manage/university',
+                method: 'post',
+                data: payload
+            }).then(response => {
+                console.log('Univeristy posted successfully');
+                setUniversityStatus(true);
+            }).catch(err => {
+                setUniversityStatus(false);
+            })
 
-        if(imageStatus && universityStatus) {
-            toast.success('Successfull registration', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000});
+            if(imageStatus && universityStatus) {
+                toast.success('Successfull registration', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000});
+                resetForm();
+            } else {
+                toast.error('University name or email is already taken', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: false});
+            }
         } else {
-            toast.error('University name or email is already taken', {position: toast.POSITION.BOTTOM_RIGHT, autoClose: false});
+            toast.error('All fields have to be populated prior to submitting', { position: toast.POSITION.TOP_RIGHT, autoClose: false });
         }
+    }
+
+    const isDataValid = () => {
+        return universityName !== '' && universityEmail !== '' 
+                            && selectedCountry !== '' && city !== '' && street !== ''
+                            && streetNumber !== '' && !(image && Object.keys(image).length === 0 && image.constructor === Object);
+    }
+
+    const resetForm = () => {
+        setUniversityName("");
+        setUniversityEmail("");
+        setSelectedCoontry("");
+        setCity("");
+        setStreet("");
+        setStreetNumber("");
+        setImage({});
+        setImgSrc(UniversityLogo);
     }
 
     const universityNameHandler = event => {
@@ -157,6 +181,10 @@ function UniversityManagement() {
                                 />
                         </div>
 
+                        <div>
+                            <img className="university-svg" src={UniversitySVG} alt="univeristy-svg" />
+                        </div>
+
                     </div>
                     <div className="right-section">
                         <div className="form-group">
@@ -195,7 +223,7 @@ function UniversityManagement() {
                         </div>
 
                         <div id="img-preview-div">
-                            <img id="img-preview" src={imgSrc} />
+                            <img id="img-preview" src={imgSrc} alt="preview of chosen image" />
                         </div>
 
                         <div id="btn-div">

@@ -61,6 +61,11 @@ public class MajorService {
     }
 
     public ResponseEntity<?> fetchMajors(int page, int limit) {
+        if(page == 0 && limit == 0) {
+            List<Major> majors = majorRepository.findAllByOrderByMajorNameAsc();
+            return ResponseEntity.ok(makeDTOsFromMajor(majors));
+        }
+
         Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "majorName"));
         List<Major> majors = majorRepository.findAll(pageableElement).getContent();
 

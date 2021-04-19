@@ -12,8 +12,22 @@ function MajorTable({majorData}) {
         {
             Header: 'Major Name',
             accessor: 'majorName'
+        },
+        {
+            Header: 'Action',
+            accessor: 'action',
+            Cell: ({ cell }) => (
+                <button value={cell} onClick={handleDeleteMajor}>
+                  Delete
+                </button>
+            )
         }]
 
+    const handleDeleteMajor = (event) => {
+        let obj = event.target.value;
+        console.log(JSON.parse(JSON.stringify(obj)));
+        //console.log(event.target.value);
+    }
 
     // I'm just going to use Memo on columns, since it doesn't work when data is memoized
     // It can cause performance issues!
