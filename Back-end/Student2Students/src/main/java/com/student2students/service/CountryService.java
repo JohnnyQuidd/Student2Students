@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class CountryService {
@@ -62,10 +64,24 @@ public class CountryService {
         }
     }
 
-    public ResponseEntity fetchCountries(int page, int limit) {
+    public ResponseEntity<List<CountryDTO>> fetchCountries(int page, int limit) {
+        if(page == 0 && limit == 0) {
+            List<Country> countries = countryRepository.findAll();
+            return ResponseEntity.ok(makeDTOsFromCountryModel(countries));
+        }
+
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "country"));
         List<Country> countries = countryRepository.findAll(pageable).getContent();
 
-        return ResponseEntity.ok(countries);
+        return ResponseEntity.ok(makeDTOsFromCountryModel(countries));
+    }
+
+    private List<CountryDTO> makeDTOsFromCountryModel(List<Country> countries) {
+        return countries.stream()
+                .map(country -> CountryDTO.builder()
+                        .id(country.getId())
+                        .country(country.getCountry())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

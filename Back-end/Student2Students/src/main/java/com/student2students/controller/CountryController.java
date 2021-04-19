@@ -24,7 +24,7 @@ public class CountryController {
 
     @GetMapping
     public ResponseEntity fetchCountries(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
-                                         @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "10") int limit) {
+                                         @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {
         return countryService.fetchCountries(page, limit);
     }
 

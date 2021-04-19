@@ -3,7 +3,7 @@ import { useTable } from 'react-table'
 import '../../css/MajorTable.css'
 import {BsFillTrashFill} from 'react-icons/bs'; 
 
-function MajorTable({majorData, deleteMajor}) {
+function CountryTable({countryData, deleteCountry}) {
 
     const COLUMNS = [
         {
@@ -11,8 +11,8 @@ function MajorTable({majorData, deleteMajor}) {
             accessor: 'id'
         },
         {
-            Header: 'Major Name',
-            accessor: 'majorName'
+            Header: 'Country',
+            accessor: 'country'
         },
         {
             Header: "Delete",
@@ -21,10 +21,10 @@ function MajorTable({majorData, deleteMajor}) {
     
             Cell: (tableProps) => (
               <span
-                title={`Delete ${tableProps.row.original.majorName}`} 
+                title={`Delete ${tableProps.row.original.country}`} 
                 className="delete-major"
                 onClick={() => {
-                  deleteMajor(tableProps.row.original.majorName);
+                  deleteCountry(tableProps.row.original.country);
                 }}
               >
                 <BsFillTrashFill />
@@ -41,7 +41,7 @@ function MajorTable({majorData, deleteMajor}) {
 
     const table = useTable({
         columns: cols,
-        data: majorData
+        data: countryData
     })
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = table
@@ -88,4 +88,4 @@ function MajorTable({majorData, deleteMajor}) {
 
 }
 
-export default MajorTable
+export default CountryTable

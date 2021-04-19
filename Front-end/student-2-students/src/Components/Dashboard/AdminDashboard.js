@@ -164,28 +164,30 @@ function AdminDashboard() {
 
                 <div className="add-topic">
                     <h1 id="add-topic-headline"> Add a topic to corresponding major </h1>
-                    <div className="form-group">
-                            <label id="topic-label">Major</label>
-                            <Select
-                            closeMenuOnSelect={true}
-                            className="basic-single"
-                            classNamePrefix="select"
-                            isClearable={true}
-                            isSearchable={true}
-                            name="major"
-                            isMulti={false}
-                            options={majorDataSelection}
-                            onChange={majorDataHandler}
-                            /> 
-                            
-                    </div>
-                    <div id="topic-field">
-                        <label id="topic-label"> Topic name </label>
-                        <input id="input-topic"
-                            type="text"
-                            placeholder="I.e. Front end, Back end, React..."
-                            value={newTopicName}
-                            onChange={topicNameHandler} />
+                    <div id="topic-div">
+                        <div className="form-group">
+                                <label id="major-label">Major</label>
+                                <Select
+                                closeMenuOnSelect={true}
+                                className="basic-single"
+                                classNamePrefix="select"
+                                isClearable={true}
+                                isSearchable={true}
+                                name="major"
+                                isMulti={false}
+                                options={majorDataSelection}
+                                onChange={majorDataHandler}
+                                /> 
+                                
+                        </div>
+                        <div id="topic-field">
+                            <label id="topic-label"> Topic name </label>
+                            <input id="input-topic"
+                                type="text"
+                                placeholder="I.e. Front end, Back end, React..."
+                                value={newTopicName}
+                                onChange={topicNameHandler} />
+                        </div>
                     </div>
                     <button id="add-topic-button" onClick={submitTopic}> Add Topic </button>
                 </div>

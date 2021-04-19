@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CountryDTO {
+    private Long id;
     private String country;
 }
