@@ -9,8 +9,9 @@ import { toast } from 'react-toastify'
 
 toast.configure()
 function AdminCountry() {
-    const [countryData, setCountryData] = useState([{label: 1, value: 'Serbia'}, {label: 1, value: 'Serbia'}])
-    const [countriesLoading, setCountriesLoading] = useState(true)
+    const [countryData, setCountryData] = useState([{label: 1, value: 'Serbia'}, {label: 1, value: 'Serbia'}]);
+    const [countriesLoading, setCountriesLoading] = useState(true);
+    const [newCountry, setNewCountry] = useState("");
 
     useEffect(() => {
         fetchCountries();
@@ -47,7 +48,24 @@ function AdminCountry() {
         });
     }
 
+    const newCountryHandler = (event) => {
+        setNewCountry(event.target.value);
+    }
 
+    const submitCountry = () => {
+        axios({
+            url: API_ENDPOINT + '/manage/country',
+            method: 'POST',
+            data: { country: newCountry }
+        }).then(() => {
+            setNewCountry("");
+            fetchCountries();
+            toast.success(`${newCountry} posted successfully`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000 });
+        }).catch((err) => {
+            err.response.status === 403 ? toast.error(`${newCountry} is already supported`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false }) :
+            toast.error(`Service temporary unavailable`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+        })
+    }
 
     return (
         <>
@@ -57,6 +75,16 @@ function AdminCountry() {
             <div id="country-table">
 
                 { countriesLoading ? <div> <h1>Loading...</h1> </div> : <CountryTable countryData={countryData} deleteCountry={deleteCountry}/> }
+            </div>
+
+            <div id="posting-country">
+                <h2> Add new country </h2>
+                <label id="country-label">Country name</label>
+                <input id="country-input"
+                    type="text"
+                    value={newCountry}
+                    onChange={newCountryHandler} />
+                <button id="country-button" onClick={submitCountry}> Add country </button>
             </div>
           </div>
           <Footer />  
