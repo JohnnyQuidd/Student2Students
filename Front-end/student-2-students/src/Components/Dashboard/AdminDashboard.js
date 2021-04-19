@@ -9,13 +9,18 @@ import MajorTable from './MajorTable'
 import { HashLoader } from 'react-spinners'
 import Footer from '../Footer/Footer'
 import { toast } from 'react-toastify'
+import Select from 'react-select'
+
 
 
 toast.configure()
 function AdminDashboard() {
     const [majorData, setMajorData] = useState([]);
     const [majorLoading, setMajorLoading] = useState(true);
-    const [newMajorName, setNewMajorName] = useState("")
+    const [newMajorName, setNewMajorName] = useState("");
+    const [selectedMajor, setSelectedMajor] = useState("");
+    const [majorDataSelection, setMajorDataSelection] = useState([]);
+    const [newTopicName, setNewTopicName] = useState("")
 
 
     const history = useHistory();
@@ -31,18 +36,40 @@ function AdminDashboard() {
     
     useEffect(() => {     
         fetchMajors();
+        fetchMajorSelection();
     }, [])
 
     const fetchMajors = () => {
         axios.get(API_ENDPOINT + '/manage/major')
         .then(response => response.data)
         .then(response => {
-            setMajorData(response.map(major => { return {id: response.indexOf(major)+1, majorName: major.majorName} }));
-            setMajorLoading(false);
-        })
-        .catch(err => {
+            setMajorData(response.map(major => { 
+                return {
+                    id: response.indexOf(major)+1,
+                    majorName: major.majorName
+                } 
+            }));
+        }).catch(err => {
             setMajorData(false);
         })
+    }
+
+    const fetchMajorSelection = () => {
+        axios.get(API_ENDPOINT + '/manage/major')
+            .then(response => response.data)
+            .then(response => {
+                setMajorDataSelection(response.map(major => { 
+                    return {
+                        value: major.majorName,
+                        label: major.majorName
+                    } 
+                }));
+            }).then(() => {
+                setMajorLoading(false);
+            }).catch(err => {
+                console.log(err);
+                setMajorLoading(false);
+            })
     }
 
     const majorHandler = (event) => {
@@ -72,11 +99,42 @@ function AdminDashboard() {
         }).then(() => {
             toast.success(`${majorName} successfully deleted`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000 });
             fetchMajors();
+            fetchMajorSelection();
         }).catch(() => {
             toast.error(`Service temporary unavailable. \n${majorName} cannot be deleted`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
         })
     }
 
+    const majorDataHandler = (event) => {
+        setSelectedMajor(event.value);
+    }
+
+    const topicNameHandler = (event) => {
+        setNewTopicName(event.target.value);
+    }
+
+    const submitTopic = () => {
+        if(topicDataValid()) {
+            const payload = {topicName: newTopicName, majorName: selectedMajor};
+            axios({
+                url: API_ENDPOINT + '/manage/topic',
+                method: 'POST',
+                data: payload
+            }).then(() => {
+                toast.success(`${newTopicName} added to ${selectedMajor}`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000 });
+                setNewTopicName("");
+            }).catch((err) => {
+                console.log(err);
+                toast.error('Service temporary unavailable', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+            })
+        } else {
+            toast.error('Major and Topic name have to be specified', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+        }
+    }
+
+    const topicDataValid = () => {
+        return newTopicName !== '' && selectedMajor !== '';
+    }
 
     return (
         <div>
@@ -100,11 +158,40 @@ function AdminDashboard() {
                             placeholder="I.e. Statistics"
                             value={newMajorName}
                             onChange={majorHandler} />
-                        </div>
+                    </div>
                     <button id="add-major-button" onClick={submitMajor}> Add Major </button>
                 </div>
-            </div>
 
+                <div className="add-topic">
+                    <h1 id="add-topic-headline"> Add a topic to corresponding major </h1>
+                    <div className="form-group">
+                            <label id="topic-label">Major</label>
+                            <Select
+                            closeMenuOnSelect={true}
+                            className="basic-single"
+                            classNamePrefix="select"
+                            isClearable={true}
+                            isSearchable={true}
+                            name="major"
+                            isMulti={false}
+                            options={majorDataSelection}
+                            onChange={majorDataHandler}
+                            /> 
+                            
+                    </div>
+                    <div id="topic-field">
+                        <label id="topic-label"> Topic name </label>
+                        <input id="input-topic"
+                            type="text"
+                            placeholder="I.e. Front end, Back end, React..."
+                            value={newTopicName}
+                            onChange={topicNameHandler} />
+                    </div>
+                    <button id="add-topic-button" onClick={submitTopic}> Add Topic </button>
+                </div>
+
+            </div>
+            
             <Footer />
         </div>
     )

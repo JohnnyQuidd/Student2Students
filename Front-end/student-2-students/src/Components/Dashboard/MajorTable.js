@@ -21,6 +21,7 @@ function MajorTable({majorData, deleteMajor}) {
     
             Cell: (tableProps) => (
               <span
+                title={`Delete ${tableProps.row.original.majorName}`} 
                 className="delete-major"
                 onClick={() => {
                   deleteMajor(tableProps.row.original.majorName);

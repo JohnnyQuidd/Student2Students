@@ -2,7 +2,7 @@
 
 .content {
     margin-top: 2rem;
-    margin-bottom: 40rem;
+    margin-bottom: 60rem;
 }
 
 #title {
@@ -62,6 +62,42 @@
     font-weight: 700;
 }
 
+.add-field {
+    background-color: aqua;
+    margin: 1.5rem auto;
+}
+
+#topic-label {
+    font-size: 1rem;
+}
+
+#add-topic-headline {
+    font-size: 2rem;
+}
+
+#topic-field {
+    width: 95%;
+    margin: 1rem auto;
+}
+
+
+#input-topic {
+    width: 90%;
+    font-size: 1.1rem;
+}
+
+
+#add-topic-button {
+    margin: 1.5rem auto 1.5rem 30%;
+    width: 40%;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5rem;
+    padding: 0.3rem 0.5rem;
+    background-color: rgb(70, 250, 124);
+    color: white;
+    font-weight: 700;
+}
 
 @media(min-width: 700px) {
     #title {
