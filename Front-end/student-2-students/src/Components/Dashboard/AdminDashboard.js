@@ -64,6 +64,20 @@ function AdminDashboard() {
         })
     }
 
+    const deleteMajor = (majorName) => {
+        axios({
+            url: API_ENDPOINT + '/manage/major/' + majorName,
+            method: 'delete',
+            withCredentials: true
+        }).then(() => {
+            toast.success(`${majorName} successfully deleted`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 5000 });
+            fetchMajors();
+        }).catch(() => {
+            toast.error(`Service temporary unavailable. \n${majorName} cannot be deleted`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+        })
+    }
+
+
     return (
         <div>
             <Navbar />
@@ -75,7 +89,7 @@ function AdminDashboard() {
                 <div className="major">
                     <p> Majors </p>
                     { majorLoading && <div className='major-loader'> <HashLoader size={100} color="blue" /> </div> }
-                    { !majorLoading && <MajorTable majorData={majorData} /> }
+                    { !majorLoading && <MajorTable majorData={majorData} deleteMajor={deleteMajor}/> }
                 </div>
 
                 <div id="add-major">

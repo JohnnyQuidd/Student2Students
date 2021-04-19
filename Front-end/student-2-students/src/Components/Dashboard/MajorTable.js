@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import { useTable } from 'react-table'
 import '../../css/MajorTable.css'
+import {BsFillTrashFill} from 'react-icons/bs'; 
 
-function MajorTable({majorData}) {
+function MajorTable({majorData, deleteMajor}) {
 
     const COLUMNS = [
         {
@@ -14,20 +15,23 @@ function MajorTable({majorData}) {
             accessor: 'majorName'
         },
         {
-            Header: 'Action',
-            accessor: 'action',
-            Cell: ({ cell }) => (
-                <button value={cell} onClick={handleDeleteMajor}>
-                  Delete
-                </button>
+            Header: "Delete",
+            id: "delete",
+            accessor: (str) => "delete",
+    
+            Cell: (tableProps) => (
+              <span
+                className="delete-major"
+                onClick={() => {
+                  deleteMajor(tableProps.row.original.majorName);
+                }}
+              >
+                <BsFillTrashFill />
+              </span>
             )
-        }]
+          }]
 
-    const handleDeleteMajor = (event) => {
-        let obj = event.target.value;
-        console.log(JSON.parse(JSON.stringify(obj)));
-        //console.log(event.target.value);
-    }
+
 
     // I'm just going to use Memo on columns, since it doesn't work when data is memoized
     // It can cause performance issues!
@@ -40,6 +44,7 @@ function MajorTable({majorData}) {
     })
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = table
+
 
     return (
         <div className="table-div">

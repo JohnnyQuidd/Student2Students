@@ -22,6 +22,16 @@ th {
     text-align: center;
 }
 
+.delete-major {
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    background-color: rgb(250, 90, 90);
+    color: white;
+    font-weight: 700;
+    margin-left: 2rem;
+}
+
 @media(min-width: 700px) {
     .table-div {
         padding-left: 20%;
