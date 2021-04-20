@@ -3,12 +3,11 @@ package com.student2students.service;
 import com.student2students.dto.StudentDTO;
 import com.student2students.dto.StudentRegisterDTO;
 import com.student2students.model.*;
-import com.student2students.repository.CountryRepository;
-import com.student2students.repository.LanguageRepository;
-import com.student2students.repository.MajorRepository;
-import com.student2students.repository.StudentRepository;
+import com.student2students.registration.RegistrationToken;
+import com.student2students.repository.*;
 import com.student2students.security.ApplicationUserRole;
 import com.student2students.util.UniquenessCheck;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
@@ -34,28 +37,16 @@ public class StudentService implements UserDetailsService {
     private final MajorRepository majorRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
+    private final RegistrationTokenRepository tokenRepository;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
-    @Autowired
-    public StudentService(StudentRepository studentRepository,
-                          CountryRepository countryRepository,
-                          LanguageRepository languageRepository,
-                          MajorRepository majorRepository,
-                          PasswordEncoder passwordEncoder,
-                          UniquenessCheck uniquenessCheck) {
-        this.studentRepository = studentRepository;
-        this.countryRepository = countryRepository;
-        this.languageRepository = languageRepository;
-        this.majorRepository = majorRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.uniquenessCheck = uniquenessCheck;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return studentRepository.findByUsername(username);
     }
 
+    @Transactional
     public ResponseEntity<?> registerStudent(StudentRegisterDTO studentDAO) {
         if(!uniquenessCheck.isUsernameUnique(studentDAO.getUsername())) {
             return ResponseEntity.status(403).body("Username already exists");
@@ -65,12 +56,21 @@ public class StudentService implements UserDetailsService {
         }
 
         Student student = createStudentFromDTO(studentDAO);
-
+        RegistrationToken token = RegistrationToken.builder()
+                    .token(UUID.randomUUID().toString())
+                    .createdAt(LocalDateTime.now())
+                    .expiresAt(LocalDateTime.now().plusMinutes(15l))
+                    .username(student.getUsername())
+                    .confirmed(false)
+                    .build();
         try {
+            tokenRepository.save(token);
             studentRepository.save(student);
+            // TODO: Send an email
         } catch(Exception e) {
             logger.error("Couldn't persist student");
             e.printStackTrace();
+            return ResponseEntity.status(500).body("Couldn't persist student");
         }
 
         return ResponseEntity.status(201).body("Student registered");
@@ -104,7 +104,7 @@ public class StudentService implements UserDetailsService {
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)
-                .isEnabled(true)
+                .isEnabled(false)
                 .createdAt(LocalDate.now())
                 .biography(studentDTO.getBiography())
                 .major(major)
@@ -150,5 +150,34 @@ public class StudentService implements UserDetailsService {
                         .majorName(student.getMajor().getMajorName())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ResponseEntity<?> activateStudent(String token) {
+        if(!tokenRepository.existsByToken(token)) {
+            return ResponseEntity.status(404).body("Token not found!");
+        }
+
+        RegistrationToken registrationToken = tokenRepository.findToken(token)
+                .orElseThrow(() -> new IllegalStateException("Token has already been used"));
+
+        if(LocalDateTime.now().isAfter(registrationToken.getExpiresAt())) {
+            // TODO: Delete user that is persisted in database so he/she can register again
+            return ResponseEntity.status(403).body("Token expired");
+        }
+        Student student = studentRepository.findByUsername(registrationToken.getUsername());
+
+        try {
+            student.setEnabled(true);
+            studentRepository.save(student);
+            registrationToken.setConfirmed(true);
+            tokenRepository.save(registrationToken);
+        } catch (Exception e) {
+            logger.error("Couldn't persist student or token");
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

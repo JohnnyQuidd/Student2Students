@@ -6,10 +6,7 @@ import com.student2students.service.AdminService;
 import com.student2students.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/registration")
@@ -21,6 +18,11 @@ public class RegistrationController {
     public RegistrationController(StudentService studentService, AdminService adminService) {
         this.studentService = studentService;
         this.adminService = adminService;
+    }
+
+    @GetMapping
+    public ResponseEntity<?> activateStudent(@RequestParam("token") String token) {
+        return studentService.activateStudent(token);
     }
 
     @PostMapping("/student")
