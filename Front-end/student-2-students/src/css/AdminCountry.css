@@ -34,8 +34,76 @@
     padding: 0.2rem 0.3rem;
 }
 
+#add-language-headline {
+    margin: 5rem auto 2rem auto;
+}
+
+.language-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.language-label {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.language-input {
+    margin-bottom: 0.5rem;
+    width: 90%;
+    font-size: 1.1rem;
+    padding: 0.1rem 0.5rem;
+}
+
+#language-button {
+    margin: 1.5rem auto;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5rem;
+    padding: 0.3rem 1rem;
+    background-color: rgb(70, 250, 124);
+    color: white;
+    font-weight: 700;
+}
+
 @media(min-width: 700px) {
     .admin-main-section {
         width: 70%;
+    }
+
+    #posting-country {
+        width: 60%;
+        margin: 5rem auto;
+    }
+
+    #add-country-title {
+        margin: 2rem auto 1rem auto;
+    }
+
+    #country-input {
+        display: inline;
+    }
+
+    #country-button {
+        display: inline;
+    }
+
+    #country-button {
+        font-size: 1.2rem;
+        width: 15rem;
+        margin: 1.5rem auto;
+    }
+
+    #add-language {
+        width: 60%;
+        margin: 1rem auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    #language-button {
+        font-size: 1.2rem;
+        width: 15rem;
     }
 }

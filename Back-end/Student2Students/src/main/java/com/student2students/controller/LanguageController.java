@@ -19,7 +19,7 @@ public class LanguageController {
 
     @GetMapping
     public ResponseEntity getLanguages(@RequestParam(value = RestParameters.PAGE, required = false, defaultValue = "0") int page,
-                                       @RequestParam(value = RestParameters.LIMIT, required = false, defaultValue = "10") int limit) {
+                                       @RequestParam(value = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {
         return languageService.fetchLanguages(page, limit);
     }
 

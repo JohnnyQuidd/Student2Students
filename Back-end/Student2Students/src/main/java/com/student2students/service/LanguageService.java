@@ -63,6 +63,9 @@ public class LanguageService {
     }
 
     public ResponseEntity fetchLanguages(int page, int limit) {
+        if(page == 0 && limit == 0) {
+            return ResponseEntity.status(200).body(languageRepository.findAll());
+        }
         Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "languageName"));
         Page<Language> languagePage = languageRepository.findAll(pageableElement);
         List<Language> languages = languagePage.getContent();
