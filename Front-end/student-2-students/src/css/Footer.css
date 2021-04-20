@@ -14,8 +14,12 @@ html {
     color: white;
     text-align: center;
     overflow: hidden;
-    height: 25rem;
+    height: 30rem;
     z-index: 1;
+}
+
+#data-section {
+    margin: 1rem auto 1rem;
 }
 
 #company {
@@ -25,4 +29,64 @@ html {
 
 #rights {
     font-size: 2rem;
+}
+
+#address-heading {
+    margin-top: 2rem;
+    font-size: 1.7rem;
+}
+
+#contact-heading {
+    margin-top: 1rem;
+    font-size: 1.7rem;
+}
+
+.contact {
+    color: white;
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+#data-span {
+    margin-left: 1rem;
+}
+
+.icon {
+    display: none;
+}
+
+@media (min-width: 700px) {
+    #data-section {
+        margin-top: 3rem;
+        width: 60%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #address-heading {
+        margin: 1rem auto 2rem auto;
+        font-size: 2rem;
+    }
+
+    #contact-heading {
+        margin-top: 1rem auto 2rem auto;
+        font-size: 2rem;
+    }
+
+    #data-span {
+        display: none;
+    }
+    .address {
+        font-size: 1.2rem;
+    }
+
+    .icon {
+        display: inline-block;
+    }
+
+    .contact {
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
 }
