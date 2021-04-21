@@ -27,8 +27,6 @@ public class Address {
 
     @NotNull
     private String city;
-    @NotNull
     private String streetName;
-    @NotNull
     private String streetNumber;
 }

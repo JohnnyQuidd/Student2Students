@@ -26,14 +26,9 @@ public class Student implements UserDetails {
     @SequenceGenerator(name = SequenceConstants.STUDENT_SEQUENCE, sequenceName = SequenceConstants.STUDENT_SEQUENCE,allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.STUDENT_SEQUENCE)
     private Long id;
-
-    @NotNull
     private String firstName;
-
-    @NotNull
     private String lastName;
 
-    @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;

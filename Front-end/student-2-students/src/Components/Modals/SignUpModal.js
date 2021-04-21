@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Modal from 'react-modal'
 import '../../css/SignUpModal.css'
-import { API_ENDPOINT as API }  from '../Constants/Endpoints'
+import { API_ENDPOINT as API, API_ENDPOINT }  from '../Constants/Endpoints'
 import 'react-toastify/dist/ReactToastify.css'
+import Select from 'react-select'
+import { toast } from 'react-toastify'
 
+toast.configure()
 function SignUpModal({isModalOpen, setIsModalOpen}) {
 
     const [username, setUsername] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [countries, setCountries] = useState('')
     const [country, setCountry] = useState('')
     const [city, setCity] = useState('')
     const [email, setEmail] = useState('')
@@ -31,6 +35,19 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
         }
     }
 
+    useEffect(() => {
+        axios.get(API_ENDPOINT + '/manage/country')
+            .then(reponse => reponse.data)
+            .then(response => {
+                response.sort((a,b) => (a.country > b.country) ? 1 : ((b.country > a.country) ? -1 : 0));
+                setCountries(response.map(current => {
+                     return({ value: current.country, label: current.country })
+                }))
+            })
+            .catch(() => {
+                console.log('Error fetching countries');
+            })
+    }, [])
 
 
     const cancelForm = (e) => {
@@ -41,8 +58,10 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
     const submitData = (e) => {
         e.preventDefault();
         
-        if(password !== passwordConfirm) {
-            alert('Passwords have to be the same!')
+
+
+        if(!isDataValid()) {
+            toast.error(`All fields have to be populated!`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
             return;
         }
         
@@ -56,14 +75,24 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
             password: password
         }
 
-        axios.post(API + '/student', payload, { withCredentials: true })
+        axios.post(API_ENDPOINT + '/manage/registration/student', payload, { withCredentials: true })
             .then(response => {           
-                console.log('Successful signing');
+                toast.success('Successfull login', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
                 console.log(response);
             })
             .catch(err => {
-                console.log(`Error signing up: ${err}`);
+                console.log(err);
             })
+    }
+
+    const isDataValid = () => {
+        if(password !== passwordConfirm) {
+            toast.error(`Passwords are not matching!`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+            return false;
+        }
+
+        return username !== '' && password !== '' && firstName !== '' && lastName !== ''
+            && country !== '' && city !== '' && email !== '';
     }
 
     return (
@@ -92,9 +121,18 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
                         onChange={e => setLastName(e.target.value) } />
 
                     <label htmlFor="country"> Country </label>
-                    <input type="text" id="country"
-                        value={country}
-                        onChange={e => setCountry(e.target.value) } />
+                    <Select
+                                closeMenuOnSelect={true}
+                                className="basic-single"
+                                classNamePrefix="select"
+                                defaultValue={country}
+                                isClearable={true}
+                                isSearchable={true}
+                                name="country"
+                                isMulti={false}
+                                options={countries}
+                                onChange={e => setCountry(e.value)}
+                                />
                     
                     <label htmlFor="city"> City </label>
                     <input type="text" id="city"

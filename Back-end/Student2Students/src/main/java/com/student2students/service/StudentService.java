@@ -52,15 +52,15 @@ public class StudentService implements UserDetailsService {
     }
 
     @Transactional
-    public ResponseEntity<?> registerStudent(StudentRegisterDTO studentDAO) {
-        if(!uniquenessCheck.isUsernameUnique(studentDAO.getUsername())) {
+    public ResponseEntity<?> registerStudent(StudentRegisterDTO studentDTO) {
+        if(!uniquenessCheck.isUsernameUnique(studentDTO.getUsername())) {
             return ResponseEntity.status(403).body("Username already exists");
         }
-        if(!uniquenessCheck.isEmailUnique(studentDAO.getEmail())) {
+        if(!uniquenessCheck.isEmailUnique(studentDTO.getEmail())) {
             return ResponseEntity.status(403).body("Email already exists");
         }
 
-        Student student = createStudentFromDTO(studentDAO);
+        Student student = createStudentFromDTO(studentDTO);
         RegistrationToken token = RegistrationToken.builder()
                     .token(UUID.randomUUID().toString())
                     .createdAt(LocalDateTime.now())
@@ -79,9 +79,9 @@ public class StudentService implements UserDetailsService {
         Gson gson = new Gson();
         String emailGson = gson.toJson(emailDTO);
         try {
+            messagePublisher.sendEmailToTheQueue(emailGson);
             tokenRepository.save(token);
             studentRepository.save(student);
-            messagePublisher.sendEmailToTheQueue(emailGson);
         } catch(Exception e) {
             logger.error("Couldn't persist student");
             e.printStackTrace();
@@ -94,17 +94,11 @@ public class StudentService implements UserDetailsService {
     private Student createStudentFromDTO(StudentRegisterDTO studentDTO) {
         Country country = countryRepository.findByCountry(studentDTO.getCountry())
                                 .orElseThrow(() -> new IllegalStateException("Country not found!"));
-        Language language = languageRepository.findByLanguageName(studentDTO.getLanguage())
-                                .orElseThrow(() -> new IllegalStateException("Language not found!"));
 
         Address address = Address.builder()
                             .country(country)
                             .city(studentDTO.getCity())
-                            .streetName(studentDTO.getStreetName())
-                            .streetNumber(studentDTO.getStreetNumber())
                             .build();
-        Major major = majorRepository.findByMajorName(studentDTO.getMajorName())
-                .orElseThrow(() -> new IllegalStateException("Major cannot be found"));
 
 
         return Student.builder()
@@ -114,7 +108,6 @@ public class StudentService implements UserDetailsService {
                 .email(studentDTO.getEmail())
                 .username(studentDTO.getUsername())
                 .password(passwordEncoder.encode(studentDTO.getPassword()))
-                .language(language)
                 .userRole(ApplicationUserRole.STUDENT)
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
@@ -122,7 +115,6 @@ public class StudentService implements UserDetailsService {
                 .isEnabled(false)
                 .createdAt(LocalDate.now())
                 .biography(studentDTO.getBiography())
-                .major(major)
                 .build();
     }
 
