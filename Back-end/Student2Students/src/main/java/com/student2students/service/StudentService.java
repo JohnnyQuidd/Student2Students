@@ -1,7 +1,10 @@
 package com.student2students.service;
 
+import com.google.gson.Gson;
+import com.student2students.dto.EmailDTO;
 import com.student2students.dto.StudentDTO;
 import com.student2students.dto.StudentRegisterDTO;
+import com.student2students.message_broker.MessagePublisher;
 import com.student2students.model.*;
 import com.student2students.registration.RegistrationToken;
 import com.student2students.repository.*;
@@ -10,7 +13,6 @@ import com.student2students.util.UniquenessCheck;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,7 +40,10 @@ public class StudentService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
     private final RegistrationTokenRepository tokenRepository;
+    private final MessagePublisher messagePublisher;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
+    private final String HOST_ADDRESS = "http://localhost:8080";
 
 
     @Override
@@ -59,14 +64,24 @@ public class StudentService implements UserDetailsService {
         RegistrationToken token = RegistrationToken.builder()
                     .token(UUID.randomUUID().toString())
                     .createdAt(LocalDateTime.now())
-                    .expiresAt(LocalDateTime.now().plusMinutes(15l))
+                    .expiresAt(LocalDateTime.now().plusMinutes(15))
                     .username(student.getUsername())
                     .confirmed(false)
                     .build();
+        EmailDTO emailDTO = EmailDTO.builder()
+                .activationLink(HOST_ADDRESS + "/manage/registration?token=" + token.getToken())
+                .subject("Account activation")
+                .receiverEmail(student.getEmail())
+                .receiverFirstName(student.getFirstName())
+                .content("content")
+                .build();
+
+        Gson gson = new Gson();
+        String emailGson = gson.toJson(emailDTO);
         try {
             tokenRepository.save(token);
             studentRepository.save(student);
-            // TODO: Send an email
+            messagePublisher.sendEmailToTheQueue(emailGson);
         } catch(Exception e) {
             logger.error("Couldn't persist student");
             e.printStackTrace();
