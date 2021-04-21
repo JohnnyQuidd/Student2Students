@@ -23,10 +23,12 @@ zuul:
       url: http://localhost:8081/
     posting-service:
       path: /posting/**
-      url: http://posting-service-spring:8082/
+      # url: http://posting-service-spring:8082/
+      url: http://localhost:8082/
     email-service:
       path: /email/**
-      url: http://email-service-spring:8083/
+      #url: http://email-service-spring:8083/
+      url: http://localhost:8083/
     image-service:
       path: /image/**
       # url: http://image-service-spring:8084/

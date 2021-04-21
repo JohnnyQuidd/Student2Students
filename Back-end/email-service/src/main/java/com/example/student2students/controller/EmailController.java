@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/email")
 public class EmailController {
@@ -18,8 +17,8 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<?> sendAnEmail(@RequestBody EmailDTO emailDTO) {
-        return emailService.sendAnEmail(emailDTO);
+    public ResponseEntity<?> sendActivationEmail(@RequestBody EmailDTO emailDTO) {
+        return emailService.sendActivationEmail(emailDTO);
     }
 
 }

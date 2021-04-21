@@ -25,10 +25,12 @@ public class Email {
     @NotNull
     private String receiverEmail;
     @NotNull
-    private String content;
+    private String receiverFirstName;
     @NotNull
     private LocalDateTime dateTime;
     @NotNull
     @Enumerated(EnumType.STRING)
     private EmailStatus emailStatus;
+    private String activationLink;
+    private String content;
 }
