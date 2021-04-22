@@ -53,6 +53,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/login/**").permitAll()
+                .antMatchers("/manage/country").permitAll()
+                .antMatchers("/manage/data/**").permitAll()
                 .antMatchers("/authorization/**").hasAnyAuthority("STUDENT", "ADMIN")
                 .anyRequest().authenticated()
                 .and().cors()

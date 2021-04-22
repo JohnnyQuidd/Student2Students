@@ -3,7 +3,7 @@ import '../../css/Navbar.css'
 import { FRONT_END } from '../Constants/Endpoints';
 import Hamburger from './Hamburger'
 
-function Navbar() {
+function Navbar({role}) {
     
     const currentUrl = window.location.href
     console.log();
@@ -20,7 +20,7 @@ function Navbar() {
             {
                currentUrl !== FRONT_END &&
                 <>
-                    <Hamburger/>
+                    <Hamburger role={role} />
                 </>
             }
         </div>

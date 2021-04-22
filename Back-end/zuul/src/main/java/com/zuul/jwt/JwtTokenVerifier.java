@@ -20,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,12 +42,18 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         String token = "";
         Cookie[] cookies = request.getCookies();
         String url = request.getRequestURI();
-        boolean isRegistering = url.contains("/registration");
-        boolean isLogging = url.contains("/login");
+        String[] allowedPaths = {"/registration", "/login", "/manage/country"};
 
-        logger.info(url);
+        boolean isAllowedPath = false;
 
-        if(!isRegistering && !isLogging) {
+        for(String path: allowedPaths) {
+            if(url.contains(path)) {
+                isAllowedPath = true;
+                break;
+            }
+        }
+
+        if(!isAllowedPath) {
             try {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("jwt")) {
