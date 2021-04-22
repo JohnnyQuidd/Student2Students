@@ -48,7 +48,6 @@
 			<version>0.11.2</version>
 			<scope>runtime</scope>
 		</dependency>
-
 		<!-- End of	JWT dependencies -->
 
 		<!--	JPA	-->

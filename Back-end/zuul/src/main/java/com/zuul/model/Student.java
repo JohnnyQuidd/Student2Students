@@ -29,6 +29,9 @@ public class Student implements UserDetails {
     private String email;
 
     @NotNull
+    private String firstName;
+
+    @NotNull
     private String username;
 
     @NotNull

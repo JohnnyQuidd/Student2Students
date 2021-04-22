@@ -1,9 +1,12 @@
 package com.zuul.service;
 
 import com.google.gson.Gson;
+import com.zuul.dto.EmailDTO;
 import com.zuul.dto.StudentRegisterDTO;
 import com.zuul.model.Student;
+import com.zuul.registration.Token;
 import com.zuul.repository.StudentRepository;
+import com.zuul.repository.RegistrationTokenRepository;
 import com.zuul.security.ApplicationUserRole;
 import com.zuul.util.UniquenessCheck;
 import lombok.AllArgsConstructor;
@@ -27,8 +30,8 @@ public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
-    private final RegistrationTokenRepository tokenRepository;
-    private final MessagePublisher messagePublisher;
+    private final RegistrationTokenRepository registrationTokenRepository;
+    //private final MessagePublisher messagePublisher;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     private final String HOST_ADDRESS = "http://localhost:8080";
@@ -49,7 +52,7 @@ public class StudentService implements UserDetailsService {
         }
 
         Student student = createStudentFromDTO(studentDTO);
-        RegistrationToken token = RegistrationToken.builder()
+        Token token = Token.builder()
                 .token(UUID.randomUUID().toString())
                 .createdAt(LocalDateTime.now())
                 .expiresAt(LocalDateTime.now().plusMinutes(15))
@@ -67,8 +70,9 @@ public class StudentService implements UserDetailsService {
         Gson gson = new Gson();
         String emailGson = gson.toJson(emailDTO);
         try {
-            messagePublisher.sendEmailToTheQueue(emailGson);
-            tokenRepository.save(token);
+            // TODO: Send EmailDTO message to the Queue
+            // messagePublisher.sendEmailToTheQueue(emailGson);
+            registrationTokenRepository.save(token);
             studentRepository.save(student);
         } catch(Exception e) {
             logger.error("Couldn't persist student");
@@ -83,6 +87,7 @@ public class StudentService implements UserDetailsService {
 
         return Student.builder()
                 .email(studentDTO.getEmail())
+                .firstName(studentDTO.getFirstName())
                 .username(studentDTO.getUsername())
                 .password(passwordEncoder.encode(studentDTO.getPassword()))
                 .userRole(ApplicationUserRole.STUDENT)
@@ -97,11 +102,11 @@ public class StudentService implements UserDetailsService {
 
     @Transactional
     public ResponseEntity<?> activateStudent(String token) {
-        if(!tokenRepository.existsByToken(token)) {
+        if(!registrationTokenRepository.existsByToken(token)) {
             return ResponseEntity.status(404).body("Token not found!");
         }
 
-        RegistrationToken registrationToken = tokenRepository.findToken(token)
+        Token registrationToken = registrationTokenRepository.findToken(token)
                 .orElseThrow(() -> new IllegalStateException("Token has already been used"));
 
         if(LocalDateTime.now().isAfter(registrationToken.getExpiresAt())) {
@@ -114,7 +119,7 @@ public class StudentService implements UserDetailsService {
             student.setEnabled(true);
             studentRepository.save(student);
             registrationToken.setConfirmed(true);
-            tokenRepository.save(registrationToken);
+            registrationTokenRepository.save(registrationToken);
         } catch (Exception e) {
             logger.error("Couldn't persist student or token");
             e.printStackTrace();

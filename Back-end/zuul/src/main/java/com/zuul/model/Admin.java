@@ -1,7 +1,5 @@
 package com.zuul.model;
 
-import com.student2students.constants.SequenceConstants;
-import com.student2students.security.ApplicationUserRole;
 import com.sun.istack.NotNull;
 import com.zuul.constants.SequenceConstants;
 import com.zuul.security.ApplicationUserRole;

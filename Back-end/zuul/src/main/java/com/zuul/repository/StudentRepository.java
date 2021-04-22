@@ -13,7 +13,4 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Student findByUsername(String username);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
-    Page<Student> findByAddress_Country_Country(String countryName, Pageable pageable);
-    Page<Student> findByMajor_MajorName(String majorName, Pageable pageable);
-    Page<Student> findByLanguage_LanguageName(String language, Pageable pageable);
 }
