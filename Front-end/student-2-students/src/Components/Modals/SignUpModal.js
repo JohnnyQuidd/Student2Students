@@ -35,19 +35,19 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
         }
     }
 
-    useEffect(() => {
-        axios.get(API_ENDPOINT + '/manage/country')
-            .then(reponse => reponse.data)
-            .then(response => {
-                response.sort((a,b) => (a.country > b.country) ? 1 : ((b.country > a.country) ? -1 : 0));
-                setCountries(response.map(current => {
-                     return({ value: current.country, label: current.country })
-                }))
-            })
-            .catch(() => {
-                console.log('Error fetching countries');
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(API_ENDPOINT + '/manage/country')
+    //         .then(reponse => reponse.data)
+    //         .then(response => {
+    //             response.sort((a,b) => (a.country > b.country) ? 1 : ((b.country > a.country) ? -1 : 0));
+    //             setCountries(response.map(current => {
+    //                  return({ value: current.country, label: current.country })
+    //             }))
+    //         })
+    //         .catch(() => {
+    //             console.log('Error fetching countries');
+    //         })
+    // }, [])
 
 
     const cancelForm = (e) => {

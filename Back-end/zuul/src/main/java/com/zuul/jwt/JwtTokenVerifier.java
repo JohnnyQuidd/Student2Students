@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class JwtTokenVerifier extends OncePerRequestFilter {
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
+    private final Logger logger = LoggerFactory.getLogger(JwtTokenVerifier.class);
 
     @Autowired
     public JwtTokenVerifier(SecretKey secretKey, JwtConfig jwtConfig) {
@@ -39,21 +42,11 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         String url = request.getRequestURI();
         boolean isRegistering = url.contains("/registration");
-        boolean isConsole = url.contains("/h2-console");
-        boolean isFavicon = url.contains("/favicon.ico");
-        boolean isCountry = url.contains("/country");
-        boolean isAddress = url.contains("/address");
-        boolean isMajor = url.contains("/major");
-        boolean isTopic = url.contains("/topic");
-        boolean isLanguage = url.contains("/language");
-        boolean isAdmin = url.contains("/admin");
-        boolean isUniversity = url.contains("/university");
-        boolean isStudent = url.contains("/student");
+        boolean isLogging = url.contains("/login");
 
+        logger.info(url);
 
-        if(!isRegistering && !isConsole && !isFavicon && !isCountry
-                && !isAddress && !isMajor && !isTopic && !isLanguage && !isAdmin && !isUniversity
-                && !isStudent) {
+        if(!isRegistering && !isLogging) {
             try {
                 for(Cookie cookie : cookies) {
                     if(cookie.getName().equals("jwt")) {

@@ -41,11 +41,11 @@ function LoginModal({isModalOpen, setIsModalOpen, setLoading}) {
                 username: username,
                 password: paassword
             }
-            axios.post(API_ENDPOINT + '/manage/login', payload, { withCredentials: true })
+            axios.post(API_ENDPOINT + '/login', payload, { withCredentials: true })
                 .then(response => {
                     setLoading(false);
                     const ROLE = response.headers.authorization;
-                    console.log(response);
+                    console.log(ROLE);
                     switch(ROLE) {
                         case 'STUDENT' : history.push('/home');
                             break;

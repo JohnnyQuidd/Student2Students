@@ -84,7 +84,6 @@ public class StudentService implements UserDetailsService {
     }
 
     private Student createStudentFromDTO(StudentRegisterDTO studentDTO) {
-
         return Student.builder()
                 .email(studentDTO.getEmail())
                 .firstName(studentDTO.getFirstName())
