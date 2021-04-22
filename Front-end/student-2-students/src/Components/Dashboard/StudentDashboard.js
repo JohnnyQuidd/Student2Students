@@ -22,7 +22,7 @@ function StudentDashboard() {
     // }, [history])
 
     const fetchData = () => {
-        axios.get(API_ENDPOINT + '/student/data', { withCredentials: true })
+        axios.get(API_ENDPOINT + '/manage/student/data/SkinnyPete', { withCredentials: true })
             .then(response => {
                 console.log(response);
             })

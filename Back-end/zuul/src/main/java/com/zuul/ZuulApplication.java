@@ -1,9 +1,10 @@
-package com.example.zuul;
+package com.zuul;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -19,6 +20,8 @@ public class ZuulApplication {
 		config.addAllowedOrigin("http://localhost:3000");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
+		config.addExposedHeader(HttpHeaders.AUTHORIZATION);
+		config.addExposedHeader(HttpHeaders.SET_COOKIE);
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
 	}

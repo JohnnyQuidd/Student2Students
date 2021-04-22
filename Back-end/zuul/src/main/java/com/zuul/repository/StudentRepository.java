@@ -1,6 +1,6 @@
-package com.student2students.repository;
+package com.zuul.repository;
 
-import com.student2students.model.Student;
+import com.zuul.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

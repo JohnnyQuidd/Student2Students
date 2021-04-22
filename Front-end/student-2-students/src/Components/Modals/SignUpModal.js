@@ -55,6 +55,12 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
         setIsModalOpen(false);
     }
 
+    const selectCountryHandler = (event) => {
+        if(event !== null) {
+            setCountry(event.target);
+        }
+    }
+
     const submitData = (e) => {
         e.preventDefault();
         
@@ -131,7 +137,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
                                 name="country"
                                 isMulti={false}
                                 options={countries}
-                                onChange={e => setCountry(e.value)}
+                                onChange={selectCountryHandler}
                                 />
                     
                     <label htmlFor="city"> City </label>
