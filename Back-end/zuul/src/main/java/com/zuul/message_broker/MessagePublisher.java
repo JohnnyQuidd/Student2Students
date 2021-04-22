@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MessagePublisher {
-    public static final String TOPIC_EXCHANGE_NAME = "student-event-exchange";
     private RabbitTemplate rabbitTemplate;
+
+    private final String EMAIL_EXCHANGE_NAME = "student-update-exchange";
+    private final String STUDENT_EXCHANGE_NAME = "student-event-exchange";
     private Logger logger = LoggerFactory.getLogger(MessagePublisher.class);
 
     @Autowired
@@ -17,8 +19,13 @@ public class MessagePublisher {
         this.rabbitTemplate = template;
     }
 
-    public void sendEmailToTheQueue(String studentRegisterDTO) {
-        rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, "student.update.data", studentRegisterDTO);
+    public void sendEmailToTheQueue(String emailDTO) {
+        rabbitTemplate.convertAndSend(EMAIL_EXCHANGE_NAME, "student.update.data", emailDTO);
         logger.info("Message has been sent to queue!");
+    }
+
+    public void sendStudentToManageService(String studentRegisterDTO) {
+        rabbitTemplate.convertAndSend(STUDENT_EXCHANGE_NAME, "student.event.data", studentRegisterDTO);
+        logger.info("Sending studentDTO");
     }
 }

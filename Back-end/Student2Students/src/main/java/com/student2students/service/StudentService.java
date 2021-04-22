@@ -1,13 +1,12 @@
 package com.student2students.service;
 
-import com.google.gson.Gson;
-import com.student2students.dto.EmailDTO;
 import com.student2students.dto.StudentDTO;
 import com.student2students.dto.StudentRegisterDTO;
-import com.student2students.message_broker.MessagePublisher;
-import com.student2students.model.*;
-import com.student2students.registration.RegistrationToken;
-import com.student2students.repository.*;
+import com.student2students.model.Address;
+import com.student2students.model.Country;
+import com.student2students.model.Student;
+import com.student2students.repository.CountryRepository;
+import com.student2students.repository.StudentRepository;
 import com.student2students.security.ApplicationUserRole;
 import com.student2students.util.UniquenessCheck;
 import lombok.AllArgsConstructor;
@@ -25,9 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -35,12 +32,8 @@ import java.util.stream.Collectors;
 public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final CountryRepository countryRepository;
-    private final LanguageRepository languageRepository;
-    private final MajorRepository majorRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
-    private final RegistrationTokenRepository tokenRepository;
-    private final MessagePublisher messagePublisher;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     private final String HOST_ADDRESS = "http://localhost:8080";
@@ -61,26 +54,8 @@ public class StudentService implements UserDetailsService {
         }
 
         Student student = createStudentFromDTO(studentDTO);
-        RegistrationToken token = RegistrationToken.builder()
-                    .token(UUID.randomUUID().toString())
-                    .createdAt(LocalDateTime.now())
-                    .expiresAt(LocalDateTime.now().plusMinutes(15))
-                    .username(student.getUsername())
-                    .confirmed(false)
-                    .build();
-        EmailDTO emailDTO = EmailDTO.builder()
-                .activationLink(HOST_ADDRESS + "/manage/registration?token=" + token.getToken())
-                .subject("Account activation")
-                .receiverEmail(student.getEmail())
-                .receiverFirstName(student.getFirstName())
-                .content("content")
-                .build();
 
-        Gson gson = new Gson();
-        String emailGson = gson.toJson(emailDTO);
         try {
-            messagePublisher.sendEmailToTheQueue(emailGson);
-            tokenRepository.save(token);
             studentRepository.save(student);
         } catch(Exception e) {
             logger.error("Couldn't persist student");
@@ -112,7 +87,7 @@ public class StudentService implements UserDetailsService {
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)
-                .isEnabled(false)
+                .isEnabled(true)
                 .createdAt(LocalDate.now())
                 .biography(studentDTO.getBiography())
                 .build();
@@ -159,32 +134,4 @@ public class StudentService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public ResponseEntity<?> activateStudent(String token) {
-        if(!tokenRepository.existsByToken(token)) {
-            return ResponseEntity.status(404).body("Token not found!");
-        }
-
-        RegistrationToken registrationToken = tokenRepository.findToken(token)
-                .orElseThrow(() -> new IllegalStateException("Token has already been used"));
-
-        if(LocalDateTime.now().isAfter(registrationToken.getExpiresAt())) {
-            // TODO: Delete user that is persisted in database so he/she can register again
-            return ResponseEntity.status(403).body("Token expired");
-        }
-        Student student = studentRepository.findByUsername(registrationToken.getUsername());
-
-        try {
-            student.setEnabled(true);
-            studentRepository.save(student);
-            registrationToken.setConfirmed(true);
-            tokenRepository.save(registrationToken);
-        } catch (Exception e) {
-            logger.error("Couldn't persist student or token");
-            e.printStackTrace();
-            return ResponseEntity.status(500).build();
-        }
-
-        return ResponseEntity.ok().build();
-    }
 }

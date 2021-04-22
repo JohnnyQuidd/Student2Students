@@ -3,6 +3,7 @@ package com.zuul.service;
 import com.google.gson.Gson;
 import com.zuul.dto.EmailDTO;
 import com.zuul.dto.StudentRegisterDTO;
+import com.zuul.message_broker.MessagePublisher;
 import com.zuul.model.Student;
 import com.zuul.registration.Token;
 import com.zuul.repository.StudentRepository;
@@ -31,10 +32,8 @@ public class StudentService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
     private final RegistrationTokenRepository registrationTokenRepository;
-    //private final MessagePublisher messagePublisher;
+    private final MessagePublisher messagePublisher;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
-
-    private final String HOST_ADDRESS = "http://localhost:8080";
 
 
     @Override
@@ -59,8 +58,11 @@ public class StudentService implements UserDetailsService {
                 .username(student.getUsername())
                 .confirmed(false)
                 .build();
+
+        String HOST_ADDRESS = "http://localhost:8080";
+
         EmailDTO emailDTO = EmailDTO.builder()
-                .activationLink(HOST_ADDRESS + "/manage/registration?token=" + token.getToken())
+                .activationLink(HOST_ADDRESS + "/registration?token=" + token.getToken())
                 .subject("Account activation")
                 .receiverEmail(student.getEmail())
                 .receiverFirstName(student.getFirstName())
@@ -69,9 +71,11 @@ public class StudentService implements UserDetailsService {
 
         Gson gson = new Gson();
         String emailGson = gson.toJson(emailDTO);
+        String studentGson = gson.toJson(studentDTO);
+
         try {
-            // TODO: Send EmailDTO message to the Queue
-            // messagePublisher.sendEmailToTheQueue(emailGson);
+            messagePublisher.sendEmailToTheQueue(emailGson);
+            messagePublisher.sendStudentToManageService(studentGson);
             registrationTokenRepository.save(token);
             studentRepository.save(student);
         } catch(Exception e) {

@@ -1,14 +1,24 @@
 package com.student2students.message_broker;
 
+import com.google.gson.Gson;
+import com.student2students.dto.StudentRegisterDTO;
+import com.student2students.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.nio.charset.StandardCharsets;
 
 @Component
 public class MessageListener {
-    public void listenForMessages(byte[] bytes){
-        String event = new String(bytes, StandardCharsets.UTF_8);
+    private final StudentService studentService;
 
-        //TODO: Perform an action when data is received through queue
+    @Autowired
+    public MessageListener(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    public void listenForMessages(String studentGson){
+        Gson gson = new Gson();
+        StudentRegisterDTO studentRegisterDTO = gson.fromJson(studentGson, StudentRegisterDTO.class);
+
+        studentService.registerStudent(studentRegisterDTO);
     }
 }
