@@ -55,6 +55,12 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
         setIsModalOpen(false);
     }
 
+    const selectCountryHandler = (event) => {
+        if(event !== null) {
+            setCountry(event.target);
+        }
+    }
+
     const submitData = (e) => {
         e.preventDefault();
         
@@ -75,9 +81,9 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
             password: password
         }
 
-        axios.post(API_ENDPOINT + '/manage/registration/student', payload, { withCredentials: true })
+        axios.post(API_ENDPOINT + '/registration/student', payload, { withCredentials: true })
             .then(response => {           
-                toast.success('Successfull login', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
+                toast.success('Successfull registration', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
                 console.log(response);
             })
             .catch(err => {
@@ -131,7 +137,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
                                 name="country"
                                 isMulti={false}
                                 options={countries}
-                                onChange={e => setCountry(e.value)}
+                                onChange={selectCountryHandler}
                                 />
                     
                     <label htmlFor="city"> City </label>

@@ -1,0 +1,44 @@
+#profile-panel {
+    width: 95%;
+    margin: 1rem auto 60rem auto;
+}
+
+#image-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#profile-image {
+    border: 5px solid rgb(0, 80, 24);
+    border-radius: 50%;
+    height: 15rem;
+    width: 15rem;
+    object-fit: cover;
+}
+
+#update-photo{
+    margin-top: 1.5rem;
+    padding: 0.3rem 0.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1rem;
+    width: max-content;
+    background-color: royalblue;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#data-panel {
+    margin-top: 2rem;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+#info {
+    font-size: 0.9rem;
+}

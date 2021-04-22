@@ -1,7 +1,7 @@
-package com.student2students.registration;
+package com.zuul.registration;
 
-import com.student2students.constants.SequenceConstants;
 import com.sun.istack.NotNull;
+import com.zuul.constants.SequenceConstants;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegistrationToken {
+public class Token {
     @Id
     @SequenceGenerator(name = SequenceConstants.REGISTRATION_TOKEN, sequenceName = SequenceConstants.REGISTRATION_TOKEN, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SequenceConstants.REGISTRATION_TOKEN)

@@ -1,3 +1,5 @@
-.main-panel {
-    margin-bottom: 40rem;
+#student-main-panel {
+    width: 95%;
+    margin: 1rem auto 60rem auto;
+    text-align: center;
 }

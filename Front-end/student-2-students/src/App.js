@@ -6,6 +6,7 @@ import NotFound from './Components/Error/NotFound';
 import AdminDashboard from './Components/Dashboard/AdminDashboard';
 import UniversityManagement from './Components/Dashboard/UniversityManagement';
 import AdminCountry from './Components/Dashboard/AdminCountry';
+import StudentProfile from './Components/Dashboard/StudentProfile';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Welcome} />
           <Route path="/home" component={StudentDashboard} />
+          <Route path="/profile" exact component={StudentProfile} />
           <Route path="/admin" exact component={AdminDashboard} />
           <Route path="/admin/university" component={UniversityManagement} />
           <Route path="/admin/country" component={AdminCountry} />

@@ -10,19 +10,19 @@ import '../../css/StudentDashboard.css'
 function StudentDashboard() {
     const history = useHistory();
 
-    // useEffect(() => {
-    //     axios.get(API_ENDPOINT + '/authorization/student', { withCredentials: true })
-    //         .then(response => {
-    //             console.log('student-role');
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //             history.push('/');
-    //         })
-    // }, [history])
+    useEffect(() => {
+        axios.get(API_ENDPOINT + '/authorization/student', { withCredentials: true })
+            .then(response => {
+                console.log('student-role');
+            })
+            .catch(err => {
+                console.log(err);
+                history.push('/');
+            })
+    }, [history])
 
     const fetchData = () => {
-        axios.get(API_ENDPOINT + '/student/data', { withCredentials: true })
+        axios.get(API_ENDPOINT + '/manage/student/data/SkinnyPete', { withCredentials: true })
             .then(response => {
                 console.log(response);
             })
@@ -35,8 +35,8 @@ function StudentDashboard() {
 
     return (
         <div>
-            <Navbar />
-            <div className="main-panel">
+            <Navbar role={"STUDENT"}/>
+            <div id="student-main-panel">
                 <h1> Student Dashboard </h1>
                 <button onClick={fetchData} > Fetch data </button>
             </div>

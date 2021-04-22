@@ -1,8 +1,6 @@
-package com.student2students.service;
+package com.example.student2students.imageservice.util;
 
-import com.student2students.jwt.JwtSecretKey;
-import com.student2students.model.Student;
-import com.student2students.repository.StudentRepository;
+import com.example.student2students.imageservice.jwt.JwtSecretKey;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,17 +9,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
-public class StudentRequestService {
+public class Authorization {
     private final JwtSecretKey secretKey;
-    private final StudentRepository studentRepository;
 
     @Autowired
-    public StudentRequestService(JwtSecretKey secretKey, StudentRepository studentRepository) {
+    public Authorization(JwtSecretKey secretKey) {
         this.secretKey = secretKey;
-        this.studentRepository = studentRepository;
     }
 
-    public Student getStudentFromRequest(HttpServletRequest request) {
+    public String getStudentFromRequest(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String token = "";
         for(Cookie currentCookie : cookies) {
@@ -29,11 +25,16 @@ public class StudentRequestService {
                 token = currentCookie.getValue();
         }
 
-
         String username = Jwts.parser().setSigningKey(secretKey.getSecretKey())
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-        return studentRepository.findByUsername(username);
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+
+        if(username == null ||  username.equals("")) {
+            throw new IllegalStateException("");
+
+        }
+
+        return username;
     }
 }

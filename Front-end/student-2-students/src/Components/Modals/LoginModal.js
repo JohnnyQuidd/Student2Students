@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Modal from 'react-modal'
 import '../../css/LoginModal.css'
-import { API_ENDPOINT as API }  from '../Constants/Endpoints'
+import { API_ENDPOINT }  from '../Constants/Endpoints'
 import { useHistory } from "react-router-dom";
+import { toast } from 'react-toastify'
 
 
-
+toast.configure()
 function LoginModal({isModalOpen, setIsModalOpen, setLoading}) {
     const [username, setUsername] = useState('');
     const [paassword, setPaassword] = useState('');
@@ -40,10 +41,11 @@ function LoginModal({isModalOpen, setIsModalOpen, setLoading}) {
                 username: username,
                 password: paassword
             }
-            axios.post(API + '/login', payload, { withCredentials: true })
+            axios.post(API_ENDPOINT + '/login', payload, { withCredentials: true })
                 .then(response => {
                     setLoading(false);
                     const ROLE = response.headers.authorization;
+                    console.log(ROLE);
                     switch(ROLE) {
                         case 'STUDENT' : history.push('/home');
                             break;
@@ -52,9 +54,9 @@ function LoginModal({isModalOpen, setIsModalOpen, setLoading}) {
                         default: console.log('Couldn\'t extract Role');
                     }
                 })
-                .catch(err => {
+                .catch(() => {
                     setLoading(false);
-                    console.log(`Error logging in: ${err}`);
+                    toast.error(`Invalid credentials`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
                 })
         }, 2500)
     }

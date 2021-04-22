@@ -127,7 +127,9 @@ function UniversityManagement() {
     }
 
     const selectedCountryHandler = event => {
-        setSelectedCoontry(event.value);
+        if(event !== null) {
+            setSelectedCoontry(event.value);
+        }
     }
 
     const cityHandler = event => {

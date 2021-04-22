@@ -41,6 +41,13 @@
 			<version>0.11.2</version>
 			<scope>runtime</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.2</version>
+			<scope>runtime</scope>
+		</dependency>
 		<!-- End of	JWT dependencies -->
 
 		<!--	JPA	-->

@@ -1,13 +1,14 @@
-package com.student2students.registration;
+package com.zuul.controller;
 
-import com.student2students.dto.AdminRegisterDTO;
-import com.student2students.dto.StudentRegisterDTO;
-import com.student2students.service.AdminService;
-import com.student2students.service.StudentService;
+import com.zuul.dto.AdminRegisterDTO;
+import com.zuul.dto.StudentRegisterDTO;
+import com.zuul.service.AdminService;
+import com.zuul.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/registration")
 public class RegistrationController {

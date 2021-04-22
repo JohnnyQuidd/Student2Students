@@ -1,25 +1,26 @@
 package com.example.student2students.imageservice.controller;
 
 import com.example.student2students.imageservice.service.ImageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.student2students.imageservice.util.Authorization;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/image-service")
 public class ImageController {
-    private ImageService imageService;
+    private final ImageService imageService;
+    private final Authorization authorization;
 
-    @Autowired
-    public ImageController(ImageService imageService) {
-        this.imageService = imageService;
-    }
 
-    @PostMapping("/profile-image/{username}")
+    @PostMapping("/profile-image")
     public ResponseEntity<?> postAProfilePhoto(@RequestParam("image") MultipartFile image,
-                                               @PathVariable("username") String username) {
-
+                                               HttpServletRequest request) {
+        String username = authorization.getStudentFromRequest(request);
         return imageService.postAProfilePhoto(image, username);
     }
 
