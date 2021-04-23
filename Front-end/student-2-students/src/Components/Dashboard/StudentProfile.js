@@ -104,11 +104,31 @@ function StudentProfile() {
     })
   }, [])
 
-  // Fetch user data
+  // Fetch username
   useEffect(() => {
     axios({
-      url: API_ENDPOINT + '/manage/'
+      url: API_ENDPOINT + '/authorization/username',
+      method: 'GET',
+      withCredentials: true
+    }).then(response => {
+      setUsername(response.data);
+    }).catch(err => {
+      console.log(err);
     });
+  }, [])
+
+  // Fetching student's data
+  useEffect(() => {
+    username !== '' && axios({
+      url: API_ENDPOINT + '/manage/student/data/' + username,
+      method: 'GET',
+      withCredentials: true
+    }).then(response => response.data)
+      .then(response => {
+        console.log(response);
+      }).catch(err => {
+        console.log(err);
+      });
   }, [])
 
   const fileSelectedHandler = event => {
@@ -194,7 +214,7 @@ const sendImage = () => {
                   }
                 </div>
                 <div>
-                  <h3 id="username"> SkinnyPete </h3>
+                  <h3 id="username-display"> {username} </h3>
                   <div id="date-section">
                     <label id="member-label"> Member since </label>
                     <p id="member-since"> 23/04/2021 </p>
@@ -207,64 +227,67 @@ const sendImage = () => {
                 </div>
                 <h1 id="update-title"> Update personal data </h1>
                 <div id="data-form">
-                    <div className="form-group">
-                      <label> Email </label>
-                      <input type="email"
-                        id="email-input"
-                        disabled value={email} />
+                    <div className="left-data-panel">
+                      <div className="form-group">
+                        <label> Email </label>
+                        <input type="email"
+                          id="email-input"
+                          disabled value={email} />
+                      </div>
+
+                      <div className="form-group">
+                        <label> First name </label>
+                        <input type="text"
+                          value={firstName}
+                          onChange={e => setFirstName(e.target.value) } />
+                      </div>
+
+                      <div className="form-group">
+                        <label> Last name </label>
+                        <input type="text"
+                          value={lastName}
+                          onChange={e => setLastName(e.target.value)} />
+                      </div>
+
+                      <div className="form-group">
+                        <label> Country </label>
+                        <Select
+                          closeMenuOnSelect={true}
+                          className="basic-single"
+                          classNamePrefix="select"
+                          defaultValue={country}
+                          isClearable={true}
+                          isSearchable={true}
+                          name="country"
+                          isMulti={false}
+                          options={countrySelection}
+                          onChange={selectedCountryHandler}
+                          />
+                      </div>
+
+                      <div className="form-group">
+                        <label> City </label>
+                        <input type="text"
+                          value={city}
+                          onChange={e => setCity(e.target.value)} />
+                      </div>
+
+                      <div className="form-group">
+                        <label> Street name </label>
+                        <input type="text"
+                          value={streetName}
+                          onChange={e => setStreetName(e.target.value)} />
+                      </div>
+
+                      <div className="form-group">
+                        <label> Street number </label>
+                        <input type="text"
+                          value={streetNumber}
+                          onChange={e => setStreetNumber(e.target.value)} />
+                      </div>
                     </div>
 
-                    <div className="form-group">
-                      <label> First name </label>
-                      <input type="text"
-                        value={firstName}
-                        onChange={e => setFirstName(e.target.value) } />
-                    </div>
-
-                    <div className="form-group">
-                      <label> Last name </label>
-                      <input type="text"
-                        value={lastName}
-                        onChange={e => setLastName(e.target.value)} />
-                    </div>
-
-                    <div className="form-group">
-                      <label> Country </label>
-                      <Select
-                        closeMenuOnSelect={true}
-                        className="basic-single"
-                        classNamePrefix="select"
-                        defaultValue={country}
-                        isClearable={true}
-                        isSearchable={true}
-                        name="country"
-                        isMulti={false}
-                        options={countrySelection}
-                        onChange={selectedCountryHandler}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                      <label> City </label>
-                      <input type="text"
-                        value={city}
-                        onChange={e => setCity(e.target.value)} />
-                    </div>
-
-                    <div className="form-group">
-                      <label> Street name </label>
-                      <input type="text"
-                        value={streetName}
-                        onChange={e => setStreetName(e.target.value)} />
-                    </div>
-
-                    <div className="form-group">
-                      <label> Street number </label>
-                      <input type="text"
-                        value={streetNumber}
-                        onChange={e => setStreetNumber(e.target.value)} />
-                    </div>
-
+                    <div className="right-data-panel">
                     <div className="form-group">
                       <label> Language </label>
                       <Select
@@ -310,6 +333,7 @@ const sendImage = () => {
                     </div>
 
                     <button id="submit" onClick={submitData}> Submit changes </button>
+                    </div>
                 </div>
             </div>
           </div>

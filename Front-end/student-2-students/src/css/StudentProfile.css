@@ -8,7 +8,7 @@
     justify-content: space-around;
 }
 
-#username {
+#username-display {
     font-size: 1.5rem;
     padding: 0.2rem 1rem;
     background-color: rgba(27, 30, 31, 0.9);
@@ -118,4 +118,66 @@
     border-radius: 5rem;
     font-size: 0.8rem;
     font-weight: 700;
+}
+
+@media (min-width: 700px) {
+
+    #data-panel {
+        width: 100%;
+    }
+
+    #first-section {
+        width: 70%;
+        margin: 5rem auto 0 auto;
+    }
+
+    #hr-div {
+        width: 70%;
+        margin: 5rem auto;
+    }
+
+    #data-form{
+        margin: 0 auto;
+        width: 70%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .form-group{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+    }
+
+    label {
+        font-size: 1rem;
+    }
+
+    input {
+        font-size: 1rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    #emoji-button {
+        background-color: rgb(231, 231, 73);
+        padding: 0.3rem 0.5rem;
+        border: none;
+        border-radius: 5rem;
+        font-size: 1rem;
+        font-weight: 700;
+        width: max-content;
+        margin-top: 1rem;
+    }
+
+    #submit {
+        width: max-content;
+        padding: 0.5rem 1rem;
+        font-size: 1.3rem;
+        margin: 3rem 1rem auto 0;
+        background-color: royalblue;
+        border: none;
+        color: white;
+        font-weight: 700;
+        border-radius: 5rem;
+    }
 }
