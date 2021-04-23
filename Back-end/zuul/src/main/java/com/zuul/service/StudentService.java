@@ -6,11 +6,10 @@ import com.zuul.dto.StudentRegisterDTO;
 import com.zuul.message_broker.MessagePublisher;
 import com.zuul.model.Student;
 import com.zuul.registration.Token;
-import com.zuul.repository.StudentRepository;
 import com.zuul.repository.RegistrationTokenRepository;
+import com.zuul.repository.StudentRepository;
 import com.zuul.security.ApplicationUserRole;
 import com.zuul.util.UniquenessCheck;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Service
 public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
@@ -36,6 +34,18 @@ public class StudentService implements UserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
 
+    public StudentService(StudentRepository studentRepository,
+                          PasswordEncoder passwordEncoder,
+                          UniquenessCheck uniquenessCheck,
+                          RegistrationTokenRepository registrationTokenRepository,
+                          MessagePublisher messagePublisher) {
+        this.studentRepository = studentRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.uniquenessCheck = uniquenessCheck;
+        this.registrationTokenRepository = registrationTokenRepository;
+        this.messagePublisher = messagePublisher;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return studentRepository.findByUsername(username);
@@ -43,12 +53,17 @@ public class StudentService implements UserDetailsService {
 
     @Transactional
     public ResponseEntity<?> registerStudent(StudentRegisterDTO studentDTO) {
+        logger.info("Checking student");
         if(!uniquenessCheck.isUsernameUnique(studentDTO.getUsername())) {
+            logger.info("Username already exists");
             return ResponseEntity.status(403).body("Username already exists");
         }
         if(!uniquenessCheck.isEmailUnique(studentDTO.getEmail())) {
+            logger.info("Email already exists");
             return ResponseEntity.status(403).body("Email already exists");
         }
+
+        logger.info("Saving student");
 
         Student student = createStudentFromDTO(studentDTO);
         Token token = Token.builder()

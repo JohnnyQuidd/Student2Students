@@ -87,7 +87,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
                 console.log(response);
             })
             .catch(err => {
-                console.log(err);
+                toast.error(`Service temporary unavailable!`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
             })
     }
 

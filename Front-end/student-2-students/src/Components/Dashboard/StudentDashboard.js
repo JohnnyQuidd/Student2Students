@@ -21,8 +21,8 @@ function StudentDashboard() {
             })
     }, [history])
 
-    const fetchData = () => {
-        axios.get(API_ENDPOINT + '/manage/student/data/SkinnyPete', { withCredentials: true })
+    const testCredentials = () => {
+        axios.get(API_ENDPOINT + '/manage/data/SkinnyPete', { withCredentials: true })
             .then(response => {
                 console.log(response);
             })
@@ -38,7 +38,7 @@ function StudentDashboard() {
             <Navbar role={"STUDENT"}/>
             <div id="student-main-panel">
                 <h1> Student Dashboard </h1>
-                <button onClick={fetchData} > Fetch data </button>
+                <button onClick={testCredentials} > Test credentials </button>
             </div>
             <Footer />
         </div>

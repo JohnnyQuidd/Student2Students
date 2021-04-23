@@ -16,6 +16,7 @@ ribbon:
   ReadTimeout: 10000
 
 zuul:
+  sensitiveHeaders:
   routes:
     student-service:
       path: /manage/**
