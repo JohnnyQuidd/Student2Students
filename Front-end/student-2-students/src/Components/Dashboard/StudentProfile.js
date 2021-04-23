@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
 import DefaultPhoto from '../../images/profile.svg'
@@ -17,6 +17,18 @@ function StudentProfile() {
   const handleClick = event => {
     hiddenFileInput.current.click();
   }
+
+  useEffect(() => {
+    axios({
+      url: API_ENDPOINT + '/image/image-service/profile-image',
+      method: 'GET',
+      withCredentials: true
+    }).then(response => {
+      setImgSrc(response.data);
+    }).catch(err => {
+      console.log(err);
+    });
+  }, []);
 
   const fileSelectedHandler = event => {
     if(event.target !== null) {

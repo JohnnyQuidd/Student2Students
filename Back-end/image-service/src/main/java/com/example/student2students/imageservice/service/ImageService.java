@@ -42,7 +42,8 @@ public class ImageService {
         logger.info(image.toString());
         StringBuilder imageName = new StringBuilder();
         String imageExtension = image.getOriginalFilename().split("\\.")[1];
-        logger.info(imageExtension);
+
+        deletePreviousImageIfExists(directoryPath, name);
         Path path = Paths.get(directoryPath, name + "." +imageExtension);
         imageName.append(image.getOriginalFilename());
 
@@ -57,6 +58,19 @@ public class ImageService {
 
 
         return new ResponseEntity<>("Image successfully saved", HttpStatus.CREATED);
+    }
+
+    private void deletePreviousImageIfExists(String directoryPath, String newImageName) {
+        String[] extensions = {".png", ".jpg", ".jpeg", ".bmp"};
+
+        for(String extension : extensions) {
+            File tmpDir = new File(directoryPath + "/" + newImageName + extension);
+            logger.info("Checking: " + tmpDir.getAbsolutePath());
+            if(tmpDir.exists()){
+                tmpDir.delete();
+            }
+        }
+
     }
 
     public ResponseEntity<?> getStudentProfilePhoto(String username) {

@@ -31,7 +31,13 @@ public class ImageController {
     }
 
     @GetMapping("/profile-image/{username}")
-    public ResponseEntity<?> getAProfilePhoto(@PathVariable("username") String username) {
+    public ResponseEntity<?> getProfilePhoto(@RequestParam("username") String username) {
+        return imageService.getStudentProfilePhoto(username);
+    }
+
+    @GetMapping("/profile-image")
+    public ResponseEntity<?> getStudentProfilePhoto(HttpServletRequest request) {
+        String username = authorization.getStudentFromRequest(request);
         return imageService.getStudentProfilePhoto(username);
     }
 
