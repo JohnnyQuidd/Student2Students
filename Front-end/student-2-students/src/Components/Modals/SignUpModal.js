@@ -57,7 +57,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
 
     const selectCountryHandler = (event) => {
         if(event !== null) {
-            setCountry(event.target);
+            setCountry(event.value);
         }
     }
 
@@ -88,7 +88,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
             })
             .catch(err => {
                 toast.error(`Service temporary unavailable!`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
-            })
+            });
     }
 
     const isDataValid = () => {
