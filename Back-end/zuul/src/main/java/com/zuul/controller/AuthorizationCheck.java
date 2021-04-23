@@ -26,6 +26,13 @@ public class AuthorizationCheck {
         this.authorization = authorization;
     }
 
+    @GetMapping("/username")
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<String> getUsernameOfLoggedInUser(HttpServletRequest request) {
+        String username = authorization.getStudentFromRequest(request);
+        return ResponseEntity.ok(username);
+    }
+
     @GetMapping("/admin")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity checkForAdmin() {

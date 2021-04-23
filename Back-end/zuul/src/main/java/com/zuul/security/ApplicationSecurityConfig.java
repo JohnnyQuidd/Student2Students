@@ -54,6 +54,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/manage/country").permitAll()
+                .antMatchers("/manage/language").permitAll()
+                .antMatchers("/manage/major").permitAll()
                 .antMatchers("/manage/data/**").permitAll()
                 .antMatchers("/authorization/**").hasAnyAuthority("STUDENT", "ADMIN")
                 .anyRequest().authenticated()
