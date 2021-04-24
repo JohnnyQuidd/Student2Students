@@ -1,7 +1,8 @@
 import React from 'react'
 import '../../css/Navbar.css'
 import { FRONT_END } from '../Constants/Endpoints';
-import Hamburger from './Hamburger'
+import Hamburger from './Hamburger';
+import LOGO from '../../images/logo.png';
 
 function Navbar({role}) {
     
@@ -11,11 +12,7 @@ function Navbar({role}) {
     return (
         <div className="container">
             <div id="heading">
-                <a id="heading-href" href="/">
-                    <h1 className="brand" id="student">Student</h1>
-                    <h1 className="brand" id="to" >2</h1>
-                    <h1 className="brand" id="studens">Students</h1>
-                </a>
+                <a id="link" href="/"> <img id="logo" src={LOGO} alt="logo" /> </a>
             </div>
             {
                currentUrl !== FRONT_END &&

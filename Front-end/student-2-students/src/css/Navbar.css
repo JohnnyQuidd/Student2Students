@@ -25,38 +25,21 @@
     text-align: center;
 }
 
-#heading-href {
+#link {
     text-decoration: none;
-    color: #eee;
+    color: white;
 }
 
-#profile {
-    margin-right: 1rem;
-}
-
-.brand{
-    font-size: 1.2rem;
-    margin: 0;
-    margin: -0.2em;
-}
-
-#student {
-    margin-top: 1rem;
+#logo {
+    margin-top: 1.5rem;
+    height: 3rem;
+    width: 5rem;
 }
 
 
 
 @media (min-width: 700px) {
-    .nav-bar {
-        height: 6rem;
-    }
-
     #heading {
         margin: 0 auto auto 2rem;
-    }
-
-    .brand {
-        font-size: 1.2rem;
-        font-weight: 600;
     }
 }
