@@ -7,13 +7,15 @@ import AdminDashboard from './Components/Dashboard/AdminDashboard';
 import UniversityManagement from './Components/Dashboard/UniversityManagement';
 import AdminCountry from './Components/Dashboard/AdminCountry';
 import StudentProfile from './Components/Dashboard/StudentProfile';
+import HomePage from './Components/Home/HomePage';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/" exact component={Welcome} />
+          <Route path="/" exact component={HomePage} />
+          <Route path="/login" exact component={Welcome} />
           <Route path="/home" component={StudentDashboard} />
           <Route path="/profile" exact component={StudentProfile} />
           <Route path="/admin" exact component={AdminDashboard} />

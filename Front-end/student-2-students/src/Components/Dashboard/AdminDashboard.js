@@ -30,7 +30,7 @@ function AdminDashboard() {
     //     axios.get(API_ENDPOINT + '/authorization/admin', { withCredentials: true })
     //         .catch(err => {
     //             console.log(err);
-    //             history.push('/');
+    //             history.push('/login');
     //         })
     // }, [history])
     

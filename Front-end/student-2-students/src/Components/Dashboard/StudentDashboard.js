@@ -17,7 +17,7 @@ function StudentDashboard() {
             })
             .catch(err => {
                 console.log(err);
-                history.push('/');
+                history.push('/login');
             })
     }, [history])
 
