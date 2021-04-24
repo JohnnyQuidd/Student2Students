@@ -2,20 +2,36 @@ import React, { useState, useEffect } from 'react'
 import '../../css/Post.css'
 
 function Post({post}) {
+    const [buttonDetails, setButtonDetails] = useState("");
     const [buttonText, setButtonText] = useState("Show details");
     const [detailsState, setDetailsState] = useState("post-header hide");
+    const [topicState, setTopicState] = useState("topic-section hide");
 
     useEffect(() => {
         detailsState === 'post-header' ? setButtonText('Hide details') : setButtonText('Show details');
     }, [detailsState]);
 
+    useEffect(() => {
+        if(window.innerWidth > 700) {
+            console.log(window.innerWidth);
+            setButtonDetails("post-details hide");
+            setDetailsState("post-header");
+            setTopicState("topic-section");
+        } else {
+            setButtonDetails("post-details");
+            setDetailsState("post-header hide");
+            setTopicState("topic-section hide");
+        }
+    }, [window])
+
     const toggleDetailsState = () => {
         detailsState === 'post-header' ? setDetailsState('post-header hide') : setDetailsState('post-header');
+        topicState === 'topic-section' ? setTopicState('topic-section hide') : setTopicState('topic-section');
     }
 
     return (
         <div className="post">
-            <button className="post-details" onClick={toggleDetailsState}> {buttonText} </button>
+            <button className={buttonDetails} onClick={toggleDetailsState}> {buttonText} </button>
             <div className={detailsState}>
                 <div className="post-major">
                     <a href="#"> Computer Science </a>
@@ -27,9 +43,20 @@ function Post({post}) {
                     <p className="date-paragraph"> 04/04/2021 </p>
                 </div>
             </div>
+            <div className={topicState}>
+                <div className="topic-wrapper">
+                    <ul className="topic-list">
+                        <li>Spring</li>
+                        <li>Java</li>
+                        <li>Hibernate</li>
+                        <li>MySQL</li>
+                        <li>H2</li>
+                    </ul>
+                </div>
+            </div>
             <div className="post-body-section">
                 <div className="post-title">
-                    <h2 className="post-title-h2"> Configuring Spring Boot </h2>
+                    <h3 className="post-title-h2"> Configuring Spring Boot </h3>
                 </div>
                 <div className="post-body">
                     <p className="post-body-paragraph"> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.

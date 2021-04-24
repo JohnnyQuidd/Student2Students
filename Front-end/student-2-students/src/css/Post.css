@@ -15,9 +15,30 @@
     margin: 0 0 0 auto;
 }
 
-.hide {
-    display: none;
+.topic-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
+
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+li {
+    margin: 0.2rem auto 0 0;
+    width: max-content;
+    font-style: italic;
+    list-style: none;
+    margin-left: 1rem;
+    background-color: gray;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5rem;
+    font-weight: 700;
+    color: white;
+}
+
 
 .post-header {
     font-size: 0.9rem;
@@ -62,4 +83,75 @@
 .current-rate {
     font-size: 0.9rem;
     font-style: italic;
+}
+
+.hide {
+    display: none;
+}
+
+@media (min-width: 700px) {
+    .post {
+        padding: 1rem 3rem;
+    }
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 2rem;
+    }
+
+    .post-title {
+        font-size: 1.5rem;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .post-body {
+        font-size: 1.1rem;
+        line-height: 2rem;
+    }
+
+    .post-footer {
+        margin-top: 3rem;
+    }
+
+    .comment-button {
+        color: royalblue;
+        background-color: white;
+        border-radius: 5rem;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    
+    .rate-button {
+        color: royalblue;
+        background-color: white;
+        border-radius: 5rem;
+        cursor: pointer;
+    }
+
+
+    .topic-wrapper {
+        margin: 0;
+        width: max-content;
+        display: flex;
+        align-items: center;
+    }
+
+
+    ul {
+        display: flex;
+        padding: 0;
+    }
+
+    li {
+        font-style: italic;
+        list-style: none;
+        margin-left: 1rem;
+        background-color: gray;
+        padding: 0.3rem 0.5rem;
+        border-radius: 5rem;
+        font-weight: 700;
+        color: white;
+    }
 }

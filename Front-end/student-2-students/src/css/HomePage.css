@@ -2,3 +2,10 @@
     width: 95%;
     margin: 3rem auto 60rem auto;
 }
+
+@media(min-width: 700px) {
+    .homepage-main-section {
+        width: 60%;
+        margin: 3rem auto 60rem auto;
+    }
+}
