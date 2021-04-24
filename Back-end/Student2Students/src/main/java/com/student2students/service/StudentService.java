@@ -2,10 +2,10 @@ package com.student2students.service;
 
 import com.student2students.dto.StudentDTO;
 import com.student2students.dto.StudentRegisterDTO;
-import com.student2students.model.Address;
-import com.student2students.model.Country;
-import com.student2students.model.Student;
+import com.student2students.model.*;
 import com.student2students.repository.CountryRepository;
+import com.student2students.repository.LanguageRepository;
+import com.student2students.repository.MajorRepository;
 import com.student2students.repository.StudentRepository;
 import com.student2students.security.ApplicationUserRole;
 import com.student2students.util.UniquenessCheck;
@@ -34,6 +34,8 @@ public class StudentService implements UserDetailsService {
     private final CountryRepository countryRepository;
     private final PasswordEncoder passwordEncoder;
     private final UniquenessCheck uniquenessCheck;
+    private final MajorRepository majorRepository;
+    private final LanguageRepository languageRepository;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     private final String HOST_ADDRESS = "http://localhost:8080";
@@ -134,4 +136,82 @@ public class StudentService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
+    public ResponseEntity<?> createDTOFromStudentModel(Student student) {
+        StudentRegisterDTO studentRegisterDTO = StudentRegisterDTO.builder()
+                .email(student.getEmail())
+                .username(student.getUsername())
+                .firstName(student.getFirstName())
+                .lastName(student.getLastName())
+                .country(student.getAddress().getCountry().getCountry())
+                .city(student.getAddress().getCity())
+                .biography(student.getBiography())
+                .streetName(student.getAddress().getStreetName())
+                .streetNumber(student.getAddress().getStreetNumber())
+                .build();
+
+        if(student.getMajor() != null) {
+            studentRegisterDTO.setMajorName(student.getMajor().getMajorName());
+        }
+
+        if(student.getLanguage() != null) {
+            studentRegisterDTO.setLanguage(student.getLanguage().getLanguageName());
+        }
+
+        return ResponseEntity.ok(studentRegisterDTO);
+    }
+
+    // TODO: Implement proper data validation
+    public ResponseEntity<?> updateStudent(StudentRegisterDTO dto) {
+        Student student = studentRepository.findByUsername(dto.getUsername());
+        Address address = student.getAddress();
+        Country country = student.getAddress().getCountry();
+
+        if(!dto.getFirstName().equals(student.getFirstName()) && !dto.getFirstName().equals(""))
+            student.setFirstName(dto.getFirstName());
+
+        if(!dto.getLastName().equals(student.getLastName()) && !dto.getLastName().equals(""))
+            student.setLastName(dto.getLastName());
+
+        //if(!address.getCity().equals(dto.getCity()) && !dto.getCity().equals("")){
+            address.setCity(dto.getCity());
+        //}
+
+        //if(!address.getStreetName().equals(dto.getStreetName()) && !dto.getStreetName().equals("")){
+            address.setStreetName(dto.getStreetName());
+        //}
+
+        //if(!address.getStreetNumber().equals(dto.getStreetNumber()) && !dto.getStreetNumber().equals("")){
+            address.setStreetNumber(dto.getStreetNumber());
+        //}
+
+        //if(!dto.getCountry().equals(country.getCountry()) && !dto.getCountry().equals("")){
+            Country newCountry = countryRepository.findByCountry(dto.getCountry())
+                    .orElseThrow(() -> new IllegalStateException("Invalid country"));
+            student.getAddress().setCountry(newCountry);
+        //}
+
+        //if(!student.getBiography().equals(dto.getBiography())) {
+            student.setBiography(dto.getBiography());
+        //}
+
+        Major major = majorRepository.findByMajorName(dto.getMajorName())
+                .orElseThrow(() -> new IllegalStateException("Invalid major name"));
+
+        student.setMajor(major);
+
+        Language language = languageRepository.findByLanguageCode(dto.getLanguage())
+                .orElseThrow(() -> new IllegalStateException("Invalid language"));
+
+        student.setLanguage(language);
+
+        try {
+            studentRepository.save(student);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.info("Unable to update student");
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+
+    }
 }

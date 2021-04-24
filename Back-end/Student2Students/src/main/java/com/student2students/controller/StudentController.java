@@ -25,8 +25,13 @@ public class StudentController {
 
 
     @PostMapping
-    public ResponseEntity<?> createNewStudent(@RequestBody StudentRegisterDTO studentDAO) {
-        return studentService.registerStudent(studentDAO);
+    public ResponseEntity<?> createNewStudent(@RequestBody StudentRegisterDTO studentDTO) {
+        return studentService.registerStudent(studentDTO);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateStudent(@RequestBody StudentRegisterDTO studentDTO) {
+        return studentService.updateStudent(studentDTO);
     }
 
     @GetMapping("/data/{username}")
@@ -35,7 +40,7 @@ public class StudentController {
         if(!student.getUsername().equals(username))
             return ResponseEntity.status(403).body("Permission denied");
 
-        return ResponseEntity.ok(student);
+        return studentService.createDTOFromStudentModel(student);
     }
 
     @GetMapping("/country/{countryName}")

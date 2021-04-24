@@ -124,12 +124,21 @@ function StudentProfile() {
       method: 'GET',
       withCredentials: true
     }).then(response => response.data)
-      .then(response => {
-        console.log(response);
+      .then(data => {
+        setEmail(data.email);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setCountry(data.country);
+        setCity(data.city);
+        data.streetName && setStreetName(data.streetName);
+        data.streetNumber && setStreetNumber(data.streetNumber);
+        data.language && setLanguage(data.language);
+        data.majorName && setMajor(data.majorName);
+        data.biography && setBiography(data.biography);
       }).catch(err => {
         console.log(err);
       });
-  }, [])
+  }, [username])
 
   const fileSelectedHandler = event => {
     if(event.target !== null) {
@@ -193,9 +202,30 @@ const sendImage = () => {
   }
 
   const submitData = () => {
-    console.log(languageSelection);
+      if(isDataValid()) {
+        let payload = {
+          username, email, firstName, lastName, country, city, streetName, streetNumber, language, majorName: major, biography
+        };
+        
+        axios({
+          url: API_ENDPOINT + '/manage/student',
+          method: 'PUT',
+          withCredentials: true,
+          data: payload
+        }).then(() => {
+          toast.success(`Updated profile!`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
+        }).catch(() => {
+          toast.error(`Service temporary unavailable`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+        });
+      } else {
+        toast.error(`All fields have to be populated`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+      }
   }
 
+  const isDataValid = () => {
+    return email !== '' && firstName !== '' && lastName !== '' && country !== '' && city !== ''
+        && streetName !== '' && streetNumber !== '' && language !== '' && major !== '' && biography !== '';
+  } 
 
   return (
       <>
