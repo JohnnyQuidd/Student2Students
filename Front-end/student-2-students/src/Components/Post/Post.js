@@ -13,7 +13,6 @@ function Post({post}) {
 
     useEffect(() => {
         if(window.innerWidth > 700) {
-            console.log(window.innerWidth);
             setButtonDetails("post-details hide");
             setDetailsState("post-header");
             setTopicState("topic-section");

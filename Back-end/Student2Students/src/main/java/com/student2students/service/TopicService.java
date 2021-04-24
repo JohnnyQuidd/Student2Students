@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
@@ -72,9 +74,23 @@ public class TopicService {
     }
 
     public ResponseEntity<?> fetchTopics(int page, int limit) {
+        List<TopicDTO> topicDTOList = new ArrayList<>();
+        if(page == 0 && limit == 0) {
+            topicDTOList = makeDTOFromTopic(topicRepository.findAll());
+            return ResponseEntity.ok(topicDTOList);
+        }
         Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "topicName"));
         List<Topic> topics = topicRepository.findAll(pageableElement).getContent();
+        topicDTOList = makeDTOFromTopic(topics);
 
-        return ResponseEntity.ok(topics);
+        return ResponseEntity.ok(topicDTOList);
+    }
+
+    private List<TopicDTO> makeDTOFromTopic(List<Topic> topicList) {
+        return  topicList.stream()
+                .map(topic -> TopicDTO.builder()
+                        .topicName(topic.getTopicName())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
