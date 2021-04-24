@@ -36,30 +36,53 @@ function HomePage() {
     }, []);
 
     useEffect(() => {
-        axios({
-            url: API_ENDPOINT + '/manage/topic',
-            method: 'GET'
-        }).then(response => response.data)
-            .then(response => response.map(data => {
-                {
-                    return ({
-                        label: data.topicName,
-                        value: data.topicName
-                    })
-                }
-            }))
-            .then((data) => {
-                setTopics(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }, []);
+        if(selectedMajor === '') {
+            axios({
+                url: API_ENDPOINT + '/manage/topic',
+                method: 'GET'
+            }).then(response => response.data)
+                .then(response => response.map(data => {
+                    {
+                        return ({
+                            label: data.topicName,
+                            value: data.topicName
+                        })
+                    }
+                }))
+                .then((data) => {
+                    setTopics(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        } else {
+            axios({
+                url: API_ENDPOINT + '/manage/topic/' + selectedMajor,
+                method: 'GET'
+            }).then(response => response.data)
+                .then(response => response.map(data => {
+                    {
+                        return ({
+                            label: data.topicName,
+                            value: data.topicName
+                        })
+                    }
+                }))
+                .then((data) => {
+                    setTopics(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, [selectedMajor]);
 
     const selectedMajorHandler = event => {
         if(event !== null) {
             setSelectedMajor(event.value);
         }
+        else
+            setSelectedMajor('');
     }
 
     const selectedTopicHandler = event => {

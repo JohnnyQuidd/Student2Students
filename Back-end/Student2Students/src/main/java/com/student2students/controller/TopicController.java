@@ -23,6 +23,11 @@ public class TopicController {
         return topicService.fetchTopics(page, limit);
     }
 
+    @GetMapping("/{major}")
+    public ResponseEntity<?> fetchTopicByMajorName(@PathVariable("major") String major) {
+        return topicService.fetchTopicsByMajorName(major);
+    }
+
     @PostMapping
     public ResponseEntity<?> addNewTopic(@RequestBody TopicDTO topicDTO) {
         return topicService.addNewTopic(topicDTO);

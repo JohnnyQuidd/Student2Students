@@ -86,6 +86,14 @@ public class TopicService {
         return ResponseEntity.ok(topicDTOList);
     }
 
+
+    public ResponseEntity<?> fetchTopicsByMajorName(String major) {
+        List<Topic> topics = topicRepository.findByMajor_MajorName(major);
+        List<TopicDTO> topicDTOS = makeDTOFromTopic(topics);
+
+        return ResponseEntity.ok(topicDTOS);
+    }
+
     private List<TopicDTO> makeDTOFromTopic(List<Topic> topicList) {
         return  topicList.stream()
                 .map(topic -> TopicDTO.builder()
