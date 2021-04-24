@@ -10,7 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PostCreationDTO {
-    private String studentUsername;
     private String headline;
     private String body;
     private String majorName;

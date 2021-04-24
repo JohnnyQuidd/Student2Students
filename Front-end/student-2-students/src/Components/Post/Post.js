@@ -44,12 +44,12 @@ function Post({post}) {
             </div>
             <div className={topicState}>
                 <div className="topic-wrapper">
-                    <ul className="topic-list">
-                        <li>Spring</li>
-                        <li>Java</li>
-                        <li>Hibernate</li>
-                        <li>MySQL</li>
-                        <li>H2</li>
+                    <ul className="ul-class">
+                        <li className="li-class" >Spring</li>
+                        <li className="li-class" >Java</li>
+                        <li className="li-class" >Hibernate</li>
+                        <li className="li-class" >MySQL</li>
+                        <li className="li-class" >H2</li>
                     </ul>
                 </div>
             </div>

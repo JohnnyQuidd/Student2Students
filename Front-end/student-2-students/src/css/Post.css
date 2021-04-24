@@ -22,11 +22,11 @@
 }
 
 
-ul {
+.ul-class {
     margin: 0;
     padding: 0;
 }
-li {
+.li-class {
     margin: 0.2rem auto 0 0;
     width: max-content;
     font-style: italic;
@@ -139,12 +139,12 @@ li {
     }
 
 
-    ul {
+    .ul-class {
         display: flex;
         padding: 0;
     }
 
-    li {
+    .li-class {
         font-style: italic;
         list-style: none;
         margin-left: 1rem;

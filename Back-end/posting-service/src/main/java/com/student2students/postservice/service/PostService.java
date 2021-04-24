@@ -36,8 +36,8 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<?> createNewPost(PostCreationDTO postDTO) {
-        Post post = createPostFromDTO(postDTO);
+    public ResponseEntity<?> createNewPost(PostCreationDTO postDTO, String username) {
+        Post post = createPostFromDTO(postDTO, username);
 
         try {
             postRepository.save(post);
@@ -49,7 +49,7 @@ public class PostService {
         }
     }
 
-    private Post createPostFromDTO(PostCreationDTO postDTO) {
+    private Post createPostFromDTO(PostCreationDTO postDTO, String username) {
         Major major = majorRepository.findByMajorName(postDTO.getMajorName())
                 .orElseThrow(() -> new IllegalStateException("Major name " + postDTO.getMajorName() + " not found!"));
         Set<Topic> topics = postDTO.getTopics().stream()
@@ -59,7 +59,7 @@ public class PostService {
 
 
         return Post.builder()
-                .studentUsername(postDTO.getStudentUsername())
+                .studentUsername(username)
                 .headline(postDTO.getHeadline())
                 .body(postDTO.getBody())
                 .createdAt(LocalDateTime.now())

@@ -1,0 +1,47 @@
+.new-post {
+    width: 95%;
+    margin: 0 auto 60rem auto;
+}
+
+.new-post-title {
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.new-post-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.new-post-label {
+    font-size: 1rem;
+    margin: 0.2rem 0;
+}
+
+.new-post-input {
+    width: 95%;
+    padding: 0.3rem 0.5rem;
+}
+
+.new-post-text-area {
+    width: 95%;
+    height: 10rem;
+    padding: 0.3rem 0.5rem;
+}
+
+.new-post-select {
+    width: 100%;
+}
+
+.new-post-submit {
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    padding: 0.3rem 1rem;
+    font-weight: 700;
+    background-color: royalblue;
+    color: white;
+    border: none;
+    border-radius: 5rem;
+}
+

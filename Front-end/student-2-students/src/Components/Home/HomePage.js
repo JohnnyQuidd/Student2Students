@@ -8,11 +8,27 @@ import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
 
 function HomePage() {
-    // selectedMajor, majors, selectedMajorHandler, selectedTopic, topics, selectTopicHandler, fliterPosts
+    const [role, setRole] = useState("");
     const [majors, setMajors] = useState([]);
     const [selectedMajor, setSelectedMajor] = useState("");
     const [topics, setTopics] = useState([]);
     const [selectedTopics, setSelectedTopics] = useState([]);
+
+    // Check if logged in user is student
+    useEffect(() => {
+        axios.get(API_ENDPOINT + '/authorization/student', { withCredentials: true })
+            .then(() => {
+                setRole("STUDENT");
+            });
+    }, [])
+
+    useEffect(() => {
+        axios.get(API_ENDPOINT + '/authorization/admin', { withCredentials: true })
+            .then(() => {
+                setRole("ADMIN");
+            });
+    }, [])
+
 
     useEffect(() => {
         axios({
@@ -87,7 +103,6 @@ function HomePage() {
 
     const selectedTopicHandler = event => {
         if(event !== undefined) {
-            console.log(event);
             let index = selectedTopics.length;
             if(index > 0 && event[index] !== undefined) {
                 setSelectedTopics(prevState => 
@@ -108,7 +123,7 @@ function HomePage() {
 
     return (
         <>
-            <Navbar />
+            <Navbar role={role} />
             <div className="homepage-main-section">
                 <div className="post-filtering">
                     <PostFilter

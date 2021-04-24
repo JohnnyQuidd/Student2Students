@@ -8,6 +8,7 @@ import UniversityManagement from './Components/Dashboard/UniversityManagement';
 import AdminCountry from './Components/Dashboard/AdminCountry';
 import StudentProfile from './Components/Dashboard/StudentProfile';
 import HomePage from './Components/Home/HomePage';
+import NewPost from './Components/Post/NewPost';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" exact component={Welcome} />
           <Route path="/home" component={StudentDashboard} />
           <Route path="/profile" exact component={StudentProfile} />
+          <Route path="/post" exact component={NewPost  } />
           <Route path="/admin" exact component={AdminDashboard} />
           <Route path="/admin/university" component={UniversityManagement} />
           <Route path="/admin/country" component={AdminCountry} />

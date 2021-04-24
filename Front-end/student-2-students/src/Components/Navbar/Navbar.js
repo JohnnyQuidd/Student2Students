@@ -6,22 +6,31 @@ import LOGO from '../../images/logo.png';
 
 function Navbar({role}) {
     
-    const currentUrl = window.location.href
-    console.log();
+    const currentUrl = window.location.href;
 
-    return (
-        <div className="container">
-            <div id="heading">
-                <a id="link" href="/"> <img id="logo" src={LOGO} alt="logo" /> </a>
+    if(currentUrl !== FRONT_END + '/login' && (role === 'ADMIN' || role === 'STUDENT')) {
+        return (
+            <div className="container">
+                <div id="heading">
+                    <a id="link" href="/"> <img id="logo" src={LOGO} alt="logo" /> </a>
+                </div>
+                    <>
+                        <Hamburger role={role} />
+                    </>       
             </div>
-            {
-               currentUrl !== FRONT_END &&
-                <>
-                    <Hamburger role={role} />
-                </>
-            }
-        </div>
-    )
+        )
+    }
+    else {
+        return(
+            <div className="container">
+                <div id="heading">
+                    <a id="link" href="/"> <img id="logo" src={LOGO} alt="logo" /> </a>
+                </div>
+            </div>
+        )
+    }
+
+
 }
 
 export default Navbar
