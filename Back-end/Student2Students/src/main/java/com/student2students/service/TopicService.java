@@ -69,6 +69,10 @@ public class TopicService {
         }
 
         try {
+            TopicDTO topicDTO = TopicDTO.builder()
+                    .topicName(topicName)
+                    .build();
+            messagePublisher.sendTopicDeletedToPostingService(topicDTO);
             topicRepository.deleteByTopicName(topicName);
             return ResponseEntity.status(204).build();
         } catch (Exception e) {

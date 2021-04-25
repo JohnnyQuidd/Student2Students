@@ -36,9 +36,29 @@ public class MessagePublisher {
         logger.info("Sending major");
     }
 
+    public void sendMajorDeletedToPostingService(MajorDTO majorDTO) {
+        MessageInstruction instruction = MessageInstruction.builder()
+                .instructionName("MAJOR_DELETED")
+                .majorDTO(majorDTO)
+                .build();
+        Gson gson = new Gson();
+        rabbitTemplate.convertAndSend(POSTING_TOPC, "posting.service.major", gson.toJson(instruction));
+        logger.info("Sending major");
+    }
+
     public void sendTopicToPostingService(TopicDTO topicDTO) {
         MessageInstruction instruction = MessageInstruction.builder()
                 .instructionName("TOPIC_ADDED")
+                .topicDTO(topicDTO)
+                .build();
+        Gson gson = new Gson();
+        rabbitTemplate.convertAndSend(POSTING_TOPC, "posting.service.topic", gson.toJson(instruction));
+        logger.info("Sending topic");
+    }
+    
+    public void sendTopicDeletedToPostingService(TopicDTO topicDTO) {
+        MessageInstruction instruction = MessageInstruction.builder()
+                .instructionName("TOPIC_DELETED")
                 .topicDTO(topicDTO)
                 .build();
         Gson gson = new Gson();

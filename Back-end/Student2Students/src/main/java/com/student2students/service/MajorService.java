@@ -56,6 +56,10 @@ public class MajorService {
         }
 
         try {
+            MajorDTO majorDTO = MajorDTO.builder()
+                    .majorName(majorName)
+                    .build();
+            messagePublisher.sendMajorDeletedToPostingService(majorDTO);
             majorRepository.deleteByMajorName(majorName);
             return ResponseEntity.status(204).build();
         } catch (Exception e) {
