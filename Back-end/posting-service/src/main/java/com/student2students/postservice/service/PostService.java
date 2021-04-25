@@ -137,4 +137,26 @@ public class PostService {
                         }))
                 .collect(Collectors.toList());
     }
+
+    public ResponseEntity<?> fetchPostByHeadline(String headline) {
+        Post post = postRepository.findByHeadline(headline)
+                .orElseThrow(() -> new IllegalStateException("Post with provided headline does not exist"));
+
+        PostDTO postDTO = createDTOFromPost(post);
+        return ResponseEntity.status(200).body(postDTO);
+    }
+
+    private PostDTO createDTOFromPost(Post post) {
+        return PostDTO.builder()
+                .id(post.getId())
+                .username(post.getStudentUsername())
+                .createdAt(post.getCreatedAt())
+                .headline(post.getHeadline())
+                .body(post.getBody())
+                .majorName(post.getMajor().getMajorName())
+                .topics(post.getTopics().stream()
+                        .map(topic -> topic.getTopicName())
+                        .collect(Collectors.toList()))
+                .build();
+    }
 }

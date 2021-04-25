@@ -35,6 +35,11 @@ public class PostController {
         return postService.createNewPost(postDTO, username);
     }
 
+    @GetMapping("/{headline}")
+    public ResponseEntity<?> fetchPostByHeadline(@PathVariable("headline") String headline) {
+        return postService.fetchPostByHeadline(headline);
+    }
+
     @GetMapping
     public ResponseEntity<?> fetchPosts(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
                                         @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {

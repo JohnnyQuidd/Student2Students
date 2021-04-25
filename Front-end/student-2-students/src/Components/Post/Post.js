@@ -57,7 +57,7 @@ function Post({post, handleCommentClick}) {
             </div>
             <div className="post-body-section">
                 <div className="post-title">
-                    <h3 className="post-title-h2"> {post.headline} </h3>
+                    <h3 className="post-title-h2"> <a className="post-link" href={`/post/${post.headline}`}> {post.headline} </a> </h3>
                 </div>
                 <div className="post-body">
                     <p className="post-body-paragraph"> {post.body} </p> </div>

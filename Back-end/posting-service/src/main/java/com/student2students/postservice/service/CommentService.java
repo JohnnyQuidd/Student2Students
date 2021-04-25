@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -50,5 +52,23 @@ public class CommentService {
                 .body(commentDTO.getBody())
                 .createdAt(LocalDateTime.now())
                 .build();
+    }
+
+    public ResponseEntity<?> fetchCommentsForPost(String headline) {
+        List<Comment> comments = commentRepository.findByPost_Headline(headline);
+
+        return ResponseEntity.ok(createDTOFromCommentList(comments));
+    }
+
+    private List<CommentDTO> createDTOFromCommentList(List<Comment> comments) {
+        return comments.stream()
+                .map(comment -> CommentDTO.builder()
+                        .id(comment.getId())
+                        .postId(comment.getPost().getId())
+                        .username(comment.getUsername())
+                        .body(comment.getBody())
+                        .createdAt(comment.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

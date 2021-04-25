@@ -1,0 +1,17 @@
+.post-preview-wrapper {
+    margin: 1rem auto 60rem auto;
+    width: 95%;
+}
+
+.hr-separator {
+    margin: 1rem auto 3rem auto;
+}
+
+@media (min-width: 700px) {
+    .post-preview-wrapper {
+        width: 60%;
+    }
+    .hr-separator {
+        margin: 1rem auto 5rem auto;
+    }
+}

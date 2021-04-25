@@ -5,10 +5,7 @@ import com.student2students.postservice.service.CommentService;
 import com.student2students.postservice.service.StudentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,5 +29,10 @@ public class CommentController {
             return ResponseEntity.status(403).body("Invalid username!");
         }
         return commentService.createNewComment(commentDTO, username);
+    }
+
+    @GetMapping("/{postHeadline}")
+    public ResponseEntity<?> fetchCommentsForPost(@PathVariable("postHeadline") String headline) {
+        return commentService.fetchCommentsForPost(headline);
     }
 }

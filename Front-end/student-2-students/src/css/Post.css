@@ -89,6 +89,11 @@
     display: none;
 }
 
+.post-link {
+    text-decoration: none;
+    color: black;
+}
+
 @media (min-width: 700px) {
     .post {
         padding: 1rem 3rem;
