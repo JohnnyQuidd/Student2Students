@@ -109,6 +109,7 @@ public class PostService {
     private List<PostDTO> createDTOListFromPostList(List<Post> posts) {
         return posts.stream()
                 .map(post -> PostDTO.builder()
+                        .id(post.getId())
                         .username(post.getStudentUsername())
                         .createdAt(post.getCreatedAt())
                         .headline(post.getHeadline())

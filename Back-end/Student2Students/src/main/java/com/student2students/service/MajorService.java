@@ -1,6 +1,7 @@
 package com.student2students.service;
 
 import com.student2students.dto.MajorDTO;
+import com.student2students.message_broker.MessagePublisher;
 import com.student2students.model.Major;
 import com.student2students.repository.MajorRepository;
 import org.slf4j.Logger;
@@ -19,11 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class MajorService {
     private final MajorRepository majorRepository;
+    private final MessagePublisher messagePublisher;
     private Logger logger = LoggerFactory.getLogger(MajorService.class);
 
     @Autowired
-    public MajorService(MajorRepository majorRepository) {
+    public MajorService(MajorRepository majorRepository,
+                        MessagePublisher messagePublisher) {
         this.majorRepository = majorRepository;
+        this.messagePublisher = messagePublisher;
     }
 
     @Transactional
@@ -33,6 +37,7 @@ public class MajorService {
                 .build();
         if(!majorRepository.existsByMajorName(major.getMajorName())){
             try {
+                messagePublisher.sendMajorToPostingService(majorDTO);
                 majorRepository.save(major);
                 return ResponseEntity.status(201).build();
             } catch (Exception e) {

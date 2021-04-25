@@ -1,6 +1,7 @@
 package com.student2students.service;
 
 import com.student2students.dto.TopicDTO;
+import com.student2students.message_broker.MessagePublisher;
 import com.student2students.model.Major;
 import com.student2students.model.Topic;
 import com.student2students.repository.MajorRepository;
@@ -23,13 +24,16 @@ import java.util.stream.Collectors;
 public class TopicService {
     private final TopicRepository topicRepository;
     private final MajorRepository majorRepository;
+    private final MessagePublisher messagePublisher;
     private Logger logger = LoggerFactory.getLogger(TopicService.class);
 
     @Autowired
     public TopicService(TopicRepository topicRepository,
-                        MajorRepository majorRepository) {
+                        MajorRepository majorRepository,
+                        MessagePublisher messagePublisher) {
         this.topicRepository = topicRepository;
         this.majorRepository = majorRepository;
+        this.messagePublisher = messagePublisher;
     }
 
 
@@ -46,6 +50,7 @@ public class TopicService {
                 .major(major)
                 .build();
         try {
+            messagePublisher.sendTopicToPostingService(topicDTO);
             major.getTopics().add(topic);
             majorRepository.save(major);
             return ResponseEntity.status(201).build();

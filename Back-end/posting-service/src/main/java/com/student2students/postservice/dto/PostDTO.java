@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PostDTO {
+    private Long id;
     private String username;
     private LocalDateTime createdAt;
     private String headline;

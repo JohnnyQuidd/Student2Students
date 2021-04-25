@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MajorDTO {
+    private Long id;
     private String majorName;
 }
