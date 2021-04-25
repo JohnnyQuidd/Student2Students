@@ -131,7 +131,7 @@ function NewPost() {
 
     const toggleEmojiPicker = () => {
         emojiPicker === 'emoji-picker hide' ? setEmojiPicker('emoji-picker') : setEmojiPicker('emoji-picker hide');
-      }
+    }
 
     return (
         <>

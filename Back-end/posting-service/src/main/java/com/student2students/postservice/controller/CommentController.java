@@ -6,6 +6,7 @@ import com.student2students.postservice.service.StudentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewComment(CommentDTO commentDTO, HttpServletRequest request) {
+    public ResponseEntity<?> createNewComment(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
         String username = requestService.getStudentFromRequest(request);
         if(username == null) {
             return ResponseEntity.status(403).body("Invalid username!");

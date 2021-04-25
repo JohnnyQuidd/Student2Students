@@ -22,4 +22,20 @@
     padding: 0.3rem 1rem;
     border: none;
     border-radius: 5rem;
+    cursor: pointer;
+}
+
+#emoji-div {
+    width: max-content;
+}
+
+#comment-emoji-button {
+    margin: 1rem auto;
+    background-color: rgb(231, 231, 73);
+    padding: 0.3rem 0.5rem;
+    border: none;
+    border-radius: 5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
 }

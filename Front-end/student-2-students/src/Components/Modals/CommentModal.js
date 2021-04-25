@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import Modal from 'react-modal'
+import Picker from 'emoji-picker-react'
 import '../../css/CommentModal.css'
+import axios from 'axios';
+import { API_ENDPOINT } from '../Constants/Endpoints';
+import { toast } from 'react-toastify'
 
+toast.configure()
 function CommentModal({isModalOpen, setIsModalOpen, postId}) {
     const [body, setBody] = useState("");
+    const [emojiPicker, setEmojiPicker] = useState("emoji-picker hide");
+    const [chosenEmoji, setChosenEmoji] = useState(null);
 
     const style = {
         overlay: {
@@ -19,15 +26,35 @@ function CommentModal({isModalOpen, setIsModalOpen, postId}) {
         }
     }
 
-    const cancelForm = (e) => {
-        e.preventDefault();
-        setIsModalOpen(false);
-    }
-
     const submitData = event => {
         event.preventDefault();
-        let payload = {postId, body};
-        console.log(payload);
+        const payload = {postId, body};
+        
+        axios({
+            url: API_ENDPOINT + '/posting/comment',
+            method: 'POST',
+            data: payload,
+            withCredentials: true
+        })
+        .then(() => {
+            setBody("");
+            setIsModalOpen(false);
+            toast.success('Comment sent successfully!', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
+        })
+        .catch(() => {
+            toast.error('Service temporary unavailable!', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+        });
+    }
+
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+        let text = body;
+        text = text + emojiObject.emoji;
+        setBody(text);
+      };
+
+    const toggleEmojiPicker = () => {
+        emojiPicker === 'emoji-picker hide' ? setEmojiPicker('emoji-picker') : setEmojiPicker('emoji-picker hide');
     }
 
     return (
@@ -45,6 +72,13 @@ function CommentModal({isModalOpen, setIsModalOpen, postId}) {
                         value={body}
                         placeholder="Please remember to be nice to others..."
                         onChange={e => setBody(e.target.value) } />
+
+                        <div id="emoji-div">
+                            <button type="button" onClick={toggleEmojiPicker} id="comment-emoji-button"> Add emoji </button>
+                        </div>
+                        <div className={emojiPicker}>
+                            <Picker onEmojiClick={onEmojiClick} />
+                        </div>
 
                         <div className="buttons">
                             <button onClick={() => setIsModalOpen(false)}
