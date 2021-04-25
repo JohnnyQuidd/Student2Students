@@ -20,19 +20,23 @@ function AdminDashboard() {
     const [newMajorName, setNewMajorName] = useState("");
     const [selectedMajor, setSelectedMajor] = useState("");
     const [majorDataSelection, setMajorDataSelection] = useState([]);
-    const [newTopicName, setNewTopicName] = useState("")
+    const [newTopicName, setNewTopicName] = useState("");
+    const [role,setRole] = useState("");
 
 
     const history = useHistory();
 
     // Restrict access if user doesn't have admin privileges
-    // useEffect(() => {
-    //     axios.get(API_ENDPOINT + '/authorization/admin', { withCredentials: true })
-    //         .catch(err => {
-    //             console.log(err);
-    //             history.push('/login');
-    //         })
-    // }, [history])
+    useEffect(() => {
+        axios.get(API_ENDPOINT + '/authorization/admin', { withCredentials: true })
+            .then(() => {
+                setRole("ADMIN");
+            })
+            .catch(err => {
+                console.log(err);
+                history.push('/login');
+            })
+    }, [history])
     
     useEffect(() => {     
         fetchMajors();
@@ -138,7 +142,7 @@ function AdminDashboard() {
 
     return (
         <div>
-            <Navbar />
+            <Navbar role={role} />
             <div className="content">
                 <h1 id="title"> Dashboard </h1>
                 <div className="chart">

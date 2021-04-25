@@ -39,7 +39,7 @@ function Hamburger({role}) {
                         <a href="/profile" className="nav-link">My profile</a>
                     </li>
                     <li className="nav-item">
-                        <a href="/university-management" className="nav-link">University Management</a>
+                        <a href="/admin/university" className="nav-link">University Management</a>
                     </li>
                     <li className="nav-item">
                         <button id="logout-btn" className="nav-link" onClick={logout} > Logout </button>
