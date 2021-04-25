@@ -1,6 +1,6 @@
 package com.student2students.postservice.service;
 
-import com.student2students.postservice.dto.PostCreationDTO;
+import com.student2students.postservice.dto.PostDTO;
 import com.student2students.postservice.model.Major;
 import com.student2students.postservice.model.Post;
 import com.student2students.postservice.model.Topic;
@@ -10,11 +10,16 @@ import com.student2students.postservice.repository.TopicRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,7 +41,7 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseEntity<?> createNewPost(PostCreationDTO postDTO, String username) {
+    public ResponseEntity<?> createNewPost(PostDTO postDTO, String username) {
         Post post = createPostFromDTO(postDTO, username);
 
         try {
@@ -49,7 +54,7 @@ public class PostService {
         }
     }
 
-    private Post createPostFromDTO(PostCreationDTO postDTO, String username) {
+    private Post createPostFromDTO(PostDTO postDTO, String username) {
         Major major = majorRepository.findByMajorName(postDTO.getMajorName())
                 .orElseThrow(() -> new IllegalStateException("Major name " + postDTO.getMajorName() + " not found!"));
         Set<Topic> topics = postDTO.getTopics().stream()
@@ -66,5 +71,37 @@ public class PostService {
                 .major(major)
                 .topics(topics)
                 .build();
+    }
+
+    public ResponseEntity<?> fetchPosts(int page, int limit) {
+        List<Post> posts = new ArrayList<>();
+        List<PostDTO> dtos = new ArrayList<>();
+
+        if(page == 0 && limit == 0) {
+            posts = postRepository.findAll();
+            dtos = createDTOListFromPostList(posts);
+        } else {
+            Pageable pageElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
+            posts = postRepository.findAll(pageElement).getContent();
+            dtos = createDTOListFromPostList(posts);
+        }
+
+
+        return ResponseEntity.ok(dtos);
+    }
+
+    private List<PostDTO> createDTOListFromPostList(List<Post> posts) {
+        return posts.stream()
+                .map(post -> PostDTO.builder()
+                        .username(post.getStudentUsername())
+                        .createdAt(post.getCreatedAt())
+                        .headline(post.getHeadline())
+                        .body(post.getBody())
+                        .majorName(post.getMajor().getMajorName())
+                        .topics(post.getTopics().stream()
+                                .map(topic -> topic.getTopicName())
+                                .collect(Collectors.toList()))
+                        .build())
+                .collect(Collectors.toList());
     }
 }

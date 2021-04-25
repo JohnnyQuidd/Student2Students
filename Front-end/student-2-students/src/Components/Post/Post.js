@@ -28,40 +28,39 @@ function Post({post}) {
         topicState === 'topic-section' ? setTopicState('topic-section hide') : setTopicState('topic-section');
     }
 
+    const formatDate = (date) => {
+        const dateFormat = Date.parse(date);
+        const newDate = new Date(dateFormat);
+        return newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear() + '.';
+    }
+
     return (
         <div className="post">
             <button className={buttonDetails} onClick={toggleDetailsState}> {buttonText} </button>
             <div className={detailsState}>
                 <div className="post-major">
-                    <a href="#"> Computer Science </a>
+                    <a href="#"> {post.majorName} </a>
                 </div>
                 <div className="post-author">
-                    <p> Author: <a> SkinnyPete </a> </p>
+                    <p> Author: <a> {post.username} </a> </p>
                 </div>
                 <div className="post-date">
-                    <p className="date-paragraph"> 04/04/2021 </p>
+                    <p className="date-paragraph"> {formatDate(post.createdAt)} </p>
                 </div>
             </div>
             <div className={topicState}>
                 <div className="topic-wrapper">
                     <ul className="ul-class">
-                        <li className="li-class" >Spring</li>
-                        <li className="li-class" >Java</li>
-                        <li className="li-class" >Hibernate</li>
-                        <li className="li-class" >MySQL</li>
-                        <li className="li-class" >H2</li>
+                        {post.topics.map(topic => <li key={topic} className="li-class"> {topic} </li> )}     
                     </ul>
                 </div>
             </div>
             <div className="post-body-section">
                 <div className="post-title">
-                    <h3 className="post-title-h2"> Configuring Spring Boot </h3>
+                    <h3 className="post-title-h2"> {post.headline} </h3>
                 </div>
                 <div className="post-body">
-                    <p className="post-body-paragraph"> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham. </p>
-                </div>
+                    <p className="post-body-paragraph"> {post.body} </p> </div>
             </div>
             <div className="post-footer">
                 <div className="post-comment">

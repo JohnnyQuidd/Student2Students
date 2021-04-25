@@ -13,6 +13,23 @@ function HomePage() {
     const [selectedMajor, setSelectedMajor] = useState("");
     const [topics, setTopics] = useState([]);
     const [selectedTopics, setSelectedTopics] = useState([]);
+    const [posts, setPosts] = useState([]);
+
+    // Fetching posts
+    useEffect(() => {
+        axios({
+            url: API_ENDPOINT + '/posting/post',
+            method: 'GET'
+        })
+        .then(response => response.data)
+        .then(data => {
+            setPosts(data);
+        })
+        .catch(() => {
+            console.log('Unable to fetch posts');
+        })
+    }, [])
+
 
     // Check if logged in user is student
     useEffect(() => {
@@ -136,9 +153,9 @@ function HomePage() {
                         fliterPosts={fliterPosts} />
                 </div>
                 <div className="post-section">
-                    <Post post={""} />
-                    <Post post={""} />
-                    <Post post={""} />
+                    {
+                        posts.map(post => <Post post={post} />)
+                    }
                 </div>
             </div>
             <Footer />  

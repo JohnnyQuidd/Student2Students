@@ -45,3 +45,22 @@
     border-radius: 5rem;
 }
 
+@media (min-width: 700px) {
+    .new-post {
+        width: 60%;
+        margin: 0 auto 60 auto;
+    }
+
+    .new-post-select {
+        width: 97%;
+    }
+
+    .new-post-input {
+        font-size: 1.1rem;
+    }
+
+    .new-post-text-area {
+        font-size: 1.1rem;
+    }
+}
+

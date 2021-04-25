@@ -7,6 +7,8 @@ import '../../css/NewPost.css'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { toast } from 'react-toastify';
+import Picker from 'emoji-picker-react';
+
 
 toast.configure()
 function NewPost() {
@@ -20,6 +22,10 @@ function NewPost() {
 
     const [majorSelection, setMajorSelection] = useState([]);
     const [topicSelection, setTopicSelection] = useState([]);
+    const [emojiPicker, setEmojiPicker] = useState("emoji-picker hide");
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+
+
 
     useEffect(() => {
         axios.get(API_ENDPOINT + '/authorization/student', { withCredentials: true })
@@ -107,11 +113,25 @@ function NewPost() {
             data: payload,
             withCredentials: true
         }).then(() => {
+            setHeadline("");
+            setBody("");
             toast.success('Success!', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
         }).catch(() => {
             toast.error('Service temporary unavailable', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
         });
     }
+
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+        // const emoji = emojiObject.emoji;
+        let text = body;
+        text = text + emojiObject.emoji;
+        setBody(text);
+      };
+
+    const toggleEmojiPicker = () => {
+        emojiPicker === 'emoji-picker hide' ? setEmojiPicker('emoji-picker') : setEmojiPicker('emoji-picker hide');
+      }
 
     return (
         <>
@@ -132,6 +152,10 @@ function NewPost() {
                     <textarea value={body}
                         className="new-post-text-area"
                         onChange={e => setBody(e.target.value)} />
+                    <button onClick={toggleEmojiPicker} id="emoji-button"> Add emoji </button>
+                    <div className={emojiPicker}>
+                        <Picker onEmojiClick={onEmojiClick} />
+                    </div>
                 </div>
                 <div className="new-post-form">
                     <label className="new-post-label" > Major </label>

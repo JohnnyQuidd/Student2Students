@@ -1,6 +1,7 @@
 package com.student2students.postservice.controller;
 
-import com.student2students.postservice.dto.PostCreationDTO;
+import com.student2students.postservice.constants.RestParameters;
+import com.student2students.postservice.dto.PostDTO;
 import com.student2students.postservice.service.PostService;
 import com.student2students.postservice.service.StudentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,17 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewPost(@RequestBody PostCreationDTO postCreationDTO, HttpServletRequest request) {
+    public ResponseEntity<?> createNewPost(@RequestBody PostDTO postDTO, HttpServletRequest request) {
         String username = requestService.getStudentFromRequest(request);
         if(username == null) {
             return ResponseEntity.status(403).build();
         }
-        return postService.createNewPost(postCreationDTO, username);
+        return postService.createNewPost(postDTO, username);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> fetchPosts(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
+                                        @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {
+        return postService.fetchPosts(page, limit);
     }
 }

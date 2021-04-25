@@ -2,6 +2,7 @@ package com.student2students.postservice.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -9,7 +10,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostCreationDTO {
+public class PostDTO {
+    private String username;
+    private LocalDateTime createdAt;
     private String headline;
     private String body;
     private String majorName;
