@@ -1,6 +1,7 @@
 package com.student2students.postservice.service;
 
 import com.student2students.postservice.dto.PostDTO;
+import com.student2students.postservice.dto.PostFilterDTO;
 import com.student2students.postservice.model.Major;
 import com.student2students.postservice.model.Post;
 import com.student2students.postservice.model.Topic;
@@ -90,6 +91,21 @@ public class PostService {
         return ResponseEntity.ok(dtos);
     }
 
+
+    public ResponseEntity<?> filterPosts(PostFilterDTO filterDTO) {
+        List<Post> posts = new ArrayList<>();
+        if(!filterDTO.getMajorName().equals("")) {
+            posts = postRepository.findByMajor_MajorName(filterDTO.getMajorName());
+        } else {
+            posts = postRepository.findAll();
+        }
+        if(!filterDTO.getTopics().isEmpty()) {
+            posts = filterPostsByTopics(posts, filterDTO.getTopics());
+        }
+        List<PostDTO> dtos = createDTOListFromPostList(posts);
+        return ResponseEntity.ok(dtos);
+    }
+
     private List<PostDTO> createDTOListFromPostList(List<Post> posts) {
         return posts.stream()
                 .map(post -> PostDTO.builder()
@@ -102,6 +118,20 @@ public class PostService {
                                 .map(topic -> topic.getTopicName())
                                 .collect(Collectors.toList()))
                         .build())
+                .collect(Collectors.toList());
+    }
+
+    private List<Post> filterPostsByTopics(List<Post> posts, List<String> topics) {
+        return posts.stream()
+                .filter(post -> post.getTopics()
+                        .stream()
+                        .anyMatch(topic -> {
+                            for(String topicName : topics) {
+                                if(topicName.equals(topic.getTopicName()))
+                                    return true;
+                            }
+                            return false;
+                        }))
                 .collect(Collectors.toList());
     }
 }

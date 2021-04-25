@@ -134,8 +134,32 @@ function HomePage() {
     }
 
     const fliterPosts = () => {
-        console.log(selectedMajor);
-        console.log(selectedTopics);
+        const payload = {majorName: selectedMajor, topics: selectedTopics};
+        let urlEndpoint = API_ENDPOINT + '/posting/post/filter' +'?majorName=' + selectedMajor + "&topics=";
+
+        for(let i=0; i<selectedTopics.length; i++) {
+            if(i<selectedTopics.length-1){
+                urlEndpoint += selectedTopics[i] + ',';
+            } else {
+                urlEndpoint += selectedTopics[i];
+            }
+        }
+
+        console.log(urlEndpoint);
+
+        axios({
+            url: urlEndpoint,
+            method: 'GET',
+            data: payload
+        })
+        .then(response => response.data)
+        .then(response => {
+            console.log(response);
+            setPosts(response);
+        }).catch(() => {
+            console.log('Unable to filter now');
+        });
+
     }
 
     return (
