@@ -44,7 +44,9 @@ public class PostService {
     @Transactional
     public ResponseEntity<?> createNewPost(PostDTO postDTO, String username) {
         Post post = createPostFromDTO(postDTO, username);
-
+        if(postRepository.existsByHeadline(post.getHeadline())) {
+            return ResponseEntity.status(403).body("Post with provided headline already exists");
+        }
         try {
             postRepository.save(post);
             return ResponseEntity.status(201).build();

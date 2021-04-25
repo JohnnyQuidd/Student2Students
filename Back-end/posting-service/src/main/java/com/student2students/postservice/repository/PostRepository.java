@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByMajor_MajorName(String majorName);
+    boolean existsByHeadline(String headline);
 }
