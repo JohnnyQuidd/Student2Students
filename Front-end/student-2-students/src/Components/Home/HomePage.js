@@ -6,6 +6,7 @@ import '../../css/HomePage.css'
 import PostFilter from '../Post/PostFilter'
 import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
+import CommentModal from '../Modals/CommentModal'
 
 function HomePage() {
     const [role, setRole] = useState("");
@@ -14,6 +15,8 @@ function HomePage() {
     const [topics, setTopics] = useState([]);
     const [selectedTopics, setSelectedTopics] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+    const [postId, setPostId] = useState(0);
 
     // Fetching posts
     useEffect(() => {
@@ -162,6 +165,11 @@ function HomePage() {
 
     }
 
+    const handleCommentClick = currentPostId => {
+        setIsCommentModalOpen(true);
+        setPostId(currentPostId);
+    }
+
     return (
         <>
             <Navbar role={role} />
@@ -178,10 +186,14 @@ function HomePage() {
                 </div>
                 <div className="post-section">
                     {
-                        posts.map(post => <Post post={post} />)
+                        posts.map(post => <Post post={post} handleCommentClick={handleCommentClick} />)
                     }
                 </div>
             </div>
+
+            <CommentModal isModalOpen={isCommentModalOpen}
+                        setIsModalOpen={setIsCommentModalOpen}
+                        postId={postId} />
             <Footer />  
         </>
     )

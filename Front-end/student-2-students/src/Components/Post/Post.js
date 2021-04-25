@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Post.css'
 
-function Post({post}) {
+function Post({post, handleCommentClick}) {
     const [buttonDetails, setButtonDetails] = useState("");
     const [buttonText, setButtonText] = useState("Show details");
     const [detailsState, setDetailsState] = useState("post-header hide");
@@ -64,7 +64,7 @@ function Post({post}) {
             </div>
             <div className="post-footer">
                 <div className="post-comment">
-                    <button className="comment-button"> Comment </button>
+                    <button className="comment-button" onClick={() => handleCommentClick(post.id)}> Comment </button>
                 </div>
                 <div className="post-mark">
                     <button className="rate-button"> Rate post </button>

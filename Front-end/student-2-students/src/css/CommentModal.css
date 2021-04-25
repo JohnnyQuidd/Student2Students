@@ -1,0 +1,25 @@
+.new-comment-wrapper {
+    text-align: center;
+}
+#comment-heading {
+    margin: 1rem auto 2rem auto;
+    font-size: 1.8rem;
+}
+
+#comment-text-area {
+    width: 95%;
+    height: 7rem;
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+}
+
+#comment-submit {
+    margin: 0 auto;
+    background-color: royalblue;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.3rem 1rem;
+    border: none;
+    border-radius: 5rem;
+}
