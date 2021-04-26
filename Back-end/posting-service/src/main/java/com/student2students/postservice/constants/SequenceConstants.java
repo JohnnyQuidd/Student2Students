@@ -6,4 +6,5 @@ public final class SequenceConstants {
     public static final String MARK_SEQUENCE = "mark_sequence";
     public static final String TOPIC_SEQUENCE = "topic_sequence";
     public static final String COMMENT_SEQUENCE = "comment_sequence";
+    public static final String EXCHANGE_SEQUENCE = "exchange_sequence";
 }
