@@ -1,45 +1,95 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import '../../css/Member.css'
 import DefaultPhoto from '../../images/profile.svg'
+import axios from 'axios'
+import { API_ENDPOINT } from '../Constants/Endpoints'
 
 function Member() {
+    const [username, setUsername] = useState("");
+    const [student, setStudent] = useState({});
+    const [imgSrc, setImgSrc] = useState(DefaultPhoto);
+
+    // Fetching User by username
+    useEffect(() => {
+        const url = window.location.href.split('/');
+        setUsername(url[url.length-1].replace(/%20/g, ' '));
+        
+        if(username) {
+            // TODO: Fetch user by username
+            axios({
+                url: API_ENDPOINT + '/manage/student/data/' + username,
+                method: 'GET'
+            })
+            .then(response => response.data)
+            .then(data => {
+                console.log(data);
+                setStudent(data);
+            })
+            .catch(() => {
+                console.log(`Couldn\'t fetch student ` + username);
+            });
+            console.log(username);
+        }
+
+    }, [username])
+
+    // Fetching profile photo
+    useEffect(() => {
+        if(username) {
+            axios({
+                url: API_ENDPOINT + '/image/image-service/profile-image/' + username,
+                method: 'GET',
+              }).then(response => {
+                setImgSrc(response.data);
+              }).catch(err => {
+                console.log(err);
+              });
+        }
+      }, [username]);
+
+    const formatDate = (date) => {
+        const dateFormat = Date.parse(date);
+        const newDate = new Date(dateFormat);
+        return newDate.getDate() + '.' + (newDate.getMonth() + 1) + '.' + newDate.getFullYear() + '.';
+    }
+
     return (
         <>
             {/* email, firstName, lastName, username, createdAt, image, his/her posts */}
             <Navbar />
             <div className="member-wrapper">
                 <div className="member-image">
-                    <img id="member-profile" src={DefaultPhoto} />
+                    <img id="member-profile" src={imgSrc} />
                 </div>
                 <div className="member-username">
-                        <p className="username-paragraph"> SkinnyPete </p>
+                        <p className="username-paragraph"> {student.username} </p>
                     </div>
                 <div className="name-contact-div">          
                     <div className="member-full-name">
-                        <p className="last-name-paragraph"> Petar Kovacevic </p>
+                        <p className="last-name-paragraph"> {student.firstName} {student.lastName} </p>
                     </div>
                     <div className="member-email">
-                        <p className="email-paragraph"> Contact: petar.kovacevic0088@gmail.com </p>
+                        <p className="email-paragraph"> Contact: {student.email} </p>
                     </div>
                 </div>
 
                 <div className="member-since">
-                    <p className="member-since-p"> Member since 04.04.1997. </p>
+                    <p className="member-since-p"> Member since {formatDate(student.createdAt)} </p>
                 </div>
                 <div className="member-biography">
                     <p> Biography </p>
-                    <p className="member-biography-p"> "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)." </p>
+                    <p className="member-biography-p"> "{student.biography}" </p>
                 </div>
                 <div className="member-address">
                     <p className="member-country-label"> Country & Language: </p>
-                    <p className="member-country">Serbia</p>
+                    <p className="member-country">{student.country}</p>
                     <p className="member-dash"> - </p>
-                    <p className="member-language">Serbian (rs)</p>
+                    <p className="member-language">{student.language}</p>
                 </div>
                 <div className="member-posts-wrapper">
-                    <h1 className="member-posts-heading"> SkinnyPete's activity </h1>
+                    <h1 className="member-posts-heading"> {student.username}'s activity </h1>
                     <div className="member-posts">
                         {/* TODO: Fetch posts for user */}
                     </div>

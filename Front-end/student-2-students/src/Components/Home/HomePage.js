@@ -18,14 +18,6 @@ function HomePage({props}) {
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [postId, setPostId] = useState(0);
 
-    useEffect(() => {
-        if(props) {
-            console.log(props.match.params.majorName);
-        } else {
-            console.log(props);
-        }
-    }, [])
-
     // Fetching posts
     useEffect(() => {
         axios({

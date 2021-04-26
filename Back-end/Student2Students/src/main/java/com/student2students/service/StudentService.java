@@ -136,29 +136,6 @@ public class StudentService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<?> createDTOFromStudentModel(Student student) {
-        StudentRegisterDTO studentRegisterDTO = StudentRegisterDTO.builder()
-                .email(student.getEmail())
-                .username(student.getUsername())
-                .firstName(student.getFirstName())
-                .lastName(student.getLastName())
-                .country(student.getAddress().getCountry().getCountry())
-                .city(student.getAddress().getCity())
-                .biography(student.getBiography())
-                .streetName(student.getAddress().getStreetName())
-                .streetNumber(student.getAddress().getStreetNumber())
-                .build();
-
-        if(student.getMajor() != null) {
-            studentRegisterDTO.setMajorName(student.getMajor().getMajorName());
-        }
-
-        if(student.getLanguage() != null) {
-            studentRegisterDTO.setLanguage(student.getLanguage().getLanguageName());
-        }
-
-        return ResponseEntity.ok(studentRegisterDTO);
-    }
 
     // TODO: Implement proper data validation
     public ResponseEntity<?> updateStudent(StudentRegisterDTO dto) {
@@ -213,5 +190,38 @@ public class StudentService implements UserDetailsService {
             return ResponseEntity.status(500).build();
         }
 
+    }
+
+    public ResponseEntity<?> getStudentData(String username) {
+        Student student = studentRepository.findByUsername(username);
+        if(student == null) {
+            return ResponseEntity.status(404).body("Student not found");
+        }
+        return createDTOFromStudentModel(student);
+    }
+
+    public ResponseEntity<?> createDTOFromStudentModel(Student student) {
+        StudentRegisterDTO studentRegisterDTO = StudentRegisterDTO.builder()
+                .email(student.getEmail())
+                .username(student.getUsername())
+                .firstName(student.getFirstName())
+                .lastName(student.getLastName())
+                .country(student.getAddress().getCountry().getCountry())
+                .city(student.getAddress().getCity())
+                .biography(student.getBiography())
+                .streetName(student.getAddress().getStreetName())
+                .streetNumber(student.getAddress().getStreetNumber())
+                .createdAt(student.getCreatedAt())
+                .build();
+
+        if(student.getMajor() != null) {
+            studentRegisterDTO.setMajorName(student.getMajor().getMajorName());
+        }
+
+        if(student.getLanguage() != null) {
+            studentRegisterDTO.setLanguage(student.getLanguage().getLanguageName());
+        }
+
+        return ResponseEntity.ok(studentRegisterDTO);
     }
 }

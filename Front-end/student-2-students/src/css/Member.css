@@ -10,6 +10,8 @@
 #member-profile {
     width: 10rem;
     height: 10rem;
+    border: 1px solid green;
+    border-radius: 50%;
 }
 
 .member-username {
@@ -67,8 +69,8 @@
 
     #member-profile {
         margin-top: 2rem;
-        width: 15rem;
-        height: 15rem;
+        width: 20rem;
+        height: 20rem;
     }
 
     .member-username {

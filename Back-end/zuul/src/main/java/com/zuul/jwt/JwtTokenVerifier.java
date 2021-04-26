@@ -41,7 +41,9 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         String token = "";
         Cookie[] cookies = request.getCookies();
         String url = request.getRequestURI();
-        String[] allowedPaths = {"/registration", "/login", "/manage/country", "/manage/language", "/manage/major", "/manage/topic", "/posting/post", "/comment"};
+        String[] allowedPaths = {"/registration", "/login", "/manage/country",
+                "/manage/language", "/manage/major", "/manage/topic",
+                "/posting/post", "/comment", "/manage/student", "/image"};
 
         boolean isAllowedPath = false;
 

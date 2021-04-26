@@ -2,6 +2,8 @@ package com.student2students.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,4 +24,6 @@ public class StudentRegisterDTO {
     private String streetName;
     private String streetNumber;
     private String language;
+
+    private LocalDate createdAt;
 }

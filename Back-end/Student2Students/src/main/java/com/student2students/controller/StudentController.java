@@ -35,12 +35,8 @@ public class StudentController {
     }
 
     @GetMapping("/data/{username}")
-    public ResponseEntity<?> getStudentData(HttpServletRequest request, @PathVariable("username") String username) {
-        Student student = studentRequestService.getStudentFromRequest(request);
-        if(!student.getUsername().equals(username))
-            return ResponseEntity.status(403).body("Permission denied");
-
-        return studentService.createDTOFromStudentModel(student);
+    public ResponseEntity<?> getStudentData(@PathVariable("username") String username) {
+        return studentService.getStudentData(username);
     }
 
     @GetMapping("/country/{countryName}")
