@@ -11,6 +11,7 @@ import HomePage from './Components/Home/HomePage';
 import NewPost from './Components/Post/NewPost';
 import PostPreview from './Components/Post/PostPreview';
 import Member from './Components/Member/Member';
+import Exchange from './Components/Exchange/Exchange';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/admin" exact component={AdminDashboard} />
           <Route path="/admin/university" component={UniversityManagement} />
           <Route path="/admin/country" component={AdminCountry} />
+          <Route path="/new-exchange" exact component={Exchange} />
           <Route component={NotFound} />
         </Switch>
       </Router>

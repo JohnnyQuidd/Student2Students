@@ -64,13 +64,16 @@ function Hamburger({role}) {
                     {/* Actual links */}
                     <ul className="nav-list">
                         <li className="nav-item">
+                            <a href="/home" className="nav-link">Home</a>
+                        </li>
+                        <li className="nav-item">
                             <a href="/profile" className="nav-link">My profile</a>
                         </li>
                         <li className="nav-item">
-                            <a href="/messages" className="nav-link">Messages</a>
+                            <a href="/post" className="nav-link">New Post</a>
                         </li>
                         <li className="nav-item">
-                            <a href="/post" className="nav-link">New Post</a>
+                            <a href="/new-exchange" className="nav-link">New Exchange</a>
                         </li>
                         <li className="nav-item">
                             <button id="logout-btn" className="nav-link" onClick={logout}> Logout </button>

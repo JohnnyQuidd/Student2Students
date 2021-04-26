@@ -94,6 +94,10 @@ public class UniversityService {
     }
 
     public ResponseEntity fetchParametrized(int page, int limit) {
+        if(page == 0 && limit == 0) {
+            List<University> universities = universityRepository.findAll();
+            return ResponseEntity.ok(universities);
+        }
         Pageable pageableElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "universityName"));
         Page<University> pageResult = universityRepository.findAll(pageableElement);
 

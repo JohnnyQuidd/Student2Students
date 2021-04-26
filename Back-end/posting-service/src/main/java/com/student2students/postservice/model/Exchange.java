@@ -38,4 +38,6 @@ public class Exchange {
     private LocalDate exchangeEnding;
     @NotNull
     private LocalDateTime createdAt;
+    @NotNull
+    private float price;
 }

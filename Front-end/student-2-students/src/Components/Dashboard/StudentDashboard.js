@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { API_ENDPOINT } from '../Constants/Endpoints';
 import { useHistory } from "react-router-dom";
@@ -8,12 +8,13 @@ import Footer from '../Footer/Footer';
 import '../../css/StudentDashboard.css'
 
 function StudentDashboard() {
+    const [role, setRole] = useState(null);
     const history = useHistory();
 
     useEffect(() => {
         axios.get(API_ENDPOINT + '/authorization/student', { withCredentials: true })
-            .then(response => {
-                console.log('student-role');
+            .then(() => {
+                setRole("STUDENT");
             })
             .catch(err => {
                 console.log(err);
@@ -21,24 +22,16 @@ function StudentDashboard() {
             })
     }, [history])
 
-    const testCredentials = () => {
-        axios.get(API_ENDPOINT + '/manage/data/SkinnyPete', { withCredentials: true })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
 
 
     return (
         <div>
-            <Navbar role={"STUDENT"}/>
+            <Navbar role={role} />
             <div id="student-main-panel">
-                <h1> Student Dashboard </h1>
-                <button onClick={testCredentials} > Test credentials </button>
+                <div className="home-exchange">
+                    <h1> Looking for an exchange? </h1>
+                </div>
+                
             </div>
             <Footer />
         </div>

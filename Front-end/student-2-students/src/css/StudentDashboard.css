@@ -1,5 +1,10 @@
 #student-main-panel {
     width: 95%;
     margin: 1rem auto 60rem auto;
+}
+
+.home-exchange {
+    margin: 2rem auto;
+    font-size: 0.8rem;
     text-align: center;
 }

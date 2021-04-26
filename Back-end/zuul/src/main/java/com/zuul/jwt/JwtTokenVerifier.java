@@ -43,7 +43,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         String url = request.getRequestURI();
         String[] allowedPaths = {"/registration", "/login", "/manage/country",
                 "/manage/language", "/manage/major", "/manage/topic",
-                "/posting/post", "/comment", "/manage/student", "/image"};
+                "/posting/post", "/comment", "/manage/student", "/image", "/manage/university"};
 
         boolean isAllowedPath = false;
 
