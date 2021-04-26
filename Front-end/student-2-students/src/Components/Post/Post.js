@@ -42,7 +42,7 @@ function Post({post, handleCommentClick, role}) {
                     <a href="#"> {post.majorName} </a>
                 </div>
                 <div className="post-author">
-                    <p> Author: <a> {post.username} </a> </p>
+                    <p id="post-author-p"> Author: <a href={`/member/${post.username}`}> {post.username} </a> </p>
                 </div>
                 <div className="post-date">
                     <p className="date-paragraph"> {formatDate(post.createdAt)} </p>

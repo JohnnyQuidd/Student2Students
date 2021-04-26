@@ -108,21 +108,6 @@ public class PostService {
         return ResponseEntity.ok(dtos);
     }
 
-    private List<PostDTO> createDTOListFromPostList(List<Post> posts) {
-        return posts.stream()
-                .map(post -> PostDTO.builder()
-                        .id(post.getId())
-                        .username(post.getStudentUsername())
-                        .createdAt(post.getCreatedAt())
-                        .headline(post.getHeadline())
-                        .body(post.getBody())
-                        .majorName(post.getMajor().getMajorName())
-                        .topics(post.getTopics().stream()
-                                .map(topic -> topic.getTopicName())
-                                .collect(Collectors.toList()))
-                        .build())
-                .collect(Collectors.toList());
-    }
 
     private List<Post> filterPostsByTopics(List<Post> posts, List<String> topics) {
         return posts.stream()
@@ -158,5 +143,28 @@ public class PostService {
                         .map(topic -> topic.getTopicName())
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public ResponseEntity<?> fetchPostsByUsername(String username) {
+        List<Post> posts = postRepository.findByStudentUsername(username);
+        List<PostDTO> dtos = createDTOListFromPostList(posts);
+
+        return ResponseEntity.ok(dtos);
+    }
+
+    private List<PostDTO> createDTOListFromPostList(List<Post> posts) {
+        return posts.stream()
+                .map(post -> PostDTO.builder()
+                        .id(post.getId())
+                        .username(post.getStudentUsername())
+                        .createdAt(post.getCreatedAt())
+                        .headline(post.getHeadline())
+                        .body(post.getBody())
+                        .majorName(post.getMajor().getMajorName())
+                        .topics(post.getTopics().stream()
+                                .map(topic -> topic.getTopicName())
+                                .collect(Collectors.toList()))
+                        .build())
+                .collect(Collectors.toList());
     }
 }

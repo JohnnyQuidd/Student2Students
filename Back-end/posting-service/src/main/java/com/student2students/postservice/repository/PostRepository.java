@@ -14,4 +14,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByMajor_MajorName(String majorName);
     boolean existsByHeadline(String headline);
     Optional<Post> findByHeadline(String headline);
+    List<Post> findByStudentUsername(String username);
 }

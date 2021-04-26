@@ -40,6 +40,11 @@ public class PostController {
         return postService.fetchPostByHeadline(headline);
     }
 
+    @GetMapping("/student/{username}")
+    public ResponseEntity<?> fetchPostsByUsername(@PathVariable("username") String username) {
+        return postService.fetchPostsByUsername(username);
+    }
+
     @GetMapping
     public ResponseEntity<?> fetchPosts(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
                                         @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {
