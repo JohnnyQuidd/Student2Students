@@ -8,8 +8,10 @@ import '../../css/Exchange.css';
 import Select from 'react-select'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { toast } from 'react-toastify';
 
 
+toast.configure()
 function Exchange() {
     // country, city, university, minNumberOfAttendees, maxNumberOfAttendees, exchangeStart
     // exchangeEnding, price
@@ -95,12 +97,21 @@ function Exchange() {
     const submitExchange = () => {
         const payload = {country, city, university, minNumberOfAttendees, maxNumberOfAttendees, exchangeStart, exchangeEnding, price};
 
-        console.log(payload);
+        axios({
+            url: API_ENDPOINT + '/posting/exchange',
+            method: 'POST',
+            data: payload,
+            withCredentials: true
+        }).then(() => {
+            toast.success('Success!', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
+        }).catch(err => {
+            toast.error(`Service temporary unavailable`, { position: toast.POSITION.BOTTOM_RIGHT, autoClose: false });
+        });
     }
 
     return (
         <>
-          <Navbar />
+          <Navbar role={role} />
           <div className="new-exchange-wrapper">
               <div className="new-exchange-title">
                 <h1> Have an exchange to offer? </h1>
