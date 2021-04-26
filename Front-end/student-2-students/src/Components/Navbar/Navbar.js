@@ -14,9 +14,9 @@ function Navbar({role}) {
                 <div id="heading">
                     <a id="link" href="/"> <img id="logo" src={LOGO} alt="logo" /> </a>
                 </div>
-                    <>
-                        <Hamburger role={role} />
-                    </>       
+                <>
+                    <Hamburger role={role} />
+                </>       
             </div>
         )
     }
@@ -26,6 +26,9 @@ function Navbar({role}) {
                 <div id="heading">
                     <a id="link" href="/"> <img id="logo" src={LOGO} alt="logo" /> </a>
                 </div>
+                { currentUrl !== FRONT_END + '/login' &&  <div className="join-us">
+                        <a id="link" href="/login"> Join Us </a>
+                    </div>}
             </div>
         )
     }

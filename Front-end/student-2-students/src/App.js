@@ -10,6 +10,7 @@ import StudentProfile from './Components/Dashboard/StudentProfile';
 import HomePage from './Components/Home/HomePage';
 import NewPost from './Components/Post/NewPost';
 import PostPreview from './Components/Post/PostPreview';
+import Member from './Components/Member/Member';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/profile" exact component={StudentProfile} />
           <Route path="/post" exact component={NewPost} />
           <Route path="/post/:postHeadline" component={PostPreview} />
+          <Route path="/member/:username" component={Member} />
           <Route path="/admin" exact component={AdminDashboard} />
           <Route path="/admin/university" component={UniversityManagement} />
           <Route path="/admin/country" component={AdminCountry} />

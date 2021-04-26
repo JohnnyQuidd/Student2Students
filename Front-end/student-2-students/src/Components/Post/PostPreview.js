@@ -48,7 +48,7 @@ function PostPreview() {
                 setPost(data);
             }).catch(() => {
                 console.log('Can\'t fetch ' + title);
-                //history.push('/');
+                history.push('/');
             });
         }
 
@@ -81,7 +81,7 @@ function PostPreview() {
         <>
           <Navbar role={role} />
           <div className="post-preview-wrapper">
-            { post && <Post post={post} handleCommentClick={handleCommentClick} />}
+            { post && <Post post={post} handleCommentClick={handleCommentClick} role={role} />}
             <div className="hr-separator"> <hr/> </div>
             <div className="comment-list-wrapper">
                 { comments && comments.map(comment => <Comment comment={comment} />) }

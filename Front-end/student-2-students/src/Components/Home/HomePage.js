@@ -8,7 +8,7 @@ import axios from 'axios'
 import { API_ENDPOINT } from '../Constants/Endpoints'
 import CommentModal from '../Modals/CommentModal'
 
-function HomePage() {
+function HomePage({props}) {
     const [role, setRole] = useState("");
     const [majors, setMajors] = useState([]);
     const [selectedMajor, setSelectedMajor] = useState("");
@@ -17,6 +17,14 @@ function HomePage() {
     const [posts, setPosts] = useState([]);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [postId, setPostId] = useState(0);
+
+    useEffect(() => {
+        if(props) {
+            console.log(props.match.params.majorName);
+        } else {
+            console.log(props);
+        }
+    }, [])
 
     // Fetching posts
     useEffect(() => {
@@ -186,7 +194,7 @@ function HomePage() {
                 </div>
                 <div className="post-section">
                     {
-                        posts.map(post => <Post post={post} handleCommentClick={handleCommentClick} />)
+                        posts.map(post => <Post post={post} handleCommentClick={handleCommentClick} role={role} />)
                     }
                 </div>
             </div>

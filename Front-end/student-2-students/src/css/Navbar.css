@@ -36,10 +36,19 @@
     width: 5rem;
 }
 
+.join-us {
+    margin: 0.2rem 1rem 1rem auto;
+    font-size: 2rem;
+    font-weight: 700;
+}
 
 
 @media (min-width: 700px) {
     #heading {
         margin: 0 auto auto 2rem;
+    }
+
+    .join-us {
+        margin: 1rem 3rem 1rem auto;
     }
 }

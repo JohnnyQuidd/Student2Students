@@ -1,0 +1,99 @@
+.member-wrapper {
+    width: 95%;
+    margin: 1rem auto 60rem auto;
+}
+
+.member-image {
+    text-align: center;
+}
+
+#member-profile {
+    width: 10rem;
+    height: 10rem;
+}
+
+.member-username {
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.member-biography {
+    margin: 3rem auto 0 0;
+}
+
+.member-biography-p{
+    padding: 0.5rem;
+    border: 1px solid rgb(194, 192, 192);
+    border-radius: 1rem;
+    font-style: italic;
+}
+
+.member-address {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.member-country-label {
+    font-size: 0.9rem;
+}
+
+.member-country {
+    font-style: italic;
+}
+
+.member-language {
+    font-style: italic;
+}
+
+.member-posts-wrapper {
+    margin-top: 5rem;
+}
+
+.member-posts-heading {
+    font-size: 2rem;
+    width: max-content;
+    margin: 0 auto;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+@media (min-width: 700px) {
+    .member-wrapper {
+        width: 60%;
+        margin: 1rem auto 60rem auto;
+        font-size: 1.1rem;
+    }
+
+    #member-profile {
+        margin-top: 2rem;
+        width: 15rem;
+        height: 15rem;
+    }
+
+    .member-username {
+        font-size: 1.7rem;
+        margin-bottom: 3rem;
+    }
+
+    .name-contact-div {
+        display: flex;
+        justify-content: space-between;
+    }
+    .member-biography-p {
+        line-height: 2rem;
+        padding: 1rem 1.5rem;
+    }
+
+    .member-country-label {
+        font-size: 1rem;
+    }
+
+    .member-country {
+        font-size: 1.3rem;
+    }
+
+    .member-language {
+        font-size: 1.3rem;
+    }
+}

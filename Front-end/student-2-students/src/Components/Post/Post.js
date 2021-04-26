@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../css/Post.css'
 
-function Post({post, handleCommentClick}) {
+function Post({post, handleCommentClick, role}) {
     const [buttonDetails, setButtonDetails] = useState("");
     const [buttonText, setButtonText] = useState("Show details");
     const [detailsState, setDetailsState] = useState("post-header hide");
@@ -62,7 +62,10 @@ function Post({post, handleCommentClick}) {
                 <div className="post-body">
                     <p className="post-body-paragraph"> {post.body} </p> </div>
             </div>
-            <div className="post-footer">
+            {
+                (role === 'STUDENT' || role === 'ADMIN') &&
+                
+                <div className="post-footer">
                 <div className="post-comment">
                     <button className="comment-button" onClick={() => handleCommentClick(post.id)}> Comment </button>
                 </div>
@@ -73,6 +76,7 @@ function Post({post, handleCommentClick}) {
                     <p className="current-rate"> 8.25/10 </p>
                 </div>
             </div>
+            }
         </div>
     )
 }

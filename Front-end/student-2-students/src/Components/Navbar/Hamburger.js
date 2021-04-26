@@ -20,7 +20,8 @@ function Hamburger({role}) {
     
     const logout = () => {
         axios.get(API_ENDPOINT + '/authorization/logout', { withCredentials: true });
-        history.push("/");
+        const currentUrl = window.location.href;
+        history.push('/login');
     }
 
     if(role === 'ADMIN') {
