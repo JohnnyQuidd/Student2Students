@@ -19,9 +19,26 @@ public class MessageListener {
     }
 
     public void listenForMessages(String emailGson){
+        logger.info("Received");
         Gson gson = new Gson();
         EmailDTO emailDTO = gson.fromJson(emailGson, EmailDTO.class);
-        logger.info("Sending email " + emailDTO);
+
+        switch (emailDTO.getInstruction()) {
+            case "AUTHENTICATION_EMAIL": sendActivationEmail(emailDTO);
+                break;
+            case "COMMENT_EMAIL": sendCommentingEmail(emailDTO);
+                break;
+            default: logger.info("Couldn't decode message");
+        }
+    }
+
+    private void sendActivationEmail(EmailDTO emailDTO) {
+        logger.info("Sending activation email " + emailDTO);
         emailService.sendActivationEmail(emailDTO);
+    }
+
+    private void sendCommentingEmail(EmailDTO emailDTO) {
+        logger.info("Sending commenting email");
+        emailService.sendCommentingEmail(emailDTO);
     }
 }

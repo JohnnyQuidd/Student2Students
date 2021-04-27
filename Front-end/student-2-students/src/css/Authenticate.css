@@ -1,0 +1,15 @@
+.autheticate-div {
+    margin: 2rem auto 50rem auto;
+    text-align: center;
+}
+
+.authenticate-icons{
+    margin-top: 3rem;
+}
+
+@media(min-width: 700px) {
+    .authenticate-icons {
+        margin-top: 5rem;
+    }
+}
+

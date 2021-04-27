@@ -33,4 +33,5 @@ public class Email {
     private EmailStatus emailStatus;
     private String activationLink;
     private String content;
+    private String commentingUsername;
 }

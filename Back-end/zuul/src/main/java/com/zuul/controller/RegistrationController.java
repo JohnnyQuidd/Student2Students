@@ -21,6 +21,7 @@ public class RegistrationController {
         this.adminService = adminService;
     }
 
+    // /registration?token=sS29hKl2asd2231das
     @GetMapping
     public ResponseEntity<?> activateStudent(@RequestParam("token") String token) {
         return studentService.activateStudent(token);

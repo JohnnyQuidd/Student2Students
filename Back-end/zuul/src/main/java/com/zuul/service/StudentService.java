@@ -74,14 +74,15 @@ public class StudentService implements UserDetailsService {
                 .confirmed(false)
                 .build();
 
-        String HOST_ADDRESS = "http://localhost:8080";
+        String HOST_ADDRESS = "http://localhost:3000/authenticate/";
 
         EmailDTO emailDTO = EmailDTO.builder()
-                .activationLink(HOST_ADDRESS + "/registration?token=" + token.getToken())
+                .activationLink(HOST_ADDRESS  + token.getToken())
                 .subject("Account activation")
                 .receiverEmail(student.getEmail())
                 .receiverFirstName(student.getFirstName())
                 .content("content")
+                .instruction("AUTHENTICATION_EMAIL")
                 .build();
 
         Gson gson = new Gson();

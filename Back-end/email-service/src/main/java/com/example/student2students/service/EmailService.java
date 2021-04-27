@@ -58,6 +58,42 @@ public class EmailService {
         }
     }
 
+    public ResponseEntity<?> sendCommentingEmail(EmailDTO emailDTO) {
+        Email email = Email.builder()
+                .receiverEmail(emailDTO.getReceiverEmail())
+                .receiverFirstName(emailDTO.getReceiverFirstName())
+                .senderEmail("xmlwebservices2020@gmail.com")
+                .subject(emailDTO.getSubject())
+                .content(emailDTO.getContent())
+                .dateTime(LocalDateTime.now())
+                .commentingUsername(emailDTO.getStudentCommenting())
+                .build();
+
+        String formattedText = "<body>" +
+                "<h1> Hello, " + email.getReceiverFirstName() + "</h1>" +
+                "<p> Your post has been noticed by other students. A student " + email.getCommentingUsername() + " " +
+                " commented your post! </p>" +
+                "<a href=\"http://localhost:3000/login\"> Log in for more details </a>" +
+                "</body>";
+
+        try {
+            ResponseEntity<?> response = customEmailSender.sendMail(new String[]{email.getReceiverEmail()}, email.getSubject(), formattedText);
+            if(response.getStatusCode().equals(HttpStatus.CREATED)) {
+                email.setEmailStatus(EmailStatus.SENT_SUCCESSFULLY);
+            }
+            else {
+                email.setEmailStatus(EmailStatus.ERROR_SENDING);
+            }
+            emailRepository.save(email);
+            return response;
+
+        } catch (Exception e) {
+            logger.error("Couldn't persist email to database ", email);
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
     private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
@@ -126,4 +162,6 @@ public class EmailService {
                 "\n" +
                 "</div></div>";
     }
+
+
 }

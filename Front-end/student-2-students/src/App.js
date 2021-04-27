@@ -12,6 +12,7 @@ import NewPost from './Components/Post/NewPost';
 import PostPreview from './Components/Post/PostPreview';
 import Member from './Components/Member/Member';
 import NewExchange from './Components/Exchange/NewExchange';
+import Authenticate from './Components/Authentication/Authenticate';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/login" exact component={Welcome} />
+          <Route path="/authenticate/:token" component={Authenticate}/>
           <Route path="/home" component={StudentDashboard} />
           <Route path="/profile" exact component={StudentProfile} />
           <Route path="/post" exact component={NewPost} />

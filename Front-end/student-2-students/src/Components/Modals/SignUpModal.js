@@ -83,7 +83,7 @@ function SignUpModal({isModalOpen, setIsModalOpen}) {
 
         axios.post(API_ENDPOINT + '/registration/student', payload, { withCredentials: true })
             .then(response => {           
-                toast.success('Successfull registration', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
+                toast.success('Check your email', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 3000 });
                 console.log(response);
             })
             .catch(err => {
