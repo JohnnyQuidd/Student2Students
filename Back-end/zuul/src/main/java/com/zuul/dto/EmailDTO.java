@@ -14,5 +14,6 @@ public class EmailDTO {
     private String content;
     private String subject;
     private String activationLink;
+    private String studentCommenting;
     private String instruction;
 }

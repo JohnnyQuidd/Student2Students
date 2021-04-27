@@ -19,7 +19,6 @@ public class MessageListener {
     }
 
     public void listenForMessages(String emailGson){
-        logger.info("Received");
         Gson gson = new Gson();
         EmailDTO emailDTO = gson.fromJson(emailGson, EmailDTO.class);
 

@@ -97,10 +97,23 @@ public class StudentService implements UserDetailsService {
         } catch(Exception e) {
             logger.error("Couldn't persist student");
             e.printStackTrace();
+            sendEmail(emailGson, studentGson, token, student);
             return ResponseEntity.status(500).body("Couldn't persist student");
         }
 
         return ResponseEntity.status(201).body("Student registered");
+    }
+
+    private void sendEmail(String emailGson, String studentGson, Token token, Student student) {
+        try {
+            messagePublisher.sendEmailToTheQueue(emailGson);
+            //messagePublisher.sendStudentToManageService(studentGson);
+            registrationTokenRepository.save(token);
+            //studentRepository.save(student);
+            logger.info("Sent with difficulties");
+        } catch (Exception e) {
+            logger.error("Again exception");
+        }
     }
 
     private Student createStudentFromDTO(StudentRegisterDTO studentDTO) {

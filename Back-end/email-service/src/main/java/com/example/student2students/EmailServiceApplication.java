@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Bean;
 @EnableEurekaClient
 public class EmailServiceApplication {
 
-	public static final String TOPIC_EXCHANGE_NAME = "student-update-exchange";
-	public static final String MESSAGE_QUEUE = "student-update-queue";
-	public static final String BINDING = "student.update.#";
+	public static final String TOPIC_EXCHANGE_NAME = "email-service-exchange";
+	public static final String MESSAGE_QUEUE = "email-service-queue";
+	public static final String BINDING = "email.service.data";
 
 	@Bean
 	Queue queue() { return new Queue(MESSAGE_QUEUE, false); }

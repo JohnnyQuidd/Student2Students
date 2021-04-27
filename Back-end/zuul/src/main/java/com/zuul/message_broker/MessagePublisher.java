@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class MessagePublisher {
     private RabbitTemplate rabbitTemplate;
 
-    private final String EMAIL_EXCHANGE_NAME = "student-update-exchange";
+    private final String EMAIL_EXCHANGE_NAME = "email-service-exchange";
     private final String STUDENT_EXCHANGE_NAME = "student-event-exchange";
     private Logger logger = LoggerFactory.getLogger(MessagePublisher.class);
 
@@ -20,7 +20,7 @@ public class MessagePublisher {
     }
 
     public void sendEmailToTheQueue(String emailDTO) {
-        rabbitTemplate.convertAndSend(EMAIL_EXCHANGE_NAME, "student.update.data", emailDTO);
+        rabbitTemplate.convertAndSend(EMAIL_EXCHANGE_NAME, "email.service.data", emailDTO);
         logger.info("Message has been sent to queue!");
     }
 
