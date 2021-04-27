@@ -40,4 +40,7 @@ public class Exchange {
     private LocalDateTime createdAt;
     @NotNull
     private float price;
+    @NotNull
+    @Column(name="body", columnDefinition="LONGTEXT")
+    private String body;
 }

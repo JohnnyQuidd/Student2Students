@@ -6,9 +6,11 @@ import Navbar from '../Navbar/Navbar'
 import '../../css/Dashboard.css'
 import Footer from '../Footer/Footer';
 import '../../css/StudentDashboard.css'
+import Exchange from '../Exchange/Exchange';
 
 function StudentDashboard() {
     const [role, setRole] = useState(null);
+    const [exchanges, setExchanges] = useState([]);
     const history = useHistory();
 
     useEffect(() => {
@@ -22,7 +24,16 @@ function StudentDashboard() {
             })
     }, [history])
 
-
+    useEffect(() => {
+        axios({
+            url: API_ENDPOINT + '/posting/exchange',
+            method: 'GET',
+            withCredentials: true
+        })
+        .then(response => response.data)
+        .then(data => setExchanges(data))
+        .catch(err => console.log('Couldn\'t fetch exchanges'));
+    }, [])
 
     return (
         <div>
@@ -30,6 +41,12 @@ function StudentDashboard() {
             <div id="student-main-panel">
                 <div className="home-exchange">
                     <h1> Looking for an exchange? </h1>
+                </div>
+                <div className="exchange-list">
+                    {/* <Exchange /> */}
+                    {
+                        exchanges.map(exchange => <Exchange exchange={exchange} />)
+                    }
                 </div>
                 
             </div>

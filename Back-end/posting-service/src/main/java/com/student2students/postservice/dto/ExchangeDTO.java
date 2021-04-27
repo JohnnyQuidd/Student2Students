@@ -18,4 +18,5 @@ public class ExchangeDTO {
     private LocalDate exchangeStart;
     private LocalDate exchangeEnding;
     private float price;
+    private String body;
 }

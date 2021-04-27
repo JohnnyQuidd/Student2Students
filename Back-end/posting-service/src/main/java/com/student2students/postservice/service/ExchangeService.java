@@ -6,10 +6,15 @@ import com.student2students.postservice.repository.ExchangeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ExchangeService {
@@ -22,6 +27,7 @@ public class ExchangeService {
     }
 
 
+    @Transactional
     public ResponseEntity<?> createNewExchange(ExchangeDTO exchangeDTO, String username) {
         Exchange exchange = createExchangeFromDTO(exchangeDTO, username);
         try {
@@ -47,6 +53,18 @@ public class ExchangeService {
                 .exchangeEnding(exchangeDTO.getExchangeEnding())
                 .createdAt(LocalDateTime.now())
                 .price(exchangeDTO.getPrice())
+                .body(exchangeDTO.getBody())
                 .build();
+    }
+
+    public ResponseEntity<?> fetchExchanges(int page, int limit) {
+        if(page == 0 && limit == 0) {
+            List<Exchange> exchanges = exchangeRepository.findAll();
+            return ResponseEntity.ok(exchanges);
+        }
+        Pageable pageElement = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "exchangeStart"));
+        List<Exchange> exchanges = exchangeRepository.findAll(pageElement).getContent();
+
+        return ResponseEntity.ok(exchanges);
     }
 }

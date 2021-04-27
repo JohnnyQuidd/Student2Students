@@ -1,80 +1,23 @@
-.new-exchange-wrapper {
-    width: 95%;
-    margin: 1rem auto 40rem auto;
+.exchange-wrapper {
+    margin: 1rem auto 2rem auto;
+    padding: 0.5rem;
+    border: 1px solid rgb(194, 192, 192);
+    border-radius: 1rem;
 }
 
-.new-exchange-title {
-    text-align: center;
-    font-size: 0.9rem;
-    margin: 1rem auto 4rem auto;
-}
-
-
-#exchange-emoji-button {
-    background-color: rgb(231, 231, 73);
-    padding: 0.3rem 0.5rem;
-    border: none;
-    border-radius: 5rem;
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-top: 1rem;
-    width: max-content;
-}
-
-.exchange-text-area {
-    height: 10rem;
-    font-size: 1rem;
-    padding: 0.3rem 0.5rem;
-}
-
-.new-exchange-label {
-    font-size: 0.9rem;
-}
-
-.exchange-input {
-    font-size: 1rem;
-    padding: 0.2rem 0.5rem;
-}
-
-.new-exchange-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-}
-
-.exchange-date {
-    width: 95%;
-    font-size: 1rem;
-    padding: 0.2rem 0.5rem;
-}
-
-.offer-exchange-button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    width: max-content;
-    margin: 1rem auto 0 auto;
-    border: none;
-    background-color: royalblue;
-    color: white;
-    font-weight: 700;
-    border-radius: 5rem;
+.exchange-country-city {
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 500;
 }
 
 @media (min-width: 700px) {
-    .new-exchange-wrapper {
-        width: 70%;
-        margin: 1rem auto 40rem auto;
+    .exchange-wrapper {
+        width: 60%;
     }
 
-    .new-exchange-title {
-        text-align: center;
-        font-size: 1.2rem;
-        margin: 3rem auto 4rem auto;
-    }
-
-    .exchange-content {
+    .exchange-details {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
     }
 }

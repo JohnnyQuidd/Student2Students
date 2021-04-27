@@ -1,14 +1,12 @@
 package com.student2students.postservice.controller;
 
+import com.student2students.postservice.constants.RestParameters;
 import com.student2students.postservice.dto.ExchangeDTO;
 import com.student2students.postservice.service.ExchangeService;
 import com.student2students.postservice.service.StudentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,5 +30,11 @@ public class ExchangeController {
             return ResponseEntity.status(403).body("Permission denied");
         }
         return exchangeService.createNewExchange(exchangeDTO, username);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> fetchExchanges(@RequestParam(name = RestParameters.PAGE, required = false, defaultValue = "0") int page,
+                                            @RequestParam(name = RestParameters.LIMIT, required = false, defaultValue = "0") int limit) {
+        return exchangeService.fetchExchanges(page, limit);
     }
 }
