@@ -32,6 +32,7 @@ public class Email {
     @Enumerated(EnumType.STRING)
     private EmailStatus emailStatus;
     private String activationLink;
+    @Column(name="content", columnDefinition="LONGTEXT")
     private String content;
     private String commentingUsername;
 }

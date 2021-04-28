@@ -30,6 +30,7 @@ public class Post {
     private String headline;
 
     @NotNull
+    @Column(name="body", columnDefinition="LONGTEXT")
     private String body;
 
     @NotNull

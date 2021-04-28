@@ -89,7 +89,6 @@ public class AdminService implements UserDetailsService {
         Admin admin = Admin.builder()
                 .firstName(adminRegisterDTO.getFirstName())
                 .lastName(adminRegisterDTO.getLastName())
-                .country(country)
                 .address(address)
                 .email(adminRegisterDTO.getEmail())
                 .username(adminRegisterDTO.getUsername())

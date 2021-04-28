@@ -32,11 +32,6 @@ public class Admin implements UserDetails {
     private String lastName;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-    private Country country;
-
-    @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -73,7 +68,7 @@ public class Admin implements UserDetails {
 
     @NotNull
     private boolean isEnabled;
-
+    @Column(name="biography", columnDefinition="LONGTEXT")
     private String biography;
 
     @Override

@@ -24,6 +24,7 @@ public class Comment {
     @NotNull
     private String username;
     @NotNull
+    @Column(name="body", columnDefinition="LONGTEXT")
     private String body;
     @NotNull
     private LocalDateTime createdAt;

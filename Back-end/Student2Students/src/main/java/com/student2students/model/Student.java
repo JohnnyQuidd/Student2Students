@@ -68,7 +68,7 @@ public class Student implements UserDetails {
 
     @ElementCollection
     private Set<String> blockedUsernames = new HashSet<>();
-
+    @Column(name="biography", columnDefinition="LONGTEXT")
     private String biography;
 
     @ManyToOne(fetch = FetchType.LAZY)
