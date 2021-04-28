@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+    rabbitmq:
+      image: rabbitmq:3-management-alpine
+      container_name: rabbitmq
+      ports:
+          - 5672:5672
+          - 15672:15672
+
     eureka-service:
       image: eureka-img
       container_name: eureka-spring
@@ -11,15 +18,16 @@ services:
           - "8761:8761"
       restart: always
 
-    zuul-proxy:
-      image: zuul-img
-      container_name: zuul-proxy-spring
-      build:
-        context: ./zuul
-        dockerfile: Dockerfile
-      ports:
-        - "8080:8080"
+    mysql-service-zuul:
+      image: mysql:latest
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_USER=student_admin
+        - MYSQL_PASSWORD=StudentAdmin123!
+        - MYSQL_DATABASE=zuul
       restart: always
+      volumes: 
+        - zuul-vol:/var/lib/mysql
 
     mysql-service-student2students:
       image: mysql:latest
@@ -53,11 +61,29 @@ services:
       restart: always
       volumes:
         - email-vol:/var/lib/mysql
+
+    zuul-proxy:
+      depends_on:
+        - mysql-service-zuul
+        - rabbitmq
+      image: zuul-img
+      container_name: zuul-proxy-spring
+      build:
+        context: ./zuul
+        dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
+      restart: always
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service-zuul:3306/zuul?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+        SPRING_DATASOURCE_USERNAME: student_admin
+        SPRING_DATASOURCE_PASSWORD: StudentAdmin123!    
     
     student-service:
       depends_on:                           
         - mysql-service-student2students
         - eureka-service
+        - rabbitmq
       image: student2students
       container_name: student2students-spring
       build:
@@ -74,6 +100,7 @@ services:
       depends_on:                           
         - mysql-service-posting-service
         - eureka-service
+        - rabbitmq
       image: posting-service-img
       container_name: posting-service-spring
       build:
@@ -90,6 +117,7 @@ services:
       depends_on:
         - mysql-service-email-service
         - eureka-service
+        - rabbitmq
       image: email-service-img
       container_name: email-service-spring
       build:
@@ -114,6 +142,7 @@ services:
 
 
 volumes:
+  zuul-vol:
   student2students-vol:
   posting-vol:
   email-vol:

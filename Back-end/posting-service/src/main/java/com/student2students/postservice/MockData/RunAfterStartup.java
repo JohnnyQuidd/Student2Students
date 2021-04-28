@@ -1,14 +1,13 @@
 package com.student2students.postservice.MockData;
 
-import com.student2students.postservice.model.Major;
-import com.student2students.postservice.model.Post;
-import com.student2students.postservice.model.Topic;
+import com.student2students.postservice.model.*;
 import com.student2students.postservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -264,18 +263,64 @@ public class RunAfterStartup {
                         "perhaps give me some feedback as what i can improve and in what direction " +"" +
                         "this project should be developing. How many of you work on " + "" +
                         "Open Source software? I would be really happy if you could " +
-                        "join me on this journey!")
+                        "join me on this journey! \uD83D\uDE00")
                 .createdAt(LocalDateTime.now())
                 .major(csMajor)
                 .topics(csTopics)
                 .build();
 
-        postRepository.save(post1);
-    }
+        Major medMajor = majorRepository.findByMajorName("Medicine")
+                .orElseThrow(() -> new IllegalStateException("Majors not loaded"));
+        Topic immunology = topicRepository.findByTopicName("Immunology")
+                .orElseThrow(() -> new IllegalStateException("Topics not loaded"));
+        Set<Topic> topics = new HashSet<>();
+        topics.add(immunology);
 
+        Post post2 = Post.builder()
+                .studentUsername("ivan91")
+                .authorEmail("student@gmail.com")
+                .headline("Any tips on how to avoid virus infections")
+                .body("Hey! I have one question for those in Immunology major. How should we prevent " +
+                        " getting sick \ud83d\ude01. Any advice would be helpful.")
+                .createdAt(LocalDateTime.now())
+                .major(medMajor)
+                .topics(topics)
+                .build();
+
+        postRepository.save(post1);
+        postRepository.save(post2);
+    }
     private void insertComments() {
+        Post post = postRepository.findByHeadline("Any tips on how to avoid virus infections")
+                .orElseThrow(() -> new IllegalStateException("Posts not loaded"));
+        Comment comment1 = Comment.builder()
+                .username("linus69")
+                .body("Try to avoid mass gatherings, especially indoors \uD83D\uDE37 . Wear mask and eat healthy, " +
+                        "those are some basic rules. I hope this was a bit helpful. Stay safe \uD83D\uDC4D")
+                .createdAt(LocalDateTime.now())
+                .post(post)
+                .build();
+
+        commentRepository.save(comment1);
     }
 
     private void insertExchanges() {
+        Exchange exchange = Exchange.builder()
+                .studentUsername("linus69")
+                .country("Finland")
+                .university("Computer Science - University Of Helsinki")
+                .minNumberOfAttendees(5)
+                .maxNumberOfAttendees(45)
+                .exchangeStart(LocalDate.now().plusMonths(2))
+                .exchangeEnding(LocalDate.now().plusMonths(3).plusDays(15))
+                .createdAt(LocalDateTime.now())
+                .price(1250)
+                .body("If anyone is interested in an exchange in Finland" + "" +
+                        " contact me via email and let's arrange something. "+
+                        "You will be learning a ton of new stuff while having fun. " + "" +
+                        "What's not to like? \uD83C\uDDEB\uD83C\uDDEE \uD83D\uDE0A")
+                .build();
+
+        exchangeRepository.save(exchange);
     }
 }
