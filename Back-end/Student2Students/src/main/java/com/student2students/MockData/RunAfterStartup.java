@@ -119,6 +119,9 @@ public class RunAfterStartup {
         Country turkey = Country.builder()
                 .country("Turkey")
                 .build();
+        Country finland = Country.builder()
+                .country("Finland")
+                .build();
 
         countryRepository.save(serbia);
         countryRepository.save(italy);
@@ -138,6 +141,7 @@ public class RunAfterStartup {
         countryRepository.save(ukraine);
         countryRepository.save(israel);
         countryRepository.save(turkey);
+        countryRepository.save(finland);
     }
 
     private void insertLanguages() {
@@ -206,6 +210,11 @@ public class RunAfterStartup {
                 .languageCode("tr")
                 .build();
 
+        Language finnish = Language.builder()
+                .languageName("Finnish")
+                .languageCode("fi")
+                .build();
+
         languageRepository.save(serbian);
         languageRepository.save(italian);
         languageRepository.save(hungarian);
@@ -222,6 +231,7 @@ public class RunAfterStartup {
         languageRepository.save(ukrainian);
         languageRepository.save(hebrew);
         languageRepository.save(turkish);
+        languageRepository.save(finnish);
     }
 
     private void insertMajors() {
@@ -269,6 +279,27 @@ public class RunAfterStartup {
                 .topicName("Docker")
                 .major(csMajor)
                 .build();
+        Topic linux = Topic.builder()
+                .topicName("Linux")
+                .major(csMajor)
+                .build();
+        Topic kernel = Topic.builder()
+                .topicName("Kernel")
+                .major(csMajor)
+                .build();
+        Topic operatingSystem = Topic.builder()
+                .topicName("Operating System")
+                .major(csMajor)
+                .build();
+        Topic openSource = Topic.builder()
+                .topicName("Open Source")
+                .major(csMajor)
+                .build();
+        Topic c = Topic.builder()
+                .topicName("C")
+                .major(csMajor)
+                .build();
+
         Set<Topic> csTopics = new HashSet<>();
         csTopics.add(docker);
         csTopics.add(nodeJS);
@@ -280,6 +311,11 @@ public class RunAfterStartup {
         csTopics.add(devops);
         csTopics.add(backEnd);
         csTopics.add(frontEnd);
+        csTopics.add(linux);
+        csTopics.add(kernel);
+        csTopics.add(operatingSystem);
+        csTopics.add(openSource);
+        csTopics.add(c);
 
         csMajor.setTopics(csTopics);
 
@@ -393,6 +429,9 @@ public class RunAfterStartup {
         Country croatia = countryRepository.findByCountry("Croatia")
                 .orElseThrow(() -> new IllegalStateException("Countries not loaded"));
 
+        Country finland = countryRepository.findByCountry("Finland")
+                .orElseThrow(() -> new IllegalStateException("Countries not loaded"));
+
         Address address1 = Address.builder()
                 .city("Novi Sad")
                 .country(serbia)
@@ -432,9 +471,24 @@ public class RunAfterStartup {
                 .universityAddress(address3)
                 .build();
 
+        Address address4 = Address.builder()
+                .city("Helsinki")
+                .country(finland)
+                .streetNumber("125")
+                .streetName("Aleksanterinkatu")
+                .build();
+
+        University csHelsinki = University.builder()
+                .universityName("Computer Science - University Of Helsinki")
+                .universityEmail("helsinki011@uni.fi")
+                .universityAddress(address4)
+                .build();
+
+
         universityRepository.save(ftn);
         universityRepository.save(etf);
         universityRepository.save(med);
+        universityRepository.save(csHelsinki);
     }
 
     private void insertAdmin() {
@@ -472,10 +526,19 @@ public class RunAfterStartup {
         Country croatia = countryRepository.findByCountry("Croatia")
                 .orElseThrow(() -> new IllegalStateException("Countries not loaded"));
 
+        Country finland = countryRepository.findByCountry("Finland")
+                .orElseThrow(() -> new IllegalStateException("Countries not loaded"));
+
         Language croatian = languageRepository.findByLanguageName("Croatian")
                 .orElseThrow(() -> new IllegalStateException("Languages not loaded"));
 
+        Language finnish = languageRepository.findByLanguageName("Finnish")
+                .orElseThrow(() -> new IllegalStateException("Languages not loaded"));
+
         Major major = majorRepository.findByMajorName("Medicine")
+                .orElseThrow(() -> new IllegalStateException("Majors not loaded"));
+
+        Major major2 = majorRepository.findByMajorName("Computer Science")
                 .orElseThrow(() -> new IllegalStateException("Majors not loaded"));
 
         Address address = Address.builder()
@@ -485,7 +548,15 @@ public class RunAfterStartup {
                 .country(croatia)
                 .build();
 
-        Student student = Student.builder()
+
+        Address address2 = Address.builder()
+                .streetName("Aleksanterinkatu")
+                .streetNumber("23")
+                .city("Helsinki")
+                .country(finland)
+                .build();
+
+        Student ivan91 = Student.builder()
                 .email("student@gmail.com")
                 .firstName("Ivan")
                 .lastName("Ivanic")
@@ -505,9 +576,36 @@ public class RunAfterStartup {
                         "and perhaps arrange student exchange. If you find this idea interesting," +
                         " contact me via my email address and let's talk! " +
                         " I'm also interesting in number of other topics such as Computer Science and Economy." +
-                        "If you have any questions please let me know!")
+                        " If you have any questions please let me know!")
                 .build();
 
-        studentRepository.save(student);
+        Student linus69 = Student.builder()
+                .email("torvaldslinusrs@gmail.com")
+                .firstName("Linus")
+                .lastName("Torvalds")
+                .username("linus69")
+                .password("$2y$10$ADjXMrTYzCHaK8iy5SZxhuAqJwSH/N2rr4NM7XGBnrS2LAl0clFk.")
+                .createdAt(LocalDate.now())
+                .userRole(ApplicationUserRole.STUDENT)
+                .isAccountNonExpired(true)
+                .isAccountNonLocked(true)
+                .isCredentialsNonExpired(true)
+                .isEnabled(true)
+                .address(address2)
+                .language(finnish)
+                .major(major2)
+                .biography("Student of Computer science in Helsinki, Finland. " +
+                        " I have passion for making open source software and I'm currently working on " +
+                        "a small project called Linux. It won't be a big of a deal. " +
+                        " I'm looking for students in same major around the world so we can share knowledge "+
+                        "and perhaps arrange student exchange. United States, preferred. " +
+                        " If you find this idea interesting," +
+                        " contact me via my email address and let's talk! " +
+                        " I'm also interesting in number of other topics such as Computer Science and Economy." +
+                        " If you have any questions please let me know!")
+                .build();
+
+        studentRepository.save(ivan91);
+        studentRepository.save(linus69);
     }
 }

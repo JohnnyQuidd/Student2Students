@@ -1,6 +1,9 @@
 package com.student2students.postservice.service;
 
+import com.google.gson.Gson;
 import com.student2students.postservice.dto.CommentDTO;
+import com.student2students.postservice.dto.EmailDTO;
+import com.student2students.postservice.message_broker.MessagePublisher;
 import com.student2students.postservice.model.Comment;
 import com.student2students.postservice.model.Post;
 import com.student2students.postservice.repository.CommentRepository;
@@ -20,13 +23,16 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final MessagePublisher publisher;
     private Logger logger = LoggerFactory.getLogger(CommentService.class);
 
     @Autowired
     public CommentService(CommentRepository commentRepository,
-                          PostRepository postRepository) {
+                          PostRepository postRepository,
+                          MessagePublisher messagePublisher) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.publisher = messagePublisher;
     }
 
 
@@ -35,7 +41,20 @@ public class CommentService {
         Comment comment = createCommentFromDTO(commentDTO, username);
         Post post = postRepository.findById(commentDTO.getPostId())
                 .orElseThrow(() -> new IllegalStateException("Unable to find corresponding post!"));
+        EmailDTO emailDTO = EmailDTO.builder()
+                .receiverEmail(post.getStudentUsername())
+                .receiverFirstName(post.getStudentUsername())
+                .content("")
+                .subject("New Comment on your post")
+                .activationLink("")
+                .studentCommenting(username)
+                .instruction("COMMENT_EMAIL")
+                .build();
+        Gson gson = new Gson();
+        String emailString = gson.toJson(emailDTO);
+
         try {
+            publisher.sendCommentNotification(emailString);
             comment.setPost(post);
             commentRepository.save(comment);
             return ResponseEntity.status(201).body("Comment added successfully");

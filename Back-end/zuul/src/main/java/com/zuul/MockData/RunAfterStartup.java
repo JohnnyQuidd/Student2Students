@@ -63,7 +63,7 @@ public class RunAfterStartup {
     }
 
     private final void insertStudents() {
-        Student student = Student.builder()
+        Student ivan91 = Student.builder()
                 .email("student@gmail.com")
                 .firstName("Ivan")
                 .username("ivan91")
@@ -76,6 +76,20 @@ public class RunAfterStartup {
                 .isEnabled(true)
                 .build();
 
-        studentRepository.save(student);
+        Student linus = Student.builder()
+                .email("torvaldslinusrs@gmail.com")
+                .firstName("Linus")
+                .username("linus69")
+                .password("$2y$10$ADjXMrTYzCHaK8iy5SZxhuAqJwSH/N2rr4NM7XGBnrS2LAl0clFk.")
+                .createdAt(LocalDate.now())
+                .userRole(ApplicationUserRole.STUDENT)
+                .isAccountNonExpired(true)
+                .isAccountNonLocked(true)
+                .isCredentialsNonExpired(true)
+                .isEnabled(true)
+                .build();
+
+        studentRepository.save(ivan91);
+        studentRepository.save(linus);
     }
 }
