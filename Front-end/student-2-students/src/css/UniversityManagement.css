@@ -38,10 +38,9 @@
     border: none;
     color: white;
     font-weight: 700;
-    background-color: rgb(70, 250, 124);
+    background-color: royalblue;
     cursor: pointer;
     border-radius: 3rem;
-    text-shadow: 1px 1px rgb(253, 133, 133);
 }
 
 #image-select {

@@ -146,7 +146,7 @@ function UniversityManagement() {
 
     return (
         <>
-            <Navbar />
+            <Navbar role="ADMIN" />
             <div id="university-section">
                 <h1 id="title"> University management </h1>
                 <form id="university-form" onSubmit={submitData} >

@@ -57,13 +57,13 @@
     border: none;
     border-radius: 5rem;
     padding: 0.5rem 1rem;
-    background-color: rgb(70, 250, 124);
+    background-color: royalblue;
     color: white;
     font-weight: 700;
+    cursor: pointer;
 }
 
 .add-field {
-    background-color: aqua;
     margin: 1.5rem auto;
 }
 
@@ -98,9 +98,10 @@
     border: none;
     border-radius: 5rem;
     padding: 0.3rem 0.5rem;
-    background-color: rgb(70, 250, 124);
+    background-color: royalblue;
     color: white;
     font-weight: 700;
+    cursor: pointer;
 }
 
 

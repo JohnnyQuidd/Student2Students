@@ -6,18 +6,18 @@ function LineChart() {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
             {
-                label: 'Income ($)',
-                data: [3, 50, 2363, 57, -2379, -550, 456, 972, 1670, 3670, 11230, 5555],
+                label: 'Number of Posts',
+                data: [3, 50, 75, 157, 379, 550, 456, 972, 1670, 3670, 3000, 7500],
                 borderColor: ['rgba(54, 162, 235, 0.2)'],
-                backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+                backgroundColor: ['rgba(54, 162, 235, 0.4)'],
                 pointBackgroundColor: 'rgba(54,162,235, 0.5)',
                 pointBorderColor: 'rgba(54,162,235, 0.5)'
             },
             {
-                label: 'Taxes ($)',
-                data: [323, 50, 213, 22, 213, 550, 23, 26, 231, 22, 111, 2323],
+                label: 'Number of Exchanges',
+                data: [5, 70, 45, 30, 120, 250, 200, 150, 450, 4300, 2000, 1200],
                 borderColor: ['rgba(255, 206, 86, 0.2)'],
-                backgroundColor: ['rgba(255, 206, 86, 0.2)'],
+                backgroundColor: ['rgba(255, 206, 86, 0.4)'],
                 pointBackgroundColor: 'rgba(255, 206, 86, 0.5)',
                 pointBorderColor: 'rgba(255, 206, 86, 0.5)'
             }

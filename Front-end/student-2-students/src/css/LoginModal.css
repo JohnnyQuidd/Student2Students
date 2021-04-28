@@ -53,11 +53,10 @@ label {
     font-size: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
-    background-color: rgb(99, 245, 143);
-}
-
-#confirm-login:hover {
+    background-color: royalblue;
     cursor: pointer;
+    color: white;
+    font-weight: 700;
 }
 
 
@@ -67,6 +66,8 @@ label {
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     background-color: rgb(172, 170, 170);
+    font-weight: 700;
+    color: white;
 }
 
 #confirm-cancel {

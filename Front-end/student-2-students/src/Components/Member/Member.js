@@ -94,8 +94,7 @@ function Member() {
 
     return (
         <>
-            {/* email, firstName, lastName, username, createdAt, image, his/her posts */}
-            <Navbar />
+            <Navbar role={role} />
             <div className="member-wrapper">
                 <div className="member-image">
                     <img id="member-profile" src={imgSrc} />

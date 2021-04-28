@@ -37,11 +37,10 @@ label {
     font-size: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
-    background-color: rgb(99, 245, 143);
-}
-
-#confirm-sign-up:hover {
+    background-color: royalblue;
+    font-weight: 700;
     cursor: pointer;
+    color: white;
 }
 
 
@@ -51,10 +50,8 @@ label {
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     background-color: rgb(172, 170, 170);
-}
-
-#confirm-cancel {
-    cursor: pointer;
+    font-weight: 700;
+    color: white;
 }
 
 @media (min-width: 700px) {

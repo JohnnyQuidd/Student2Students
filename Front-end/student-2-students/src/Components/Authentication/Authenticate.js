@@ -18,21 +18,23 @@ function Authenticate() {
 
 
     useEffect(() => {
-        axios({
-            url: API_ENDPOINT + '/registration?token=' + token,
-            method: 'GET'
-        })
-        .then(() => {
-            setMessage("Redirecting to Login page");
-            toast.success('Successfull registration', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
-            setTimeout(() => {
-                history.push('/login');
-            }, 2000);
-        })
-        .catch(() => {
-            setMessage('Something went wrong');
-            toast.error('Service temporary unavailable', { position:  toast.POSITION.BOTTOM_RIGHT, autoClose: false})
-        });
+        setTimeout(() => {
+            axios({
+                url: API_ENDPOINT + '/registration?token=' + token,
+                method: 'GET'
+            })
+            .then(() => {
+                setMessage("Redirecting to Login page");
+                toast.success('Successfull registration', { position: toast.POSITION.BOTTOM_RIGHT, autoClose: 2000});
+                setTimeout(() => {
+                    history.push('/login');
+                }, 2000);
+            })
+            .catch(() => {
+                setMessage('Something went wrong');
+                toast.error('Service temporary unavailable', { position:  toast.POSITION.BOTTOM_RIGHT, autoClose: false})
+            });
+        }, 1500);
     }, [])
 
     return (
