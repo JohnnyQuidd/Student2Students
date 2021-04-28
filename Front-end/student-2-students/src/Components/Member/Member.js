@@ -4,7 +4,7 @@ import Footer from '../Footer/Footer'
 import '../../css/Member.css'
 import DefaultPhoto from '../../images/profile.svg'
 import axios from 'axios'
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { API_ENDPOINT } from '../Constants/Endpoints'
 import Post from '../Post/Post'
 

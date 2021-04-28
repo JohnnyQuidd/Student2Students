@@ -6,14 +6,14 @@ import '../../css/PostPreview.css'
 import { API_ENDPOINT } from '../Constants/Endpoints'
 import Post from './Post'
 import CommentModal from '../Modals/CommentModal'
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Comment from '../Comment/Comment'
 
 function PostPreview() {
     const history = useHistory();
 
-    const [title, setTitle] = useState("");
-    const [role, setRole] = useState("");
+    const { title } = useParams();
+    const [role, setRole] = useState();
     const [post, setPost] = useState("");
     const [comments, setComments] = useState("");
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
@@ -35,9 +35,6 @@ function PostPreview() {
 
     // Fetching post by title
     useEffect(() => {
-        const url = window.location.href.split('/');
-        setTitle(url[url.length-1].replace(/%20/g, ' '));
-        
         if(title) {
             axios({
                 url: API_ENDPOINT + '/posting/post/' + title,
@@ -63,7 +60,6 @@ function PostPreview() {
             })
             .then(response => response.data)
             .then(data => {
-                console.log(data);
                 setComments(data);
             })
             .catch(() => {

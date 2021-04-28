@@ -25,7 +25,7 @@ function App() {
           <Route path="/home" component={StudentDashboard} />
           <Route path="/profile" exact component={StudentProfile} />
           <Route path="/post" exact component={NewPost} />
-          <Route path="/post/:postHeadline" component={PostPreview} />
+          <Route path="/post/:title" component={PostPreview} />
           <Route path="/member/:username" component={Member} />
           <Route path="/admin" exact component={AdminDashboard} />
           <Route path="/admin/university" component={UniversityManagement} />

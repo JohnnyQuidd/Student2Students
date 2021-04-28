@@ -50,7 +50,6 @@ function NewPost() {
             withCredentials: true
         })
         .then(response => {
-            console.log(response.data);
             setAuthorEmail(response.data);
         })
         .catch(err => {
@@ -123,7 +122,7 @@ function NewPost() {
     }
 
     const submitPost = () => {
-        const payload = { headline, body, majorName, topics };
+        const payload = { headline, body, majorName, topics, authorEmail };
         axios({
             url: API_ENDPOINT + '/posting/post',
             method: 'POST',
