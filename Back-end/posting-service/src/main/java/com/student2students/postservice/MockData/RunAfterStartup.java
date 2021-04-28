@@ -257,6 +257,7 @@ public class RunAfterStartup {
 
         Post post1 = Post.builder()
                 .studentUsername("linus69")
+                .authorEmail("torvaldslinusrs@gmail.com")
                 .headline("Please review my Open Source software")
                 .body("This is some small software I'm currently working on. I don't know " + "" +
                         "if it has some potential or not, but i hope you can review it and " +

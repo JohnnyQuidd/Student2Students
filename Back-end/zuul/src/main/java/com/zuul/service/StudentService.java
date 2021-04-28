@@ -160,4 +160,9 @@ public class StudentService implements UserDetailsService {
 
         return ResponseEntity.ok().build();
     }
+
+    public ResponseEntity<?> fetchEmailForStudent(String username) {
+        Student student = studentRepository.findByUsername(username);
+        return ResponseEntity.ok(student.getEmail());
+    }
 }

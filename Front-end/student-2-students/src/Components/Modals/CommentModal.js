@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import Picker from 'emoji-picker-react'
 import '../../css/CommentModal.css'
-import axios from 'axios';
+import axios, { useEffect } from 'axios';
 import { API_ENDPOINT } from '../Constants/Endpoints';
 import { toast } from 'react-toastify'
 
@@ -11,6 +11,7 @@ function CommentModal({isModalOpen, setIsModalOpen, postId}) {
     const [body, setBody] = useState("");
     const [emojiPicker, setEmojiPicker] = useState("emoji-picker hide");
     const [chosenEmoji, setChosenEmoji] = useState(null);
+
 
     const style = {
         overlay: {

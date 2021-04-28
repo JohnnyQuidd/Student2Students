@@ -24,6 +24,7 @@ function NewPost() {
     const [topicSelection, setTopicSelection] = useState([]);
     const [emojiPicker, setEmojiPicker] = useState("emoji-picker hide");
     const [chosenEmoji, setChosenEmoji] = useState(null);
+    const [authorEmail, setAuthorEmail] = useState("");
 
 
 
@@ -39,6 +40,22 @@ function NewPost() {
             .then(() => {
                 setRole("ADMIN");
             });
+    }, [])
+
+    // Fetching email
+    useEffect(() => {
+        axios({
+            url: API_ENDPOINT + '/authorization/email',
+            method: 'GET',
+            withCredentials: true
+        })
+        .then(response => {
+            console.log(response.data);
+            setAuthorEmail(response.data);
+        })
+        .catch(err => {
+            console.log('Couldn\'t fetch email');
+        });
     }, [])
 
     useEffect(() => {

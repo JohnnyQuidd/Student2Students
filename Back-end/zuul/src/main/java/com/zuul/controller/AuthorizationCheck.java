@@ -1,5 +1,6 @@
 package com.zuul.controller;
 
+import com.zuul.service.StudentService;
 import com.zuul.util.Authorization;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -19,11 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/authorization")
 public class AuthorizationCheck {
     private final Authorization authorization;
+    private final StudentService studentService;
     private final Logger logger = LoggerFactory.getLogger(AuthorizationCheck.class);
 
     @Autowired
-    public AuthorizationCheck(Authorization authorization) {
+    public AuthorizationCheck(Authorization authorization,
+                              StudentService studentService) {
         this.authorization = authorization;
+        this.studentService = studentService;
     }
 
     @GetMapping("/username")
@@ -45,6 +49,14 @@ public class AuthorizationCheck {
         String username = authorization.getStudentFromRequest(request);
         logger.info(username);
         return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<?> fetchEmailForUser(HttpServletRequest request) {
+        String username = authorization.getStudentFromRequest(request);
+        if(username == null)
+            return ResponseEntity.status(403).build();
+        return studentService.fetchEmailForStudent(username);
     }
 
     @GetMapping("/logout")

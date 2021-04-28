@@ -69,28 +69,28 @@ public class EmailService {
                 .commentingUsername(emailDTO.getStudentCommenting())
                 .build();
 
-//        try {
-//            ResponseEntity<?> response = customEmailSender.sendMail(new String[]{email.getReceiverEmail()}, email.getSubject(), email.getContent());
-//            if(response.getStatusCode().equals(HttpStatus.CREATED)) {
-//                email.setEmailStatus(EmailStatus.SENT_SUCCESSFULLY);
-//                return response;
-//            }
-//            else {
-//                email.setEmailStatus(EmailStatus.ERROR_SENDING);
-//            }
-//            emailRepository.save(email);
-//
-//
-//        } catch (Exception e) {
-//            logger.error("Couldn't persist email to database ", email);
-//            e.printStackTrace();
-//            return ResponseEntity.status(500).build();
-//        }
+        try {
+            ResponseEntity<?> response = customEmailSender.sendMail(new String[]{email.getReceiverEmail()}, email.getSubject(), email.getContent());
+            if(response.getStatusCode().equals(HttpStatus.CREATED)) {
+                email.setEmailStatus(EmailStatus.SENT_SUCCESSFULLY);
+                return response;
+            }
+            else {
+                email.setEmailStatus(EmailStatus.ERROR_SENDING);
+            }
+            emailRepository.save(email);
+
+
+        } catch (Exception e) {
+            logger.error("Couldn't persist email to database ", email);
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
         return ResponseEntity.ok().build();
     }
 
     private String createEmailCommentContent(String initiator, String receiver) {
-        String link = "http://localhost:8080/login";
+        String link = "http://localhost:3000/login";
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -146,7 +146,7 @@ public class EmailService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + receiver + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Your post have one new comment from " + initiator + ": </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Log in to see more details</a> </p></blockquote>\n Don't miss the chance to make new friendships. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + receiver + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Your post have one new comment from <strong>" + initiator + "</strong> </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Log in to see more details</a> </p></blockquote>\n Don't miss the chance to make new friendships! <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +

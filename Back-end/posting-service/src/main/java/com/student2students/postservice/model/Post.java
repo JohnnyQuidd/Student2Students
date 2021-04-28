@@ -27,6 +27,9 @@ public class Post {
     private String studentUsername;
 
     @NotNull
+    private String authorEmail;
+
+    @NotNull
     private String headline;
 
     @NotNull

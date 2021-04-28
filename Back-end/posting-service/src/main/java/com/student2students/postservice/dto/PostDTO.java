@@ -13,6 +13,7 @@ import java.util.List;
 public class PostDTO {
     private Long id;
     private String username;
+    private String authorEmail;
     private LocalDateTime createdAt;
     private String headline;
     private String body;

@@ -42,7 +42,7 @@ public class CommentService {
         Post post = postRepository.findById(commentDTO.getPostId())
                 .orElseThrow(() -> new IllegalStateException("Unable to find corresponding post!"));
         EmailDTO emailDTO = EmailDTO.builder()
-                .receiverEmail(post.getStudentUsername())
+                .receiverEmail(post.getAuthorEmail())
                 .receiverFirstName(post.getStudentUsername())
                 .content("")
                 .subject("New Comment on your post")

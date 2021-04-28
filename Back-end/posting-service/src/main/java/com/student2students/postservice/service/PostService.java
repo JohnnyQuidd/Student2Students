@@ -68,6 +68,7 @@ public class PostService {
 
         return Post.builder()
                 .studentUsername(username)
+                .authorEmail(postDTO.getAuthorEmail())
                 .headline(postDTO.getHeadline())
                 .body(postDTO.getBody())
                 .createdAt(LocalDateTime.now())
@@ -138,6 +139,7 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .headline(post.getHeadline())
                 .body(post.getBody())
+                .authorEmail(post.getAuthorEmail())
                 .majorName(post.getMajor().getMajorName())
                 .topics(post.getTopics().stream()
                         .map(topic -> topic.getTopicName())
@@ -160,6 +162,7 @@ public class PostService {
                         .createdAt(post.getCreatedAt())
                         .headline(post.getHeadline())
                         .body(post.getBody())
+                        .authorEmail(post.getAuthorEmail())
                         .majorName(post.getMajor().getMajorName())
                         .topics(post.getTopics().stream()
                                 .map(topic -> topic.getTopicName())
