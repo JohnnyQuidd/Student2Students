@@ -24,7 +24,13 @@ Aplikacija se sastoji iz dva dela.
 - Front End - ReactJS
 - Back End - Mikroservisna arhitektura Spring Boot aplikacija
 
-Kako bi pokretanje velikog broja aplikacija bilo sto jednostavniji, kreiran je docker-compose fajl. Napomena: Ukoliko nemate instaliran docker, potrebno ga je instalirati.
+Pre pokretanja aplikacije, uveriti se da su slobodni portovi
+- <code>8080</code>
+- <code>8761</code>
+- <code>5672</code>
+- <code>15672</code>
+
+Kako bi proces pokretanja velikog broja aplikacija bilo sto jednostavniji, kreiran je docker-compose fajl. Napomena: Ukoliko nemate instaliran docker, potrebno ga je instalirati.
 
 Pozicionirati se u <code>Student2Students/Back-end</code> dikretorijum i izvrsiti komandu
 ```
