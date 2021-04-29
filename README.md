@@ -32,7 +32,22 @@ Pre pokretanja aplikacije, uveriti se da su slobodni portovi
 
 Kako bi proces pokretanja velikog broja aplikacija bilo sto jednostavniji, kreiran je docker-compose fajl. Napomena: Ukoliko nemate instaliran docker, potrebno ga je instalirati.
 
-Pozicionirati se u <code>Student2Students/Back-end</code> dikretorijum i izvrsiti komandu
+Pre pokretanja docker-compose, neophodno je generisati <code>.jar</code> fajlove za svaki od projekata. To se radi vrlo jednostavno, tako sto se pozicioniramo u svaku od aplikacija
+- Student2Students/Back-end/email-service
+- Student2Students/Back-end/eureka
+- Student2Students/Back-end/image-service
+- Student2Students/Back-end/posting-service
+- Student2Students/Back-end/Student2Students
+- Student2Students/Back-end/zuul
+
+I za svaku aplikaciju izvrsiti komandu
+```
+mvn clean install
+```
+
+Napomena: Prethodno proverite da li imate instaliram Maven alat
+
+Konacno, nakon sto su izgenerisani .jar fajlovi, pozicionirati se u <code>Student2Students/Back-end</code> dikretorijum i izvrsiti komandu
 ```
 docker-compose up --build -d
 ```
@@ -43,9 +58,10 @@ docker logs zuul-proxy-spring
 ```
 Ako je neko vreme isti log, znaci da je aplikacija podignuta.
 
-Zatim, podici Front-End deo komandom
+Zatim, podici Front-End deo komandama
 
 ```
+yarn install
 yarn start
 ```
 ili
